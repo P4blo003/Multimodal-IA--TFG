@@ -1,3 +1,3 @@
 # Modules
-from pym2ai.devices import List_GPUs
+from pym2ai.torch_gpu_mng import GPUMngTorch
 # -------

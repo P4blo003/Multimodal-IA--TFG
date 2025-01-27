@@ -4,7 +4,7 @@ warnings.filterwarnings("ignore")
 
 import datetime
 
-from pym2ai import List_GPUs
+from pym2ai import GPUMngTorch
 # -------
 
 # Main
@@ -15,5 +15,6 @@ if __name__ == "__main__":
     print(f"Running program. Init: {datetime.datetime.now()}")
     # ----
 
-    List_GPUs('tensorflow') # Liasta las GPUs CUDA.
+    mng = GPUMngTorch()
+    mng.Print_GPUs()
 # ----
