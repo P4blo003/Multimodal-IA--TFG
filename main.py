@@ -9,8 +9,6 @@ from pym2ai import InvalidModelVersion
 
 from pym2ai import DeepSeek
 from pym2ai.models import DS_R1_Distill_Qwen_1v5B
-
-from tokenizers import *
 # -------
 
 # Main
