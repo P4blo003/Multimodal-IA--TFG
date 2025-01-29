@@ -1,3 +1,6 @@
 # Carpeta con los entornos virtuales.
 # Folder with virtual environments.
 /venv
+# Carpeta con la configuración de VSCode.
+# Folder with the VSCode configuration.
+/.vscode
