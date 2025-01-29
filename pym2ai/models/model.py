@@ -1,4 +1,6 @@
 # Modules
+import torch
+from prettytable import PrettyTable
 # -------
 
 
@@ -8,4 +10,4 @@ class Model:
         self.modelVersion = modelVersion
         
     def __repr__(self):
-        return f"Model: {self.modelVersion}"
+        return f"Model: {self.modelVersion}"        

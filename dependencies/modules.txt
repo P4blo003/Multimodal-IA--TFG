@@ -1,4 +1,3 @@
 Torch: pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 Tensorflow: pip install tensorflow
-Transformers: pip install transformers
 Colorama: pip install colorama
