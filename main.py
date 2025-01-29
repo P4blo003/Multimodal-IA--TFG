@@ -20,9 +20,27 @@ if __name__ == "__main__":
     # ----    
     
     # Lista las GPUs disponibles
-    List_GPUs()     # Lista las GPUs disponibles.
+    gpus = List_GPUs()     # Lista las GPUs disponibles.
     # ----
-    
+
+    try:
+        device_id = None
+        while(device_id == None):  # Hasta que se introduzca una gpu válida
+            try:
+                device_id = int(input("> Introduce GPU: ")) # Solicita la gpu.
+
+                if device_id < 0 or device_id >= gpus:  # Si esta fuera del rango.
+                    PrintMessage(f"Invalid GPU. Given: {device_id} | Range: [0,{gpus})","WARNING",4)
+                    device_id = None
+
+            except Exception:   # Si ocurre algún error.
+                device_id = None
+                PrintMessage(f"Invalid input.","WARNING",4)
+
+    except KeyboardInterrupt:   # Para Ctrl+C.
+        PrintMessage(f"End of program. Finish: {datetime.datetime.now()}","INFO",1)
+        print()
+
     # Imprime el final del programa.
     PrintMessage(f"End of program. Finish: {datetime.datetime.now()}","INFO",1)
     print()

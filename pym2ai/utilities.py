@@ -22,6 +22,7 @@ def PrintMessage(message:str,label:str,msgType:int=0):
         - 1: Cyan.
         - 2: Green.
         - 3: Red.
+        - 4: Yellow.
     """
     
     color = None
@@ -34,6 +35,8 @@ def PrintMessage(message:str,label:str,msgType:int=0):
         color=Fore.GREEN
     elif msgType == 3:
         color=Fore.RED
+    elif msgType == 4:
+        color=Fore.YELLOW
     else:
         return
     

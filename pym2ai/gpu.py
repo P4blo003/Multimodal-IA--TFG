@@ -3,7 +3,7 @@ import torch
 from prettytable import PrettyTable
 # ----
 
-def List_GPUs():
+def List_GPUs() -> int:
     """
     Lista las GPUs CUDA disponibles.
     """
@@ -25,3 +25,6 @@ def List_GPUs():
         print(table)
     else:
         print("No se encontró ninguna GPU CUDA.")
+        num_gpus = -1
+
+    return num_gpus
