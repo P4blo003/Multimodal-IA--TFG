@@ -6,3 +6,4 @@
 
 ## **Instalación y dependencias**
 ![Python Version](https://img.shields.io/badge/python-3.9.6-blue)
+![Python Version](https://img.shields.io/badge/python-3.12.6-blue)

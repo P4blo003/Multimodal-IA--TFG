@@ -1,3 +1,3 @@
 # Modules
-from pym2ai.torch_gpu_mng import GPUMngTorch
+from pym2ai.utilities import PrintMessage
 # -------
