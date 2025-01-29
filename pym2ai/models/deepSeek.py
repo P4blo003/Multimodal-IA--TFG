@@ -2,16 +2,18 @@
 from pym2ai.exceptions.invalidModelVersion import InvalidModelVersion
 from .model import Model
 
+from transformers import pipeline
+
 # -------
 
 # Versiones de Deepseek.
-DS_R1_Distill_Qwen_1v5B = 'deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B'
-DS_R1_Distill_Qwen_7vB = 'deepseek-ai/DeepSeek-R1-Distill-Qwen-7B'
-DS_R1_Distill_Qwen_14vB = 'deepseek-ai/DeepSeek-R1-Distill-Qwen-14B'
-DS_R1_Distill_Qwen_32vB = 'deepseek-ai/DeepSeek-R1-Distill-Qwen-32B'
+DS_R1_Distill_Qwen_1v5B = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+DS_R1_Distill_Qwen_7vB = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+DS_R1_Distill_Qwen_14vB = "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B"
+DS_R1_Distill_Qwen_32vB = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
 
-DS_R1_Distill_LLama_8B = 'deepseek-ai/DeepSeek-R1-Distill-Llama-8B'
-DS_R1_Distill_LLama_70B = 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B'
+DS_R1_Distill_LLama_8B = "deepseek-ai/DeepSeek-R1-Distill-Llama-8B"
+DS_R1_Distill_LLama_70B = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
 
 MODELS = {
     DS_R1_Distill_Qwen_1v5B, DS_R1_Distill_Qwen_7vB, DS_R1_Distill_Qwen_14vB,
@@ -29,4 +31,16 @@ class DeepSeek(Model):
             raise InvalidModelVersion(msg)
         
         super().__init__(modelVersion)
+
+    def InstanciatePipeline(self):
+        """
+        Instancia el model especificado.
+        """
+        self.pipe = pipeline("text-generation", model=self.model_version)
+
+    def AskDefault(self):
+
+        messages = [
+            {"role": "user", "content": "Who are you?"}]
+        self.pipe(messages)
     

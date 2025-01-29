@@ -19,8 +19,9 @@ if __name__ == "__main__":
     PrintMessage(f"Running program. Init: {datetime.datetime.now()}","INFO",1)
     # ----    
     
+    # Lista las GPUs disponibles
     List_GPUs()     # Lista las GPUs disponibles.
-
+    # ----
     
     # Imprime el final del programa.
     PrintMessage(f"End of program. Finish: {datetime.datetime.now()}","INFO",1)
