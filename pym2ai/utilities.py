@@ -1,8 +1,9 @@
-# Modules
+# Modulos
 from colorama import Fore
 
-# -------
+# ----
 
+# Funciones
 def PrintMessage(message:str,label:str,msgType:int=0):
     """
     Imprime el mensaje pasado por parámetro junto con la etiqueta
@@ -41,3 +42,4 @@ def PrintMessage(message:str,label:str,msgType:int=0):
         return
     
     print(f"[{color}{label}{Fore.RESET}] {message}")
+# ----

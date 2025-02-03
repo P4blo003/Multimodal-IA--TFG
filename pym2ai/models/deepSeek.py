@@ -1,10 +1,8 @@
-# Modules
-from pym2ai.exceptions.invalidModelVersion import InvalidModelVersion
+# Modulos
+from pym2ai.exceptions import InvalidModelVersion
 from .model import Model
 
-from transformers import pipeline
-
-# -------
+# ----
 
 # Versiones de Deepseek.
 DS_R1_Distill_Qwen_1v5B = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
@@ -18,8 +16,9 @@ DS_R1_Distill_LLama_70B = "deepseek-ai/DeepSeek-R1-Distill-Llama-70B"
 MODELS = {
     DS_R1_Distill_Qwen_1v5B, DS_R1_Distill_Qwen_7vB, DS_R1_Distill_Qwen_14vB,
     DS_R1_Distill_Qwen_32vB, DS_R1_Distill_LLama_8B, DS_R1_Distill_LLama_70B}
+# ----
 
-
+# Clases
 class DeepSeek(Model):
     
     def __init__(self, modelVersion:str):
@@ -31,16 +30,4 @@ class DeepSeek(Model):
             raise InvalidModelVersion(msg)
         
         super().__init__(modelVersion)
-
-    def InstanciatePipeline(self):
-        """
-        Instancia el model especificado.
-        """
-        self.pipe = pipeline("text-generation", model=self.model_version)
-
-    def AskDefault(self):
-
-        messages = [
-            {"role": "user", "content": "Who are you?"}]
-        self.pipe(messages)
-    
+# ----

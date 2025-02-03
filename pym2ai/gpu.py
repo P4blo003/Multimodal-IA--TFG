@@ -1,8 +1,9 @@
-# Modules
+# Modulos
 import torch
 from prettytable import PrettyTable
 # ----
 
+# Funciones
 def List_GPUs() -> int:
     """
     Lista las GPUs CUDA disponibles.
@@ -28,3 +29,4 @@ def List_GPUs() -> int:
         num_gpus = -1
 
     return num_gpus
+# ----
