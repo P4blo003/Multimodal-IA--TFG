@@ -22,7 +22,7 @@
 Primero, debes clonar el repositorio del proyecto. Abre tu terminal y ejecuta el siguiente comando:
 ```bash
 git clone https://github.com/P4blo003/Multimodal-IA--TFG.git
-cd tu_repositorio
+cd Multimodal-IA--TFG
 ```
 
 ### 2. Creaación del entorno virtual
