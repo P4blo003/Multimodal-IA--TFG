@@ -1,7 +1,17 @@
 # Configuración y ejecución local de un modelo de IA multimodal de gran tamaño para la consulta asistida de información sobre consumo eléctrico en una planta industrial.
 
 ## **Índice**
-1. [Instalación y dependencias](#instalación-y-dependencias)
+1. [Requisitos](#requisitos)
+2. [Instalación y dependencias](#instalación-y-dependencias)
+
+## **Requisitos**
+
+- **Sistema operativo**: Linux (Con soporte para Bash)
+- **Dependencias**:
+  - Bash
+  - [Python](https://www.python.org/downloads/)
+  - [Hugging Face](https://huggingface.co/)
+
 
 ## **Instalación y dependencias**
 ![Python Version](https://img.shields.io/badge/python-3.9.6-blue)
@@ -11,7 +21,7 @@
 
 Primero, debes clonar el repositorio del proyecto. Abre tu terminal y ejecuta el siguiente comando:
 ```bash
-git clone https://github.com/tu_usuario/tu_repositorio.git
+git clone https://github.com/P4blo003/Multimodal-IA--TFG.git
 cd tu_repositorio
 ```
 
@@ -36,3 +46,4 @@ Cuarto, instala el modelo que desees con el siguiente comando:
 ```bash
 ./scripts/install-model.sh [nombre_del_modelo]
 ```
+El modelo se instalara en la carpeta ai-models/ dentro de la carptea del usuario.
