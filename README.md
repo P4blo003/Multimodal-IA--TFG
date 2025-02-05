@@ -4,6 +4,7 @@
 
 1. [Requisitos](#requisitos)
 2. [Instalación y dependencias](#instalación-y-dependencias)
+3. [Forma de uso](#forma-de-uso)
 
 ## **Requisitos**
 
