@@ -41,14 +41,6 @@ Tercero, debes instalar las dependencias dependiendo de la versión python de tu
 pip install -r dependencies/py<version>/requirements.txt
 ```
 
-### 4. Instalar el modelo
-
-Cuarto, instala el modelo que desees con el siguiente comando:
-```bash
-./scripts/install-model.sh <nombre_del_modelo>
-```
-El modelo se instalara en la carpeta ai-models/ dentro de la carptea del usuario.
-
 ## **Forma de uso**
 
 ### 1. Instalación del modelo
