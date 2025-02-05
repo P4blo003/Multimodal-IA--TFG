@@ -41,6 +41,14 @@ Tercero, debes instalar las dependencias dependiendo de la versión python de tu
 pip install -r dependencies/py<version>/requirements.txt
 ```
 
+En caso de que la instalación no funcione, a continuación estan los comandos para instalar las dependencias una a una:
+```bash
+pip3 install colorama
+pip3 install huggingface_hub
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip3 install transformers
+```
+
 ## **Forma de uso**
 
 ### 1. Instalación del modelo

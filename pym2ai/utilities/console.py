@@ -1,5 +1,5 @@
 # Modules
-from colorama import Fore, Style
+from colorama import Fore
 # ----
 
 
