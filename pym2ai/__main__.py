@@ -20,7 +20,7 @@ class PyM2Ai:
         self.__modelsDirectory = os.path.join(os.path.expanduser("~"), __MODELS_DIRECTORY__)
         self.__modelsSchema = os.path.join(self.__modelsDirectory, __MODELS_SCHEMA__)
 
-        self.__installedModels = None
+        self.__installedModels = {}
 
         # Si el directorio no existe, lo crea.
         if not os.path.exists(self.__modelsDirectory):
@@ -58,7 +58,6 @@ class PyM2Ai:
         for id, model in datos["models"].items():
             self.__installedModels[id] = model
             
-    
     # ---- Funciones
 
     def Reload(self) -> dict:
@@ -78,7 +77,6 @@ class PyM2Ai:
 
         try:
             snapshot_download(repo_id=model, local_dir=dirPath)     # Download the model.
-            print("\n\n")   # Salto de línea.
         except Exception as ex:
             os.rmdir(dirPath)   # Elimina el directorio.
             raise InvalidModel(ex) # Finaliza la función.

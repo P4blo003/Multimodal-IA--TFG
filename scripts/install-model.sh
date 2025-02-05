@@ -1,5 +1,4 @@
-
-
+#!/bin/bash
 
 ARGS=1
 
