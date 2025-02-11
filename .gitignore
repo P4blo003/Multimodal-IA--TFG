@@ -1,2 +1,4 @@
 # Entorno virtual del programa.
 venv/
+# Carpetas de caché de python.
+__pychache__.py/
