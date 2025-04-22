@@ -1,6 +1,7 @@
 # Entorno virtual del programa.
 venv/
-# Carpetas de caché de python.
+# Carpetas del proyecto.
 __pycache__/
+.cache/
 # Variables del programa.
 .env
