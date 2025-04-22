@@ -15,6 +15,8 @@ class LocalModel():
         # Parámetros:
         self.__modelId:str = model_id
         self.__keepCache:bool = keepCache
+        
+        
     
     # -- Getters --
     @property
