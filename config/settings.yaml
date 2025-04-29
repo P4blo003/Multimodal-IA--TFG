@@ -1,0 +1,16 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: config/settings.yaml
+# Autor: Pablo González García
+# -----------------------------------------------------------------------------
+
+# ---- Parámetros ---- #
+logging:
+  level: INFO       # Nivel de log: DEBIG, INFO, WARNING, ERROR, CRITICAL
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  datefmt: '%Y-%m-%d %H:%M:%S'
+  file: 'logs/app.log'    # Ruta al fichero de logs.
+  max_bytes: 10485760     # 10 MB.
+  backup_count: 5         # Número de archivos de log de respaldo.

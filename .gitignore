@@ -10,6 +10,8 @@
 venv/
 # Carpetas del proyecto.
 __pycache__/
+
 data/
+logs/
 # Variables del programa.
 .env

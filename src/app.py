@@ -5,3 +5,6 @@
 # Archivo: src/app.py
 # Autor: Pablo González García
 # -----------------------------------------------------------------------------
+
+# ---- Modulos ---- #
+from utils.logger import get_logger
