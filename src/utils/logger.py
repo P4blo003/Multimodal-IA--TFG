@@ -2,14 +2,6 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: .gitignore
+# Archivo: src/utils/logger.py
 # Autor: Pablo González García
 # -----------------------------------------------------------------------------
-
-# Entorno virtual del programa.
-venv/
-# Carpetas del proyecto.
-__pycache__/
-data/
-# Variables del programa.
-.env
