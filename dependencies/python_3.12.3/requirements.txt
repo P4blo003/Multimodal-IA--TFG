@@ -100,5 +100,6 @@ typing_extensions==4.12.2
 tzdata==2025.2
 tzlocal==5.3.1
 urllib3==2.4.0
+watchdog==6.0.0
 XlsxWriter==3.2.3
 zstandard==0.23.0
