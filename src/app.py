@@ -25,7 +25,7 @@ def end_program(value:int, logger):
         Logger para imprimir mensaje de información.
     """
     # Imprime la información y finaliza el programa.
-    logger.info(f"Finalizado el programa. Exit Value: {value}")
+    logger.info(f"Finalizada ejecución del programa ({value}).")
     exit(value)
 
 # ---- Main ---- #
@@ -49,8 +49,5 @@ if __name__ == "__main__":
     # 2. Iniciar la ingesta continua de documentos.
     backend = cfg.get('documents', {}).get('backend', 'haystack')
     continuous_ingestion(cfg=cfg)
-    
-    while True:
-        pass
     
     end_program(value=0, logger=logger)     # Finaliza el programa con código 0.

@@ -25,8 +25,7 @@ def continuous_ingestion(cfg:dict):
     param dict cfg:
         Diccionario de configuración global del sistema.
     """
-    backend:str = cfg.get('documents', {}).get('backend', 'haystack')
-    loader:DocumentLoader = DocumentLoader(cfg=cfg, backend=backend)
+    loader:DocumentLoader = DocumentLoader(cfg=cfg)
     
     # Crea la función a realizar cuando haya un nuevo archivo.
     def on_new_file(file_path:str):

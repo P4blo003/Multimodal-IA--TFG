@@ -29,18 +29,16 @@ class DocumentLoader:
     en un almacén de documentos para su posterior uso en sistemas RAG.
     """
     # Métodos por defecto #
-    def __init__(self, cfg:dict, backend: Literal['haystack', 'langchain'] = 'haystack'):
+    def __init__(self, cfg:dict):
         """
         Inicializa el cargador de documentos.
         
         :param dict cfg:
             Configuración general del sistema.
-        :param Literal backend:
-            Motor de ingesta ('haystack' o 'langchain')
         """       
         # Inicializa las propiedades.
         self.__logger = get_logger(__name__)
-        self.__backend:str = backend.lower()
+        self.__backend:str = cfg.get('documents', {}).get('backend', 'haystack')
         self.__docDir:str = cfg['documents']['path']
         match self.__backend:
             case 'haystack':
