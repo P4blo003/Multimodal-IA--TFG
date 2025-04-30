@@ -10,14 +10,15 @@
 
 # -- Modulos -- #
 import os
-from typing import List, Literal
 
 from utils.logger import get_logger
 
 # Dependencias de Haystack
+from haystack import Pipeline
 from haystack.document_stores.in_memory import InMemoryDocumentStore as HSInMemStore
 from haystack.components.converters import MultiFileConverter
-from haystack.components.preprocessors import DocumentCleaner, DocumentSplitter
+from haystack.components.preprocessors import DocumentPreprocessor, DocumentCleaner, DocumentSplitter
+from haystack.components.writers import DocumentWriter
 
 # Dependencias de LangChain
 
@@ -40,13 +41,49 @@ class DocumentLoader:
         self.__logger = get_logger(__name__)
         self.__backend:str = cfg.get('documents', {}).get('backend', 'haystack')
         self.__docDir:str = cfg['documents']['path']
+        self.__validExtensions:list[str] = cfg.get('documents', {}).get('valid_extensions', [".pdf", ".docx", ".txt", ".csv", ".xlsx"])
         match self.__backend:
             case 'haystack':
                 self.__store = HSInMemStore()
-                self.__logger.debug("Iniciado DocumentStore de Haystack.")
+                self.__create_haystack_pipeline()
+                self.__logger.info("Iniciado DocumentStore de Haystack.")
             case 'langchain':
                 self.__store = []
-                self.__logger.debug("Iniciado DocumentStore de LangChain.")
+                self.__logger.info("Iniciado DocumentStore de LangChain.")
+
+    # Métodos privados #
+    def __create_haystack_pipeline(self):
+        """
+        Crea una pipeline de Haystack con conversión, preprocesamiento e indexación.
+        """
+        self.__pipeline = Pipeline()
+        self.__pipeline.add_component("converter", MultiFileConverter())
+        self.__pipeline.add_component("preprocessor", DocumentPreprocessor())
+        self.__pipeline.add_component("writer", DocumentWriter(document_store=self.__store))
+        self.__pipeline.connect("converter", "preprocessor")
+        self.__pipeline.connect("preprocessor", "writer")
+    
+    def __load_with_haystack(self):
+        """
+        Flujo completo de ingesta y preprocesamiento usando Haysatck:
+        - Conversión de múltiples formatos a documentos.
+        - Limpieza semántica.
+        - Segmentación configurable.
+        - Indezación en InMemoryDocuemntStore.
+        """
+        files = [os.path.join(self.__docDir, file) for file in os.listdir(self.__docDir)
+                 if os.path.splitext(file)[1].lower() in self.__validExtensions]
+        
+        # Si no hay archivos para procesar.
+        if not files:
+            self.__logger.warning("No se encontraron archivos válidos para procesar.")
+            return
+        
+        try:
+            result = self.__pipeline.run(data={"sources": files})
+            self.__logger.info(f"Pipeline de Haystack ejecutada correctamente: {len(files)}")
+        except Exception as ex:
+            self.__logger.exception(f"Error ejecutando la pipeline de Haystack: {ex}")
 
     # Métodos públicos #
     def load_and_index(self) -> None:
@@ -65,6 +102,6 @@ class DocumentLoader:
         # Carga los documentos con haystack o langchain.
         match self.__backend:
             case 'haystack':
-                pass
+                self.__load_with_haystack()
             case 'langchain':
                 pass

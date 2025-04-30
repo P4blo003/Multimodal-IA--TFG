@@ -50,4 +50,7 @@ if __name__ == "__main__":
     backend = cfg.get('documents', {}).get('backend', 'haystack')
     continuous_ingestion(cfg=cfg)
     
+    while True:
+        pass
+    
     end_program(value=0, logger=logger)     # Finaliza el programa con código 0.
