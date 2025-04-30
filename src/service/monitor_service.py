@@ -4,7 +4,7 @@
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
 # Archivo: src/service/monitor_service.py
 # Autor: Pablo González García
-# Descripción: Servicio de ingesta contniua de documentos basado
+# Descripción: Servicio de ingesta continua de documentos basado
 # en observador.
 # -----------------------------------------------------------------------------
 
