@@ -15,3 +15,7 @@ logger:
   file: 'logs/app.log'    # Ruta al fichero de logs.
   max_bytes: 10485760     # 10 MB.
   backup_count: 5         # Número de archivos de log de respaldo.
+
+documents:
+  path: 'data/raw'          # Ruta a los archivos.
+  backend: 'haystack'       # 'haystack' o 'langchain'.
