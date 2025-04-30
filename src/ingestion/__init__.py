@@ -2,9 +2,6 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: .env.example
+# Archivo: src/ingestion/__init__.py
 # Autor: Pablo González García
 # -----------------------------------------------------------------------------
-
-# ---- Parámetros ---- #
-LOG_LEVEL=INFO

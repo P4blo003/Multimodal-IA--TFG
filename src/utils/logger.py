@@ -4,6 +4,7 @@
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
 # Archivo: src/utils/logger.py
 # Autor: Pablo González García
+# Descripción:
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
@@ -36,7 +37,7 @@ def get_logger(name:str) -> logging.Logger:
     try:
         with open('config/settings.yaml', 'r') as file:
             cfg = yaml.safe_load(file)      # Load de YAML file.
-            logging_cfg = cfg.get('logging', {})
+            logging_cfg = cfg.get('logger', {})
             
             log_level = logging_cfg.get('level', log_level).upper()
             log_format = logging_cfg.get('format', log_format)
@@ -46,7 +47,8 @@ def get_logger(name:str) -> logging.Logger:
             backip_count = logging_cfg.get('backup_count', backip_count)
         
     except Exception as ex:
-        pass
+        # TODO: Print exception message.
+        return None
     
     # Configurar el logger.
     logger = logging.getLogger(name)
