@@ -19,3 +19,9 @@ logger:
 documents:
   path: 'data/raw'          # Ruta a los archivos.
   backend: 'haystack'       # 'haystack' o 'langchain'.
+  valid_extensions:         # Extensiones permitidas para la ingesta.
+    - .pdf
+    - .docx
+    - .txt
+    - .csv
+    - .xlsx

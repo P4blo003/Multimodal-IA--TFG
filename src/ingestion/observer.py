@@ -47,7 +47,6 @@ class NewFileHandler(FileSystemEventHandler):
             return
         _, ext = os.path.splitext(event.src_path)
         if ext.lower() in self.__validExtension:
-            self.__logger.info(f"Nuevo archivo detectado: {event.src_path}")
             self.__callback(event.src_path)
 
 # ---- Funciones ---- #

@@ -17,16 +17,15 @@ from utils.logger import get_logger
 logger = get_logger(__name__)
 
 # ---- Funciones ---- #
-def continuous_ingestion(cfg:dict, backend:str = 'haystack'):
+def continuous_ingestion(cfg:dict):
     """
     Inicia un servicio de ingesta continua que observa un directorio y carga
     nuevos documentos en caliente mediante DocumentLoader.
     
     param dict cfg:
         Diccionario de configuración global del sistema.
-    param str backend:
-        Motor de procesamiento a utilizar ('Haystack' o 'LangChain')
     """
+    backend:str = cfg.get('documents', {}).get('backend', 'haystack')
     loader:DocumentLoader = DocumentLoader(cfg=cfg, backend=backend)
     
     # Crea la función a realizar cuando haya un nuevo archivo.
@@ -44,8 +43,8 @@ def continuous_ingestion(cfg:dict, backend:str = 'haystack'):
         except Exception as ex:
             logger.error(f"Error durante la ingesta de {file_path}: {ex}")
     
-    path:str = cfg['documents']['path']
-    valid_extensions:list[str] = None
+    path:str = cfg.get('documents', {}).get('path', None)
+    valid_extensions:list[str] = cfg.get('documents', {}).get('valid_extensions', [".pdf", ".docx", ".txt", ".csv", ".xlsx"])
     
     logger.info("Iniciando observador de directorio para ingesta continua ...")
     observer = start_directory_watcher(path_to_watch=path, callback=on_new_file, valid_extensions=valid_extensions)
