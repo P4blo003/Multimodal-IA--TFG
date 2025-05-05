@@ -5,23 +5,28 @@
 # Archivo: config/settings.yaml
 # Autor: Pablo González García
 # Descripción:
+# Archivo de configuración principal del asistente inteligente.
+# Contiene parámetros relacionados con el sistema de logging,
+# la conexión a bases de datos, y otros ajustes generales del sistema.
 # -----------------------------------------------------------------------------
 
 # ---- Parámetros ---- #
 logger:
-  level: INFO       # Nivel de log: DEBIG, INFO, WARNING, ERROR, CRITICAL
-  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-  datefmt: '%Y-%m-%d %H:%M:%S'
-  file: 'logs/app.log'    # Ruta al fichero de logs.
+  level: INFO             # Nivel de log: DEBIG, INFO, WARNING, ERROR, CRITICAL
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'    # Formato del mensaje del log.
+  datefmt: '%Y-%m-%d %H:%M:%S'    # Formato de la fecha.
+  file: 'logs/app.log'    # Ruta al directorio de logs.
   max_bytes: 10485760     # 10 MB.
   backup_count: 5         # Número de archivos de log de respaldo.
 
-documents:
-  path: 'data/raw'          # Ruta a los archivos.
-  backend: 'haystack'       # 'haystack' o 'langchain'.
-  valid_extensions:         # Extensiones permitidas para la ingesta.
+documentLoader:
+  backend: 'Haystack'     # Backend para emplear.
+  path: 'data/raw'        # Directorio de donde se obtienen los archivos.
+  validExtensions:        # Extensiones permitidas para la ingesta.
     - .pdf
     - .docx
     - .txt
     - .csv
     - .xlsx
+  persist: True
+  persistPath: 'data/index'

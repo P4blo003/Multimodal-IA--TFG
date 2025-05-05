@@ -4,76 +4,62 @@
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
 # Archivo: src/utils/logger.py
 # Autor: Pablo González García
-# Descripción:
+# Descripción: 
+# Este módulo proporciona una función para crear e inicializar
+# loggers personalizados y reutilizables. La configuración puede cargarse desde
+# un archivo YAML (config/settings.yaml) o bien establecerse por defecto.
+#
+# El logger soporta salida por consola y archivos con rotación automática
+# (RotationFileHandler). Es altamente configurable y forma parte del sistema
+# centralizado de logging del asistente inteligente.
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
+import os
 import logging
 import logging.handlers
-import yaml
-import os
 
-# ---- Functions ---- #
+from config.settings import LOGGER_SETTINGS
+
+# ---- Funciones ---- #
 def get_logger(name:str) -> logging.Logger:
     """
     Crea y configura un logger con nombre especificado.
-    Lee la configuración de logging en config/settings.yaml si está disponible,
+    Lee la configuración de logging en 'config/settings.yaml' si esta disponible,
     sino usa parámetros por defecto.
     
-    :param str name:
-        El nombre del logger a crear.
+    Args:
+        name (str): El nombre del logger a crear.
+        
+    Returns:
+        Logger configurado.
     """
-    logger:logging.Logger = None    # Variable a devolver.
+    logger:logging.Logger = None    # Logger a devolver.
+
+    # Crea el logger con el nombre.
+    logger = logging.getLogger(name=name)
+    logger.setLevel(getattr(logging, LOGGER_SETTINGS.Level, logging.INFO))
     
-    # Asigna los parámetros por defecto.
-    log_level:str = os.getenv('LOG_LEVEL', 'INFO').upper()
-    log_format:str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    log_datefmt:str = '%Y-%m-%d %H:%M:%S'
-    log_file = None
-    max_bytes:int = 10 * 1024 * 1024    # 10 MB.
-    backip_count:int = 5
-    
-    # Intenta cargar configuración desde YAML.
-    try:
-        with open('config/settings.yaml', 'r') as file:
-            cfg = yaml.safe_load(file)      # Load de YAML file.
-            logging_cfg = cfg.get('logger', {})
-            
-            log_level = logging_cfg.get('level', log_level).upper()
-            log_format = logging_cfg.get('format', log_format)
-            log_datefmt = logging_cfg.get('datefmt', log_datefmt)
-            log_file = logging_cfg.get('file', log_file)
-            max_bytes = logging_cfg.get('max_bytes', max_bytes)
-            backip_count = logging_cfg.get('backup_count', backip_count)
-        
-    except Exception as ex:
-        # TODO: Print exception message.
-        return None
-    
-    # Configurar el logger.
-    logger = logging.getLogger(name)
-    logger.setLevel(getattr(logging, log_level, logging.INFO))
-    
-    # Evita añadir handlers duplicados.
+    # Evita duplicar handlers si ya está inicializado.
     if not logger.handlers:
-        # Crea un formateador común.
-        formatter = logging.Formatter(fmt=log_format, datefmt=log_datefmt)
+        # Crea el formateador.
+        formatter = logging.Formatter(fmt=LOGGER_SETTINGS.Format, datefmt=LOGGER_SETTINGS.DateFmt)
         
-        # Crea el handler de consola.
+        # Handler de consola.
         console_handler = logging.StreamHandler()
-        console_handler.setLevel(getattr(logging, log_level, logging.INFO))
+        console_handler.setLevel(getattr(logging, LOGGER_SETTINGS.Level, logging.INFO))
         console_handler.setFormatter(formatter)
-        logger.addHandler(console_handler)
+        logger.addHandler(console_handler)          # Añade el handler.
         
-        # Crea el handler de archivo rotativo si está configurado.
-        if log_file:
-            # Crea el archivo.
-            os.makedirs(os.path.dirname(log_file), exist_ok=True)
+        # Handler de archivo si se configuro.
+        if LOGGER_SETTINGS.File:
+            os.makedirs(os.path.dirname(LOGGER_SETTINGS.File), exist_ok=True)   # Crea el directorio.
             
             file_handler = logging.handlers.RotatingFileHandler(
-                log_file, maxBytes=max_bytes, backupCount=backip_count, encoding='utf-8')
-            file_handler.setLevel(getattr(logging, log_level, logging.INFO))
-            file_handler.setFormatter(formatter)
+                LOGGER_SETTINGS.File, maxBytes=LOGGER_SETTINGS.MaxBytes, backupCount=LOGGER_SETTINGS.BackupCount, encoding='utf-8')
+            file_handler.setLevel(getattr(logging, LOGGER_SETTINGS.Level, logging.INFO))
+            file_handler.setFormatter(formatter)    # Añade el handler.
             logger.addHandler(file_handler)
-    
-    return logger                   # Retorna el logger.
+        
+    # Devuelve el logger.
+    return logger

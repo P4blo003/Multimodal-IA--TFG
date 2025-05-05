@@ -2,106 +2,43 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: src/ingestion/document_loader.py
+# Archivo: src/config/settings.py
 # Autor: Pablo González García
-# Descripción: Módulo de ingesta de documentación adaptado para Haystack y
-# LangChain.
+# Descripción:
+# Módulo para cargar, preprocesar e indexar documentos en tiempo de ejecución.
 # -----------------------------------------------------------------------------
 
-# -- Modulos -- #
-import os
-
+# ---- Módulos ---- #
+from config.settings import DOCUMENT_LOADER_SETTINGS
 from utils.logger import get_logger
 
-# Dependencias de Haystack
-from haystack import Pipeline
-from haystack.document_stores.in_memory import InMemoryDocumentStore as HSInMemStore
-from haystack.components.converters import MultiFileConverter
-from haystack.components.preprocessors import DocumentPreprocessor, DocumentCleaner, DocumentSplitter
-from haystack.components.writers import DocumentWriter
+#Haystack.
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack_integrations.document_stores.weaviate import WeaviateDocumentStore
 
-# Dependencias de LangChain
-
-
-# -- Clases -- #
-class DocumentLoader:
+# ---- Clases ---- #
+class DocumentLoader():
     """
-    Clase responsable de cargar, convertir, preprocesar e indexar documentos
-    en un almacén de documentos para su posterior uso en sistemas RAG.
+    Clase encargada de cargar y procesar documentos desde un directorio dado.
     """
-    # Métodos por defecto #
-    def __init__(self, cfg:dict):
+    # -- Métodos por defecto -- #
+    def __init__(self):
         """
         Inicializa el cargador de documentos.
         
-        :param dict cfg:
-            Configuración general del sistema.
-        """       
-        # Inicializa las propiedades.
-        self.__logger = get_logger(__name__)
-        self.__backend:str = cfg.get('documents', {}).get('backend', 'haystack')
-        self.__docDir:str = cfg['documents']['path']
-        self.__validExtensions:list[str] = cfg.get('documents', {}).get('valid_extensions', [".pdf", ".docx", ".txt", ".csv", ".xlsx"])
-        match self.__backend:
-            case 'haystack':
-                self.__store = HSInMemStore()
-                self.__create_haystack_pipeline()
-                self.__logger.info("Iniciado DocumentStore de Haystack.")
-            case 'langchain':
-                self.__store = []
-                self.__logger.info("Iniciado DocumentStore de LangChain.")
+        Args:
 
-    # Métodos privados #
-    def __create_haystack_pipeline(self):
         """
-        Crea una pipeline de Haystack con conversión, preprocesamiento e indexación.
-        """
-        self.__pipeline = Pipeline()
-        self.__pipeline.add_component("converter", MultiFileConverter())
-        self.__pipeline.add_component("preprocessor", DocumentPreprocessor())
-        self.__pipeline.add_component("writer", DocumentWriter(document_store=self.__store))
-        self.__pipeline.connect("converter", "preprocessor")
-        self.__pipeline.connect("preprocessor", "writer")
-    
-    def __load_with_haystack(self):
-        """
-        Flujo completo de ingesta y preprocesamiento usando Haysatck:
-        - Conversión de múltiples formatos a documentos.
-        - Limpieza semántica.
-        - Segmentación configurable.
-        - Indezación en InMemoryDocuemntStore.
-        """
-        files = [os.path.join(self.__docDir, file) for file in os.listdir(self.__docDir)
-                 if os.path.splitext(file)[1].lower() in self.__validExtensions]
+        # Inicializa los parámetros por defecto.
+        self.__logger = get_logger(__name__)        # Crea el logger para el script document_loader.
+        self.__store = None
         
-        # Si no hay archivos para procesar.
-        if not files:
-            self.__logger.warning("No se encontraron archivos válidos para procesar.")
-            return
+        self.__logger.info(f"Inicializado: BACKEND: {DOCUMENT_LOADER_SETTINGS.Backend} | PERSIST: {DOCUMENT_LOADER_SETTINGS.Persist}")
         
-        try:
-            result = self.__pipeline.run(data={"sources": files})
-            self.__logger.info(f"Pipeline de Haystack ejecutada correctamente: {len(files)}")
-        except Exception as ex:
-            self.__logger.exception(f"Error ejecutando la pipeline de Haystack: {ex}")
-
-    # Métodos públicos #
-    def load_and_index(self) -> None:
+    # -- Propiedades -- #
+    @property
+    def Logger(self):
         """
-        Carga documentos desde el directorio configurado, los convierte a texto,
-        realiza preprocesamiento y los indexa en el document store.
+        Devuelve el logger del cargador de documentos.
         """
-        # Muestra información.
-        self.__logger.info(f"Backend: {self.__backend.upper()} | Directorio: {self.__docDir}")
-        
-        # Comprueba que el directorio existe.
-        if not os.path.exists(self.__docDir):
-            self.__logger.error(f"Directorio inexistente: {self.__docDir}")
-            return
-
-        # Carga los documentos con haystack o langchain.
-        match self.__backend:
-            case 'haystack':
-                self.__load_with_haystack()
-            case 'langchain':
-                pass
+        return self.__logger

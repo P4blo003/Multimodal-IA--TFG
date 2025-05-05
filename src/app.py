@@ -4,53 +4,37 @@
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
 # Archivo: src/app.py
 # Autor: Pablo González García
-# Descripción:
+# Descripción: Flujo principal del programa.
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
-import yaml
-import time
+import logging
+
+from ingestion.document_loader import DocumentLoader
 
 from utils.logger import get_logger
-from service.monitor_service import continuous_ingestion
 
 # ---- Funciones ---- #
-def end_program(value:int, logger):
+def end_prog(logger:logging.Logger, exit_value:int = 0):
     """
-    Finaliza el programa, mostrando el valor de finalización.
+    Imprime el mensaje de finalización del programa con el valor de salida.
     
-    param int value:
-        Valor de salida del programa.
-    param logger:
-        Logger para imprimir mensaje de información.
+    Args:
+        logger (logging.Logger): Logger para mostrar el mensaje.
+        exit_value (int): Valor de salida.
     """
-    # Imprime la información y finaliza el programa.
-    logger.info(f"Finalizada ejecución del programa ({value}).")
-    exit(value)
+    logger.info(f"Finalizado programa MULTIMODAL-IA ({exit_value})")        # Imprime el mensaje.
+    exit(exit_value)                                                        # Finaliza el programa con el valor de salida.
 
 # ---- Main ---- #
 if __name__ == "__main__":
+    # Inicializa el logger.
+    logger: logging.Logger = get_logger(__name__)               # Crea el logger para el script __main__.
     
-    # -- Variables -- #
-    logger = get_logger(__name__)          # Crea un logger para la aplicación.
+    # -- Lógica principal -- #
+    logger.info("Iniciado programa MULTIMODAL-IA")
     
-    # Imprime información para saber cuando se cargo el programa.
-    logger.info("Iniciada ejecución del programa.")
+    # Inicializa las variables del sistema.
+    documentLoader:DocumentLoader = DocumentLoader()           # Inicializa el document loader.
     
-    # 1. Carga la configuración global.
-    try:
-        with open("config/settings.yaml") as file:
-            cfg = yaml.safe_load(file)
-        logger.info("Configuración cargada exitosamente.")
-    except Exception as ex:
-        logger.critical(f"Error al cargar configuración: {ex}")
-        end_program(value=1, logger=logger)     # Finaliza el programa con código 1.
-    
-    # 2. Iniciar la ingesta continua de documentos.
-    backend = cfg.get('documents', {}).get('backend', 'haystack')
-    continuous_ingestion(cfg=cfg)
-    
-    while True:
-        pass
-    
-    end_program(value=0, logger=logger)     # Finaliza el programa con código 0.
+    end_prog(logger=logger, exit_value=0)       # Finaliza el programa.
