@@ -11,7 +11,7 @@
 import logging
 
 from utils.logger import get_logger
-from config.settings import LOGGER_SETTINGS, DOCUMENT_LOADER_SETTINGS
+from config.settings import LOGGER_SETTINGS
 
 # ---- Funciones ---- #
 def end_prog(logger:logging.Logger, exit_value:int = 0):
@@ -28,7 +28,7 @@ def end_prog(logger:logging.Logger, exit_value:int = 0):
 # ---- Main ---- #
 if __name__ == "__main__":
     # Inicializa el logger.
-    logger: logging.Logger = get_logger(__name__, file="app.log",cfg=LOGGER_SETTINGS)               # Crea el logger para el script __main__.
+    logger: logging.Logger = get_logger(__name__, file="app.log",cfg=LOGGER_SETTINGS)               # Crea el logger para el script __main__.             
     
     # -- Lógica principal -- #
     logger.info("Iniciado programa MULTIMODAL-IA")

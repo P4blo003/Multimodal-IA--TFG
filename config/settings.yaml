@@ -18,3 +18,8 @@ logger:
   path: 'logs'            # Ruta al directorio de logs.
   max_bytes: 10485760     # 10 MB.
   backup_count: 5         # Número de archivos de log de respaldo.
+
+ollama:
+  host: '0.0.0.0'             # Host del servicio ollama.
+  port: 11434                 # Puerto del servicio ollama.
+  bin: 'bin/ollama'           # Nombre del binario.
