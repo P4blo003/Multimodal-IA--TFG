@@ -22,7 +22,7 @@ class LoggerSettings:
         level (str): Nivel del logger.
         format (str): Formato de salida del mensaje del logger.
         datefmt (str): Formato de salida de la fecha del logger.
-        file (str): Fichero de salida del logger.
+        path (str): Directorio de salida del logger.
         maxBytes (int): Máximo número de bytes del logger.
         backupCount (int)
     """
@@ -35,7 +35,7 @@ class LoggerSettings:
         self.__level:str = 'INFO'.upper()
         self.__format:str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         self.__datefmt:str = '%Y-%m-%d %H:%M:%S'
-        self.__file:str = None
+        self.__path:str = None
         self.__maxBytes:int = 10 * 1024 * 1024
         self.__backupCount:int = 5
         
@@ -50,7 +50,7 @@ class LoggerSettings:
                 self.__level = logging_cfg.get('level', self.__level).upper()
                 self.__format = logging_cfg.get('format', self.__format)
                 self.__datefmt = logging_cfg.get('datefmt', self.__datefmt)
-                self.__file = logging_cfg.get('file', self.__file)
+                self.__path = logging_cfg.get('path', self.__path)
                 self.__maxBytes = logging_cfg.get('max_bytes', self.__maxBytes)
                 self.__backupCount = logging_cfg.get('backup_count', self.__backupCount)
     
@@ -74,11 +74,11 @@ class LoggerSettings:
         """
         return self.__datefmt
     @property
-    def File(self) -> str:
+    def Path(self) -> str:
         """
-        Devuelve el fichero de salida del logger.
+        Devuelve el directorio de salida del logger.
         """
-        return self.__file
+        return self.__path
     @property
     def MaxBytes(self) -> int:
         """

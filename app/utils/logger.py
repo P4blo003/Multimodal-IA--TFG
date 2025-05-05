@@ -22,7 +22,7 @@ import logging.handlers
 from config.settings import LoggerSettings
 
 # ---- Funciones ---- #
-def get_logger(name:str, cfg:LoggerSettings) -> logging.Logger:
+def get_logger(name:str, file:str, cfg:LoggerSettings) -> logging.Logger:
     """
     Crea y configura un logger con nombre especificado.
     Lee la configuración de logging en 'config/settings.yaml' si esta disponible,
@@ -30,6 +30,7 @@ def get_logger(name:str, cfg:LoggerSettings) -> logging.Logger:
     
     Args:
         name (str): El nombre del logger a crear.
+        file (str): El nombre del archivo donde escribir el log.
         cfg (LoggerSettings): Clase con los parámetros del logger.
         
     Returns:
@@ -53,11 +54,12 @@ def get_logger(name:str, cfg:LoggerSettings) -> logging.Logger:
         logger.addHandler(console_handler)          # Añade el handler.
         
         # Handler de archivo si se configuro.
-        if cfg.File:
-            os.makedirs(os.path.dirname(cfg.File), exist_ok=True)   # Crea el directorio.
+        if file:
+            log_dir = os.path.join(cfg.Path, file)
+            os.makedirs(os.path.dirname(log_dir), exist_ok=True)   # Crea el directorio.
             
             file_handler = logging.handlers.RotatingFileHandler(
-                cfg.File, maxBytes=cfg.MaxBytes, backupCount=cfg.BackupCount, encoding='utf-8')
+                log_dir, maxBytes=cfg.MaxBytes, backupCount=cfg.BackupCount, encoding='utf-8')
             file_handler.setLevel(getattr(logging, cfg.Level, logging.INFO))
             file_handler.setFormatter(formatter)    # Añade el handler.
             logger.addHandler(file_handler)
