@@ -19,10 +19,10 @@ import os
 import logging
 import logging.handlers
 
-from config.settings import LOGGER_SETTINGS
+from config.settings import LoggerSettings
 
 # ---- Funciones ---- #
-def get_logger(name:str) -> logging.Logger:
+def get_logger(name:str, cfg:LoggerSettings) -> logging.Logger:
     """
     Crea y configura un logger con nombre especificado.
     Lee la configuración de logging en 'config/settings.yaml' si esta disponible,
@@ -30,6 +30,7 @@ def get_logger(name:str) -> logging.Logger:
     
     Args:
         name (str): El nombre del logger a crear.
+        cfg (LoggerSettings): Clase con los parámetros del logger.
         
     Returns:
         Logger configurado.
@@ -38,26 +39,26 @@ def get_logger(name:str) -> logging.Logger:
 
     # Crea el logger con el nombre.
     logger = logging.getLogger(name=name)
-    logger.setLevel(getattr(logging, LOGGER_SETTINGS.Level, logging.INFO))
+    logger.setLevel(getattr(logging, cfg.Level, logging.INFO))
     
     # Evita duplicar handlers si ya está inicializado.
     if not logger.handlers:
         # Crea el formateador.
-        formatter = logging.Formatter(fmt=LOGGER_SETTINGS.Format, datefmt=LOGGER_SETTINGS.DateFmt)
+        formatter = logging.Formatter(fmt=cfg.Format, datefmt=cfg.DateFmt)
         
         # Handler de consola.
         console_handler = logging.StreamHandler()
-        console_handler.setLevel(getattr(logging, LOGGER_SETTINGS.Level, logging.INFO))
+        console_handler.setLevel(getattr(logging, cfg.Level, logging.INFO))
         console_handler.setFormatter(formatter)
         logger.addHandler(console_handler)          # Añade el handler.
         
         # Handler de archivo si se configuro.
-        if LOGGER_SETTINGS.File:
-            os.makedirs(os.path.dirname(LOGGER_SETTINGS.File), exist_ok=True)   # Crea el directorio.
+        if cfg.File:
+            os.makedirs(os.path.dirname(cfg.File), exist_ok=True)   # Crea el directorio.
             
             file_handler = logging.handlers.RotatingFileHandler(
-                LOGGER_SETTINGS.File, maxBytes=LOGGER_SETTINGS.MaxBytes, backupCount=LOGGER_SETTINGS.BackupCount, encoding='utf-8')
-            file_handler.setLevel(getattr(logging, LOGGER_SETTINGS.Level, logging.INFO))
+                cfg.File, maxBytes=cfg.MaxBytes, backupCount=cfg.BackupCount, encoding='utf-8')
+            file_handler.setLevel(getattr(logging, cfg.Level, logging.INFO))
             file_handler.setFormatter(formatter)    # Añade el handler.
             logger.addHandler(file_handler)
         

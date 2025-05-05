@@ -9,12 +9,10 @@
 # -----------------------------------------------------------------------------
 
 # ---- Módulos ---- #
-from config.settings import DOCUMENT_LOADER_SETTINGS
-from utils.logger import get_logger
+from config.settings import DocumentLoaderSettings
 
-#Haystack.
-from haystack.document_stores.in_memory import InMemoryDocumentStore
-from haystack_integrations.document_stores.weaviate import WeaviateDocumentStore
+from config.settings import LOGGER_SETTINGS
+from utils.logger import get_logger
 
 # ---- Clases ---- #
 class DocumentLoader():
@@ -22,7 +20,7 @@ class DocumentLoader():
     Clase encargada de cargar y procesar documentos desde un directorio dado.
     """
     # -- Métodos por defecto -- #
-    def __init__(self):
+    def __init__(self, cfg:DocumentLoaderSettings):
         """
         Inicializa el cargador de documentos.
         
@@ -30,10 +28,10 @@ class DocumentLoader():
 
         """
         # Inicializa los parámetros por defecto.
-        self.__logger = get_logger(__name__)        # Crea el logger para el script document_loader.
+        self.__logger = get_logger(__name__, LOGGER_SETTINGS)        # Crea el logger para el script document_loader.
         self.__store = None
         
-        self.__logger.info(f"Inicializado: BACKEND: {DOCUMENT_LOADER_SETTINGS.Backend} | PERSIST: {DOCUMENT_LOADER_SETTINGS.Persist}")
+        self.__logger.info(f"Inicializado: BACKEND: {cfg.Backend} | PERSIST: {cfg.Persist}")
         
     # -- Propiedades -- #
     @property

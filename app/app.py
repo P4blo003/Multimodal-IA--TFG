@@ -13,6 +13,7 @@ import logging
 from ingestion.document_loader import DocumentLoader
 
 from utils.logger import get_logger
+from config.settings import LOGGER_SETTINGS, DOCUMENT_LOADER_SETTINGS
 
 # ---- Funciones ---- #
 def end_prog(logger:logging.Logger, exit_value:int = 0):
@@ -29,12 +30,12 @@ def end_prog(logger:logging.Logger, exit_value:int = 0):
 # ---- Main ---- #
 if __name__ == "__main__":
     # Inicializa el logger.
-    logger: logging.Logger = get_logger(__name__)               # Crea el logger para el script __main__.
+    logger: logging.Logger = get_logger(__name__, cfg=LOGGER_SETTINGS)               # Crea el logger para el script __main__.
     
     # -- Lógica principal -- #
     logger.info("Iniciado programa MULTIMODAL-IA")
     
     # Inicializa las variables del sistema.
-    documentLoader:DocumentLoader = DocumentLoader()           # Inicializa el document loader.
+    documentLoader:DocumentLoader = DocumentLoader(cfg=DOCUMENT_LOADER_SETTINGS)           # Inicializa el document loader.
     
     end_prog(logger=logger, exit_value=0)       # Finaliza el programa.
