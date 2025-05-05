@@ -11,6 +11,7 @@ venv/
 # Carpetas del proyecto.
 __pycache__/
 
+bin/
 data/
 logs/
 # Variables del programa.
