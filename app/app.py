@@ -9,6 +9,8 @@
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
+import subprocess
+
 import logging
 from utils.log.logger import get_logger
 
@@ -21,6 +23,7 @@ if __name__ == "__main__":
     
     # ---- Declaración de variables globales ---- #
     logger:logging.Logger = get_logger(name=__name__, file="app.log", cfg=LOG_CFG)      # Crea el logger de main.
+    process_buffer:list[subprocess.Popen] = []              # Lista con los subprocesos ejecutados.
     
     # ---- Declaración de funciones ---- #
     def end_program(exit_value:int = 0):
@@ -31,6 +34,10 @@ if __name__ == "__main__":
         Args:
             exit_value (int): Valor de salida del programa. Por defecto vale 0.
         """
+        num_proc = len(process_buffer)  # Almacena el número de procesos.
+        for proc in process_buffer:     # Para cada proceso creado.
+            proc.terminate()            # Finaiza el proceso.
+
         logger.info(f"Finalizado programa ({exit_value})")  # Imprime el mensaje.
         exit(exit_value)        # Finaliza el programa con el código de salida.
         
@@ -42,7 +49,8 @@ if __name__ == "__main__":
     if not ollama_serve:                                        # Si no se genera el subproceso de ollama serve.
         logger.critical(f"Servicio de ollama no ejecutado.")    # Imprime mensaje de información.
         end_program(exit_value=100)                             # Finaliza el programa.
-        
-    logger.info(f"Servicio de ollama ejecutándose en {OLLAMA_CFG.host}:{OLLAMA_CFG.port}. OUT: {OLLAMA_CFG.file}")  # Imprime mensaje de información.
+    
+    process_buffer.append(ollama_serve)                         # Añade el proceso a la lista.
+    logger.info(f"Servicio de ollama ejecutándose | PID: {ollama_serve.pid} | URL: https://{OLLAMA_CFG.host}:{OLLAMA_CFG.port} | OUT: {OLLAMA_CFG.file}")  # Imprime mensaje de información.
 
     end_program(exit_value=0)           # Finaliza el programa.
