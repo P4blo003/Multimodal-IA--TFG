@@ -20,6 +20,8 @@ logger:
   backup_count: 5         # Número de archivos de log de respaldo.
 
 ollama:
-  host: '0.0.0.0'             # Host del servicio ollama.
-  port: 11434                 # Puerto del servicio ollama.
-  bin: 'bin/ollama'           # Nombre del binario.
+  host: '127.0.0.1'             # Host del servicio ollama.
+  port: 12000                   # Puerto del servicio ollama.
+  bin: 'bin/ollama/ollama'      # Nombre del binario.
+  silent: False                 # Si se debe mostrar los mensajes del propio servicio de ollama.
+  file: 'logs/ollama_serve.log'      # Ruta al directorio de logs.

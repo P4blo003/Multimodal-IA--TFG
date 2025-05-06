@@ -14,9 +14,11 @@ from dotenv import load_dotenv
 import yaml
 
 from utils.log.classes import LoggerConfig
+from ollama.classes import OllamaConfig
 
 # ---- Parámetros ---- #
 LOG_CFG:LoggerConfig = LoggerConfig()       # Configuración del logger.
+OLLAMA_CFG:OllamaConfig = OllamaConfig()    # Configuración de ollama.
 
 # ---- Inicialización ---- #
 load_dotenv()       # Carga las variables de entorno.
@@ -37,3 +39,13 @@ if os.path.exists(__settings_file):                     # Si existe el fichero.
                 LOG_CFG.path = logger_cfg.get('path', LOG_CFG.path)
                 LOG_CFG.maxBytes = logger_cfg.get('max_bytes', LOG_CFG.maxBytes)
                 LOG_CFG.backupCount = logger_cfg.get('backup_count', LOG_CFG.backupCount)
+            
+
+            ollama_cfg = cfg.get('ollama', {})          # Obtiene los parámetros para ollama.
+            
+            if ollama_cfg:          # Si obtiene algún campo.
+                OLLAMA_CFG.host = ollama_cfg.get('host', OLLAMA_CFG.host)
+                OLLAMA_CFG.port = ollama_cfg.get('port', OLLAMA_CFG.port)
+                OLLAMA_CFG.bin = ollama_cfg.get('bin', OLLAMA_CFG.bin)
+                OLLAMA_CFG.silent = ollama_cfg.get('silent', OLLAMA_CFG.silent)
+                OLLAMA_CFG.file = ollama_cfg.get('file', OLLAMA_CFG.file)

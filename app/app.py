@@ -4,14 +4,17 @@
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
 # Archivo: src/app.py
 # Autor: Pablo González García
-# Descripción: Flujo principal del programa.
+# Descripción: 
+# Flujo principal del programa.
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
 import logging
 from utils.log.logger import get_logger
 
-from config.context import LOG_CFG
+from ollama.launcher import run_ollama
+
+from config.context import LOG_CFG, OLLAMA_CFG
 
 # ---- Main ---- #
 if __name__ == "__main__":
@@ -33,6 +36,13 @@ if __name__ == "__main__":
         
     # ---- Lógica principal ---- #
     logger.info("Iniciado programa.")   # Imprime el inicio del programa.
-        
     
+    ollama_serve = run_ollama(cfg=OLLAMA_CFG)           # Inicia el servicio de ollama.
+    
+    if not ollama_serve:                                        # Si no se genera el subproceso de ollama serve.
+        logger.critical(f"Servicio de ollama no ejecutado.")    # Imprime mensaje de información.
+        end_program(exit_value=100)                             # Finaliza el programa.
+        
+    logger.info(f"Servicio de ollama ejecutándose en {OLLAMA_CFG.host}:{OLLAMA_CFG.port}. OUT: {OLLAMA_CFG.file}")  # Imprime mensaje de información.
+
     end_program(exit_value=0)           # Finaliza el programa.
