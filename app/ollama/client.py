@@ -16,7 +16,7 @@ import requests
 
 from . import install_model
 from .response import process_response
-from .classes import Response
+from .classes import Response, ChatHistory
 
 from config.context import OLLAMA_CFG
 
@@ -32,6 +32,7 @@ class OllamaClient:
         """
         self.__cfg = OLLAMA_CFG
         self.__apiBaseUrl:str = f"http://{self.__cfg.host}:{self.__cfg.port}"
+        self.__chatHistory:ChatHistory = ChatHistory(self.__cfg.chatHistorySize)  # Inicializa el historial de mensajes.
         
         self.__logger:logging.Logger = get_logger(name=__name__, file="app.log", file_only=True)    # Crea el logger de la clase.
         
@@ -81,12 +82,14 @@ class OllamaClient:
         Returns:
             Response: Respuesta del modelo.
         """
+        # Añade el mensaje al historial.
+        self.__chatHistory.add_message(role="user", message=message)
         # Genera la URL:
         url:str = f"{self.__apiBaseUrl}/api/generate"
         # Genera los datos a enviar al servicio ollama.
         payload = {
             "model": self.__cfg.model,
-            "prompt": message,
+            **self.__chatHistory.get_payload(),
             "stream": False
         }
         # Imprime información del mensaje.
@@ -100,6 +103,8 @@ class OllamaClient:
             fmt_response = process_response(reply)  # Procesa la respuesta.
             # Si se ha procesado la respuesta correctamente.
             if fmt_response:
+                # Añade el mensaje al historial.
+                self.__chatHistory.add_message(role="assistant", message=fmt_response.response)
                 self.__logger.info(f"FROM: {url} | RESPONSE: {fmt_response.response} | PROMPT_TOKENS: {fmt_response.tokens_prompt} | GEN_TOKENS: {fmt_response.generated_tokens} | TOTAL_TIME: {fmt_response.total_time} s.")  # Imprime la respuesta.
             # Retorna la respuesta formateada.
             return fmt_response

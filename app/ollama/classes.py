@@ -11,6 +11,8 @@
 # ---- Módulos ---- #
 from dataclasses import dataclass
 
+from typing import List, Dict
+
 # ---- Clases ---- #
 @dataclass
 class OllamaConfig:
@@ -59,3 +61,46 @@ class Response:
     load_model_time:float = None
     eval_prompt_time:float = None
     generation_time:float = None
+
+class ChatHistory:
+    """
+    Almacena el historial de mensajes del chat.
+    
+    Attributes:
+        history (List[Dict[str, str]]): Lista de mensajes del chat.
+        size (int): Tamaño del historial de mensajes.
+    """
+    def __init__(self, size:int):
+        """
+        
+        """
+        self.__messages:List[Dict[str, str]] = []
+        self.__maxSize:int = size
+    
+    # -- Métodos -- #
+    def add_message(self, role:str, message:str):
+        """
+        Añade un mensaje al historial.
+        
+        Args:
+            role (str): Rol del mensaje ('user' o 'assistant').
+            message (str): Mensaje del usuario.
+        """
+        # -- Comprobar el tamaño del historial -- #
+        if len(self.__messages) >= self.__maxSize:
+            self.__messages.pop(0)
+        
+        # -- Añadir el mensaje al historial -- #
+        self.__messages.append({'role': role, 'content': message})
+    
+    def get_payload(self) -> List[Dict[str, str]]:
+        """
+        Devuelve el historial de mensajes en el formato adecuado para la API.
+        
+        Returns:
+            List[Dict[str, str]]: Historial de mensajes.
+        """
+        prompt = "\n".join(
+            f"{m['role']}: {m['content']}" for m in self.__messages
+        )
+        return {"prompt":prompt}
