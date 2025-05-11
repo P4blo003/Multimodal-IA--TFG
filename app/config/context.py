@@ -49,3 +49,6 @@ if os.path.exists(__settings_file):                     # Si existe el fichero.
                 OLLAMA_CFG.bin = ollama_cfg.get('bin', OLLAMA_CFG.bin)
                 OLLAMA_CFG.silent = ollama_cfg.get('silent', OLLAMA_CFG.silent)
                 OLLAMA_CFG.file = ollama_cfg.get('file', OLLAMA_CFG.file)
+                OLLAMA_CFG.model = ollama_cfg.get('model', OLLAMA_CFG.model)
+                OLLAMA_CFG.chatHistorySize = ollama_cfg.get('chat_history_size', OLLAMA_CFG.chat_history_size)
+                

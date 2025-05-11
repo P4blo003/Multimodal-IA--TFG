@@ -9,21 +9,22 @@
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
-import subprocess
+import time
 
 import logging
 from utils.log.logger import get_logger
 
-from ollama.launcher import run_ollama
-
-from config.context import LOG_CFG, OLLAMA_CFG
+from ollama.server import OllamaServer
+from ollama.client import OllamaClient
+from ollama.classes import Response
 
 # ---- Main ---- #
 if __name__ == "__main__":
     
     # ---- Declaración de variables globales ---- #
-    logger:logging.Logger = get_logger(name=__name__, file="app.log", cfg=LOG_CFG)      # Crea el logger de main.
-    process_buffer:list[subprocess.Popen] = []              # Lista con los subprocesos ejecutados.
+    logger:logging.Logger = get_logger(name=__name__, file="app.log")      # Crea el logger de main.
+    server:OllamaServer = None        # Inicializa el servidor como None.
+    client:OllamaClient = None        # Inicializa el cliente como None.
     
     # ---- Declaración de funciones ---- #
     def end_program(exit_value:int = 0):
@@ -34,23 +35,36 @@ if __name__ == "__main__":
         Args:
             exit_value (int): Valor de salida del programa. Por defecto vale 0.
         """
-        num_proc = len(process_buffer)  # Almacena el número de procesos.
-        for proc in process_buffer:     # Para cada proceso creado.
-            proc.terminate()            # Finaiza el proceso.
-
         logger.info(f"Finalizado programa ({exit_value})")  # Imprime el mensaje.
         exit(exit_value)        # Finaliza el programa con el código de salida.
         
     # ---- Lógica principal ---- #
     logger.info("Iniciado programa.")   # Imprime el inicio del programa.
     
-    ollama_serve = run_ollama(cfg=OLLAMA_CFG)           # Inicia el servicio de ollama.
+    # Inicializa el servidor y cliente de Ollama.
+    server = OllamaServer()                 # Inicia el servidor de ollama.
+    server.Start()                          # Inicia el servidor.
+    client = OllamaClient()                 # Inicia el cliente de ollama.
     
-    if not ollama_serve:                                        # Si no se genera el subproceso de ollama serve.
-        logger.critical(f"Servicio de ollama no ejecutado.")    # Imprime mensaje de información.
-        end_program(exit_value=100)                             # Finaliza el programa.
+    time.sleep(5)                           # Espera 5 segundos para que el servidor esté listo.
     
-    process_buffer.append(ollama_serve)                         # Añade el proceso a la lista.
-    logger.info(f"Servicio de ollama ejecutándose | PID: {ollama_serve.pid} | URL: https://{OLLAMA_CFG.host}:{OLLAMA_CFG.port} | OUT: {OLLAMA_CFG.file}")  # Imprime mensaje de información.
-
+    prompt = ""                             # Inicializa el prompt como vacío.
+    
+    try:
+        
+        while prompt.upper() != "QUIT":     # Mientras el prompt no sea "QUIT".
+            prompt = input("🧠: ")            # Solicita un mensaje al usuario.
+            reply:Response = client.send_message(prompt) # Envía el mensaje al modelo.
+        
+            if reply:                               # Si la respuesta no es None.
+                print(f"[Elapsed time: {reply.total_time} seconds.]")   # Imrpime el tiempo total de la respuesta.
+                print(f"🤖 ({reply.model}): {reply.response}")          # Imprime la respuesta.
+            
+    except KeyboardInterrupt:
+        print()                                 # Imprime una línea en blanco.
+        logger.info("Interrupción del programa por teclado.")
+        server.Stop()                           # Detiene el servidor.
+        end_program(exit_value=0)               # Finaliza el programa.
+    
+    server.Stop()                           # Detiene el servidor.
     end_program(exit_value=0)           # Finaliza el programa.

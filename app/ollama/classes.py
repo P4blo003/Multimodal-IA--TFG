@@ -23,6 +23,8 @@ class OllamaConfig:
         bin (str): Ruta al fichero binario de ollama.
         silent (bool): Si se debe mostrar los mensajes de ollama.
         file (str): Ruta al fichero de logs.
+        model (str): Nombre del modelo de ollama.
+        chatHistorySize (int): Tamaño del historial de mensajes.
     """
     # -- Parámetros -- #
     host:str = '0.0.0.0'
@@ -30,3 +32,30 @@ class OllamaConfig:
     bin:str = 'bin/ollama/ollama'
     silent:bool = False
     file:str = 'logs/ollama_serve.log'
+    model:str = 'llama3.1'
+    chatHistorySize:int = 10
+
+@dataclass
+class Response:
+    """
+    Almacena la respuesta del modelo de Ollama.
+    
+    Attributes:
+        mdel (str): Nombre del modelo.
+        response (str): Respuesta del modelo.
+        tokens_prompt (int): Número de tokens del prompt.
+        generated_tokens (int): Número de tokens generados.
+        total_time (float): Tiempo total de la petición.
+        load_model_time (float): Tiempo de carga del modelo.
+        eval_prompt_time (float): Tiempo de evaluación del prompt.
+        generation_time (float): Tiempo de generación de la respuesta.
+    """
+    # -- Parámetros -- #
+    model:str = None
+    response:str = None
+    tokens_prompt:int = None
+    generated_tokens:int = None
+    total_time:float = None
+    load_model_time:float = None
+    eval_prompt_time:float = None
+    generation_time:float = None

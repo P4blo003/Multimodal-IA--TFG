@@ -25,3 +25,5 @@ ollama:
   bin: 'bin/ollama/ollama'      # Nombre del binario.
   silent: False                 # Si se debe mostrar los mensajes del propio servicio de ollama.
   file: 'logs/ollama_serve.log'      # Ruta al directorio de logs.
+  model: 'llama3.1'             # Nombre del modelo a utilizar.
+  chat_history_max_size: 10     # Tamaño máximo del historial de chat.
