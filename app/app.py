@@ -43,11 +43,10 @@ if __name__ == "__main__":
     
     # Inicializa el servidor y cliente de Ollama.
     server = OllamaServer()                 # Inicia el servidor de ollama.
-    server.Start()                          # Inicia el servidor.
-    client = OllamaClient()                 # Inicia el cliente de ollama.
-    
+    server.Start()                          # Inicia el servidor.    
     time.sleep(5)                           # Espera 5 segundos para que el servidor esté listo.
     
+    client = OllamaClient()                 # Inicia el cliente de ollama.
     prompt = ""                             # Inicializa el prompt como vacío.
     
     try:
