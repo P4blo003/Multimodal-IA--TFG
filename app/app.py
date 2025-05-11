@@ -53,6 +53,10 @@ if __name__ == "__main__":
         
         while prompt.upper() != "QUIT":     # Mientras el prompt no sea "QUIT".
             prompt = input("🧠: ")            # Solicita un mensaje al usuario.
+            
+            if prompt.upper() == "QUIT":    # Si el mensaje es "QUIT":
+                break                       # Sale del bucle.
+            
             reply:Response = client.send_message(prompt) # Envía el mensaje al modelo.
         
             if reply:                               # Si la respuesta no es None.
