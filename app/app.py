@@ -13,12 +13,16 @@ import time
 
 import logging
 from utils.log.logger import get_logger
+import utils.file.csv as CSV
 
 from ollama.server import OllamaServer
 from ollama.client import OllamaClient
 from ollama.classes import Response
 
-from config.context import SERVER_WAIT_TIME
+from config.context import SERVER_WAIT_TIME, OLLAMA_CFG
+
+# ---- Parámetros ---- #
+CSV_HEADERS:list[str] = ['total_time', 'tokens_prompt', 'generated_tokens', 'speed(TpS)']  # Cabeceras del CSV.
 
 # ---- Main ---- #
 if __name__ == "__main__":
@@ -52,22 +56,35 @@ if __name__ == "__main__":
     # Inicializa el cliente.
     client = OllamaClient()                 # Inicia el cliente de ollama.
     
+    # Crea el fichero CSV para almacenar los parámetros.
+    measure_path:str = f"data/measure/{OLLAMA_CFG.model}.csv"
+    CSV.check_and_create_csv(file=measure_path, headers=CSV_HEADERS)  # Crea el fichero CSV.
+    
     # Inicializa el prompt.
     prompt = ""                             # Inicializa el prompt como vacío.
     
-    try:
-        # Búcle infinito para escribir mensajes (chat).
-        while prompt.upper() != "QUIT":     # Mientras el prompt no sea "QUIT".
-            prompt = input("🧠: ")            # Solicita un mensaje al usuario.
+    try:        
+            # Búcle infinito para escribir mensajes (chat).
+            while prompt.upper() != "QUIT":     # Mientras el prompt no sea "QUIT".
+                prompt = input("🧠: ")            # Solicita un mensaje al usuario.
+                
+                if prompt.upper() == "QUIT":    # Si el mensaje es "QUIT":
+                    break                       # Sale del bucle.
+                
+                reply:Response = client.send_message(prompt)    # Envía el mensaje al modelo y obtiene la respuesta.
             
-            if prompt.upper() == "QUIT":    # Si el mensaje es "QUIT":
-                break                       # Sale del bucle.
-            
-            reply:Response = client.send_message(prompt)    # Envía el mensaje al modelo y obtiene la respuesta.
-        
-            if reply:                                       # Si la respuesta no es None.
-                print(f"[Elapsed time: {reply.total_time} seconds.]")   # Imrpime el tiempo total de la respuesta.
-                print(f"🤖 ({reply.model}): {reply.response}")          # Imprime la respuesta.
+                if reply:                                       # Si la respuesta no es None.
+                    print(f"🤖 ({reply.model}): {reply.response}")          # Imprime la respuesta.
+
+                    # Almacena los datos en el CSV:
+                    data = {
+                        "total_time":reply.total_time,
+                        "tokens_prompt":reply.tokens_prompt,
+                        "generated_tokens":reply.generated_tokens,
+                        "speed(TpS)":reply.generated_tokens / reply.total_time
+                    }
+                    # Almacena los datos en el CSV.
+                    CSV.write_csv(file=measure_path, data=data, headers=CSV_HEADERS)
                 
     # En caso de que se detecte Ctrl+C (KeyboardInterrupt).
     except KeyboardInterrupt:
