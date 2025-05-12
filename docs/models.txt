@@ -10,9 +10,9 @@
 
 -- Modelos empleados --
 Llama:
-    - LLama 3.2             3B          2.0 GB          llama3.2
-    - Llama 3.1             8B          4.9 GB          llama3.1
-    - Llama 3               8b          4.7 GB          llama3 
+    - LLama 3.2             3B          2.0 GB          llama3.2:3b
+    - Llama 3.1             8B          4.9 GB          llama3.1:8b
+    - Llama 3               8b          4.7 GB          llama3:8b 
 DeepSeek:
     - deepseek-r1           1.5B        1.1 GB          deepseek-r1:1.5b
     - deepseek-r1           8B          4.9 GB          deepseek-r1:8b
@@ -25,4 +25,12 @@ Qwen:
     - Qwen 3                8B          5.2 GB          qwen3:8b
     - Qwen 3                14B         9.3 GB          qwen3:14b
 Mistral:
-    - Mistral Small 3.1     24B         15 GB           mistral-small3.1
+    - Mistral Small 3.1     24B         15 GB           mistral-small3.1:24b
+
+
+Preguntas realizadas:
+
+1. Hola, ¿quién eres?
+2. Cuentame una historia, donde el protagonista se llame Pedro.
+3. ¿Como se llamaba el protagonista de la historia que me contaste?
+4. ¿Cual fue la primera pregunta que te hice?
