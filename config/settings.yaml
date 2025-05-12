@@ -24,6 +24,6 @@ ollama:
   port: 11434                   # Puerto del servicio ollama.
   bin: 'bin/ollama/ollama'      # Nombre del binario.
   silent: False                 # Si se debe mostrar los mensajes del propio servicio de ollama.
-  file: 'logs/ollama_serve.log'      # Ruta al directorio de logs.
+  log_file: 'logs/ollama_serve.log'      # Ruta al directorio de logs.
   model: 'llama3.1'             # Nombre del modelo a utilizar.
   chat_history_max_size: 10     # Tamaño máximo del historial de chat.

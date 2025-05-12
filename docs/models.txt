@@ -1,0 +1,28 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: docs/models.txt
+# Autor: Pablo González García
+# Descripción:
+# Contiene los modelos empleados.
+# -----------------------------------------------------------------------------
+
+-- Modelos empleados --
+Llama:
+    - LLama 3.2             3B          2.0 GB          llama3.2
+    - Llama 3.1             8B          4.9 GB          llama3.1
+    - Llama 3               8b          4.7 GB          llama3 
+DeepSeek:
+    - deepseek-r1           1.5B        1.1 GB          deepseek-r1:1.5b
+    - deepseek-r1           8B          4.9 GB          deepseek-r1:8b
+    - deepseek-r1           14B         9.0 GB          deepseek-r1:14b
+Gemma:   
+    - Gemma 3               4B          3.3 GB          gemma3:4b
+    - Gemma 3               12B         8.1 GB          gemma3:12b
+Qwen:
+    - Qwen 3                4B          2.6 GB          qwen3:4b
+    - Qwen 3                8B          5.2 GB          qwen3:8b
+    - Qwen 3                14B         9.3 GB          qwen3:14b
+Mistral:
+    - Mistral Small 3.1     24B         15 GB           mistral-small3.1

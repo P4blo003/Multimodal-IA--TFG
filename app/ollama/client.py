@@ -5,7 +5,8 @@
 # Archivo: src/ollama/client.py
 # Autor: Pablo González García
 # Descripción: 
-
+# Módulo que contiene la clase OllamaClient, que se encarga de 
+# interactuar con el modelo de Ollama.
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
@@ -42,7 +43,7 @@ class OllamaClient:
     # -- Métodos privados -- #
     def __checkModel(self):
         """
-        Cimprueba si el modelo está disponible. En caso de que no lo esté, lo intenta instalar.
+        Comprueba si el modelo está disponible. En caso de que no lo esté, lo intenta instalar.
         """
         # Genera la URL.
         url:str = f"{self.__apiBaseUrl}/api/tags"
@@ -69,8 +70,7 @@ class OllamaClient:
         except Exception as e:
             self.__logger.error(f"Error al enviar el mensaje: {e}")
             return None
-        
-        
+
     # -- Métodos públicos -- #
     def send_message(self, message:str) -> Response:
         """

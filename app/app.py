@@ -18,6 +18,8 @@ from ollama.server import OllamaServer
 from ollama.client import OllamaClient
 from ollama.classes import Response
 
+from config.context import SERVER_WAIT_TIME
+
 # ---- Main ---- #
 if __name__ == "__main__":
     
@@ -37,37 +39,47 @@ if __name__ == "__main__":
         """
         logger.info(f"Finalizado programa ({exit_value})")  # Imprime el mensaje.
         exit(exit_value)        # Finaliza el programa con el código de salida.
-        
-    # ---- Lógica principal ---- #
-    logger.info("Iniciado programa.")   # Imprime el inicio del programa.
     
-    # Inicializa el servidor y cliente de Ollama.
+    
+    # ---- Lógica principal ---- #
+    logger.info("Iniciado programa.")       # Imprime el inicio del programa.
+    
+    # Inicializa el servidor.
     server = OllamaServer()                 # Inicia el servidor de ollama.
     server.Start()                          # Inicia el servidor.    
-    time.sleep(5)                           # Espera 5 segundos para que el servidor esté listo.
+    time.sleep(SERVER_WAIT_TIME)            # Espera x segundos para que el servidor esté listo.
     
+    # Inicializa el cliente.
     client = OllamaClient()                 # Inicia el cliente de ollama.
+    
+    # Inicializa el prompt.
     prompt = ""                             # Inicializa el prompt como vacío.
     
     try:
-        
+        # Búcle infinito para escribir mensajes (chat).
         while prompt.upper() != "QUIT":     # Mientras el prompt no sea "QUIT".
             prompt = input("🧠: ")            # Solicita un mensaje al usuario.
             
             if prompt.upper() == "QUIT":    # Si el mensaje es "QUIT":
                 break                       # Sale del bucle.
             
-            reply:Response = client.send_message(prompt) # Envía el mensaje al modelo.
+            reply:Response = client.send_message(prompt)    # Envía el mensaje al modelo y obtiene la respuesta.
         
-            if reply:                               # Si la respuesta no es None.
+            if reply:                                       # Si la respuesta no es None.
                 print(f"[Elapsed time: {reply.total_time} seconds.]")   # Imrpime el tiempo total de la respuesta.
                 print(f"🤖 ({reply.model}): {reply.response}")          # Imprime la respuesta.
-            
+                
+    # En caso de que se detecte Ctrl+C (KeyboardInterrupt).
     except KeyboardInterrupt:
         print()                                 # Imprime una línea en blanco.
         logger.info("Interrupción del programa por teclado.")
         server.Stop()                           # Detiene el servidor.
         end_program(exit_value=0)               # Finaliza el programa.
+
+    # En caso de que haya alguna excepción.
+    except Exception as e:
+        logger.error(f"Error: {e}")             # Imprime el error.
     
+    # Finaliza el servidor y el programa.
     server.Stop()                           # Detiene el servidor.
     end_program(exit_value=0)           # Finaliza el programa.

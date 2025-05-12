@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: src/ollama/model.py
+# Autor: Pablo González García
+# Descripción: 
+# Módulo que contiene funciones relacionadas con los modelos de Ollama,
+# como el listado o instalación.
+# -----------------------------------------------------------------------------
 
 # ---- Múdulos ---- #
 import os

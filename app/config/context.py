@@ -5,7 +5,7 @@
 # Archivo: src/config/context.py
 # Autor: Pablo González García
 # Descripción:
-# 
+# Contiene las variables de configuración del proyecto.
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
@@ -19,11 +19,15 @@ from ollama.classes import OllamaConfig
 # ---- Parámetros ---- #
 LOG_CFG:LoggerConfig = LoggerConfig()       # Configuración del logger.
 OLLAMA_CFG:OllamaConfig = OllamaConfig()    # Configuración de ollama.
+SERVER_WAIT_TIME:int = 5                    # Tiempo de espera hasta que el servidor esté listo (segundos).
 
 # ---- Inicialización ---- #
-load_dotenv()       # Carga las variables de entorno.
-__settings_file:str = os.getenv('SETTINGS_FILE')        # Obtiene la ruta del fichero de configuración.
+# Carga las variables de entorno.
+load_dotenv()
+__settings_file:str = os.getenv('SETTINGS_FILE')                # Obtiene la ruta del fichero de configuración.
+SERVER_WAIT_TIME:int = int(os.getenv('SERVER_WAIT_TIME', 5))    # Obtiene el tiempo de espera del servidor.
 
+# Obtiene los parámetros del archivo de configuración:
 if os.path.exists(__settings_file):                     # Si existe el fichero.
     # Abre el fichero.
     with open(__settings_file, 'r', encoding='utf-8') as file:
@@ -48,7 +52,6 @@ if os.path.exists(__settings_file):                     # Si existe el fichero.
                 OLLAMA_CFG.port = ollama_cfg.get('port', OLLAMA_CFG.port)
                 OLLAMA_CFG.bin = ollama_cfg.get('bin', OLLAMA_CFG.bin)
                 OLLAMA_CFG.silent = ollama_cfg.get('silent', OLLAMA_CFG.silent)
-                OLLAMA_CFG.file = ollama_cfg.get('file', OLLAMA_CFG.file)
+                OLLAMA_CFG.file = ollama_cfg.get('log_file', OLLAMA_CFG.file)
                 OLLAMA_CFG.model = ollama_cfg.get('model', OLLAMA_CFG.model)
-                OLLAMA_CFG.chatHistorySize = ollama_cfg.get('chat_history_size', OLLAMA_CFG.chatHistorySize)
-                
+                OLLAMA_CFG.chatHistorySize = ollama_cfg.get('chat_history_size', OLLAMA_CFG.chatHistorySize)        

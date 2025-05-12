@@ -7,4 +7,4 @@
 # -----------------------------------------------------------------------------
 
 # ---- Módulos ---- #
-from .utils import install_model
+from .model import install_model

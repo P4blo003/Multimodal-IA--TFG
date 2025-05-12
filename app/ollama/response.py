@@ -1,3 +1,12 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: src/ollama/response.py
+# Autor: Pablo González García
+# Descripción: 
+# Módulo que contiene métodos para procesar la respuesta del modelo de Ollama.
+# -----------------------------------------------------------------------------
 
 # ---- Módulos ---- #
 from .classes import Response

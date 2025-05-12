@@ -13,7 +13,7 @@ from dataclasses import dataclass
 
 from typing import List, Dict
 
-# ---- Clases ---- #
+# ---- Clases de datos ---- #
 @dataclass
 class OllamaConfig:
     """
@@ -62,6 +62,7 @@ class Response:
     eval_prompt_time:float = None
     generation_time:float = None
 
+# ---- Clases ---- #
 class ChatHistory:
     """
     Almacena el historial de mensajes del chat.
@@ -72,12 +73,16 @@ class ChatHistory:
     """
     def __init__(self, size:int):
         """
+        Inicializa el historial de mensajes.
         
+        Args:
+            size (int): Tamaño del historial de mensajes.
         """
+        # Inicializa las propiedades.
         self.__messages:List[Dict[str, str]] = []
         self.__maxSize:int = size
     
-    # -- Métodos -- #
+    # -- Métodos públicos -- #
     def add_message(self, role:str, message:str):
         """
         Añade un mensaje al historial.
@@ -86,11 +91,12 @@ class ChatHistory:
             role (str): Rol del mensaje ('user' o 'assistant').
             message (str): Mensaje del usuario.
         """
-        # -- Comprobar el tamaño del historial -- #
+        # Comprueba el tamaño del historial y en caso de que sea mayor al máximo.
         if len(self.__messages) >= self.__maxSize:
+            # Elimina el primer mensaje (mensahe más antiguo).
             self.__messages.pop(0)
         
-        # -- Añadir el mensaje al historial -- #
+        # Añade el nuevo mensaje al historial.
         self.__messages.append({'role': role, 'content': message})
     
     def get_payload(self) -> List[Dict[str, str]]:

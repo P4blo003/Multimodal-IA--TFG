@@ -5,7 +5,8 @@
 # Archivo: src/ollama/server.py
 # Autor: Pablo González García
 # Descripción: 
-
+# Módulo que contiene la clase OllamaServer, que se encarga de
+# iniciar y detener el servidor de Ollama.
 # -----------------------------------------------------------------------------
 
 # ---- Modulos ---- #
@@ -25,13 +26,13 @@ class OllamaServer:
     # -- Métodos por defecto -- #
     def __init__(self):
         """
-        Constructor que prepara el entorno.
+        Inicializa el servidor de Ollama.
         """
         self.__env = os.environ.copy()    # Copia las variables de entorno.
-        self.__env['OLLAMA_HOST'] = f"{OLLAMA_CFG.host}:{OLLAMA_CFG.port}"    # Establece los valores.
         self.__cfg = OLLAMA_CFG
+        self.__env['OLLAMA_HOST'] = f"{self.__cfg.host}:{self.__cfg.port}"      # Establece los valores.
         self.__logger:logging.Logger = get_logger(name=__name__, file="app.log", file_only=True)  # Crea el logger de la clase.
-        self.__process:subprocess.Popen = None                  # Inicializa el proceso como None.
+        self.__process:subprocess.Popen = None                                  # Inicializa el proceso como None.
     
     # -- Propiedades -- #
     @property
@@ -45,7 +46,7 @@ class OllamaServer:
         # Retorna el PID.
         return self.__process.pid
 
-    # -- Métodos -- #
+    # -- Métodos públicos -- #
     def Start(self):
         """
         Inicia sel servidor Ollama ejecutando el bianrio como proceso hijo.
