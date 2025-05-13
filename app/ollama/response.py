@@ -9,7 +9,7 @@
 # -----------------------------------------------------------------------------
 
 # ---- Módulos ---- #
-from .classes import Response
+from .schema import Response
 
 # ---- Funciones ----
 def process_response(reply) -> Response:

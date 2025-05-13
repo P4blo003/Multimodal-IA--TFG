@@ -11,20 +11,33 @@
 # -----------------------------------------------------------------------------
 
 # ---- Parámetros ---- #
+
+# -- Configuración de logging -- #
 logger:
   level: INFO             # Nivel de log: DEBIG, INFO, WARNING, ERROR, CRITICAL
   format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'    # Formato del mensaje del log.
   datefmt: '%d-%m-%Y %H:%M:%S'    # Formato de la fecha.
-  path: 'logs'            # Ruta al directorio de logs.
-  max_bytes: 10485760     # 10 MB.
-  backup_count: 5         # Número de archivos de log de respaldo.
+  directory: 'logs'           # Ruta al directorio de logs.
+  maxBytes: 10485760         # 10 MB.
+  backupCount: 5             # Número de archivos de log de respaldo.
 
+# -- Configuración del servicio Ollama -- #
 ollama:
-  bin: 'bin/ollama/ollama'      # Nombre del binario.
+  executablePath: 'bin/ollama/ollama'      # Nombre del binario.
   host: '127.0.0.1'             # Host del servicio ollama.
   port: 11434                   # Puerto del servicio ollama.
   silent: False                 # Si se debe mostrar los mensajes del propio servicio de ollama.
-  log_file: 'logs/ollamaServe.log'      # Ruta al directorio de logs.
-  model: 'llama3.2:3b'          # Nombre del modelo a utilizar.
-  chat_history_max_size: 10     # Tamaño máximo del historial de chat.
-  startup_wait_time: 5          # Tiempo de espera para el inicio del servicio (5 segundos).
+  startupWaitSeconds: 5         # Tiempo de espera para el inicio del servicio (5 segundos).
+  logFile: 'logs/ollama_serve.log'      # Ruta al directorio de logs.
+  historyMaxSize: 10            # Tamaño máximo del historial de chat.
+
+# -- Configuración del modelo -- #
+model:
+  name: 'llama3:8b'           # Nombre del modelo a utilizar.
+  temperature: 0.7            # Parámetro que controla la aleatoriedad de las respuestas.
+  maxTokens: 1024             # Número máximo de tokens a generar.
+
+# -- Configuración del chat -- #
+chat:
+  type: basic       # Tipo del chat.
+  exitCommands: ['EXIT', 'QUIT', 'SALIR'] # Comandos para salir del chat.

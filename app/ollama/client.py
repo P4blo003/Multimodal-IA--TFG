@@ -11,15 +11,15 @@
 
 # ---- Modulos ---- #
 import logging
-from utils.log.logger import get_logger
+from common.log.logger import get_logger
 
 import requests
 
-from . import install_model
 from .response import process_response
-from .classes import Response, ChatHistory
+from .schema import Response
+from .chat import ChatHistory
 
-from config.context import OLLAMA_CFG
+from config.context import CONFIG, ENV
 
 # ---- Clases ---- #
 class OllamaClient:
@@ -31,44 +31,11 @@ class OllamaClient:
         """
         Inicializa el cliente de Ollama.
         """
-        self.__apiBaseUrl:str = f"http://{OLLAMA_CFG.host}:{OLLAMA_CFG.port}"
-        self.__chatHistory:ChatHistory = ChatHistory(OLLAMA_CFG.chatHistorySize)                    # Inicializa el historial de mensajes.
-        
+        self.__url:str = f"http://{ENV['OLLAMA_HOST']}/api/generate"                                # Genera la URL del servicio Ollama.
+        self.__chatHistory:ChatHistory = ChatHistory(CONFIG.ollama.historyMaxSize)                  # Inicializa el historial de mensajes.
         self.__logger:logging.Logger = get_logger(name=__name__, console=False,file="app.log")      # Crea el logger de la clase.
-        
-        self.__checkModel()                                                                         # Comprueba si el modelo está disponible.
         self.__logger.info("Iniciado cliente de Ollama.")
-    
-    # -- Métodos privados -- #
-    def __checkModel(self):
-        """
-        Comprueba si el modelo está disponible. En caso de que no lo esté, lo intenta instalar.
-        """
-        # Genera la URL.
-        url:str = f"{self.__apiBaseUrl}/api/tags"
-        # Imprime información del mensaje.
-        self.__logger.info(f"TO: {url} | GET | LIST_MODELS")
-        try:
-            # Intenta hacer una petición al servidor.
-            response = requests.get(url)
-            response.raise_for_status()  # Lanza un error si la respuesta no es 200
-            # Obtiene la respuesta en formato JSON.
-            models = response.json().get("models", [])
-            # Comrpueba si existe algún modelo.
-            exist = any(model.get("name", "").startswith(OLLAMA_CFG.model) for model in models)
-            # Si no existe, lo instala:
-            if not exist:
-                self.__logger.warning(f"Modelo ({OLLAMA_CFG.model}) no instalado.")
-                try:
-                    install_model(OLLAMA_CFG.bin, model=OLLAMA_CFG.model)  # Instala el modelo.
-                    self.__logger.info(f"Modelo ({OLLAMA_CFG.model}) instalado.")
-                except Exception as e:
-                    self.__logger.error(f"Error al instalar el modelo: {e}")
-                    pass
-        # En caso de que haya alguna excepción.
-        except Exception as e:
-            self.__logger.error(f"Error en la solicitud de los modelos: {e}")
-            return None
+
 
     # -- Métodos públicos -- #
     def send_message(self, message:str) -> Response:
@@ -83,19 +50,17 @@ class OllamaClient:
         """
         # Añade el mensaje al historial.
         self.__chatHistory.add_message(role="user", message=message)
-        # Genera la URL:
-        url:str = f"{self.__apiBaseUrl}/api/generate"
         # Genera los datos a enviar al servicio ollama.
         payload = {
-            "model": OLLAMA_CFG.model,
+            "model": CONFIG.model.name,
             **self.__chatHistory.get_payload(),
             "stream": False
         }
         # Imprime información del mensaje.
-        self.__logger.info(f"TO: {url} | CONTENT: {payload}")
+        self.__logger.info(f"TO: {self.__url} | CONTENT: {payload}")
         try:
             # Intenta hacer una petición al servidor.
-            response = requests.post(url, json=payload)
+            response = requests.post(self.__url, json=payload)
             response.raise_for_status()  # Lanza un error si la respuesta no es 200
             # Obtiene la respuesta en formato JSON.
             reply = response.json()
@@ -104,10 +69,10 @@ class OllamaClient:
             if fmt_response:
                 # Añade el mensaje al historial.
                 self.__chatHistory.add_message(role="assistant", message=fmt_response.response)
-                self.__logger.info(f"FROM: {url} | RESPONSE: {fmt_response.response} | PROMPT_TOKENS: {fmt_response.tokens_prompt} | GEN_TOKENS: {fmt_response.generated_tokens} | TOTAL_TIME: {fmt_response.total_time} s.")  # Imprime la respuesta.
+                self.__logger.info(f"FROM: {self.__url} | RESPONSE: {fmt_response.response} | PROMPT_TOKENS: {fmt_response.tokens_prompt} | GEN_TOKENS: {fmt_response.generated_tokens} | TOTAL_TIME: {fmt_response.total_time} s.")  # Imprime la respuesta.
             # Retorna la respuesta formateada.
             return fmt_response
-        
+
         # En caso de que haya alguna excepción.
         except Exception as e:
             self.__logger.error(f"Error al enviar el mensaje: {e}")

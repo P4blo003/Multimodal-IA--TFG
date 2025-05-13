@@ -13,7 +13,7 @@ import logging.handlers
 import os
 import logging
 
-from config.context import LOG_CFG
+from config.context import CONFIG
 
 
 # ---- FUNCIONES ---- #
@@ -45,26 +45,26 @@ def get_logger(name:str, console:bool=True, file:str=None) -> logging.Logger:
     # Si no tiene ningún handler. (Para evitar duplicados).
     if not logger.handlers:
         # Crea el formateador.
-        formatter = logging.Formatter(fmt=LOG_CFG.format, datefmt=LOG_CFG.datefmt)
+        formatter = logging.Formatter(fmt=CONFIG.logger.format, datefmt=CONFIG.logger.datefmt)
         # Si se quiere un logger de consola.
         if console:
             # Crea el handler de consola.
             console_handler = logging.StreamHandler()
-            console_handler.setLevel(getattr(logging, LOG_CFG.level, logging.INFO))
+            console_handler.setLevel(getattr(logging, CONFIG.logger.level, logging.INFO))
             console_handler.setFormatter(formatter)
             logger.addHandler(console_handler)                  # Añade el handler de consola.
         
         # Si se quiere un logger de fichero.
         if file:
             # Obtiene la ruta del fichero.
-            log_dir:str = os.path.join(LOG_CFG.path, file)          # Crea la ruta del fichero.
-            os.makedirs(os.path.dirname(log_dir), exist_ok=True)    # Crea el fichero.
+            log_dir:str = os.path.join(CONFIG.logger.directory, file)        # Crea la ruta del fichero.
+            os.makedirs(os.path.dirname(log_dir), exist_ok=True)        # Crea el fichero.
             # Crea el handler de fichero.
             file_handler = logging.handlers.RotatingFileHandler(
-                log_dir, maxBytes=LOG_CFG.maxBytes, backupCount=LOG_CFG.backupCount, encoding='utf-8')
-            file_handler.setLevel(getattr(logging, LOG_CFG.level, logging.INFO))
+                log_dir, maxBytes=CONFIG.logger.maxBytes, backupCount=CONFIG.logger.backupCount, encoding='utf-8')
+            file_handler.setLevel(getattr(logging, CONFIG.logger.level, logging.INFO))
             file_handler.setFormatter(formatter)
-            logger.addHandler(file_handler)                     # Añade el handler de fichero.
+            logger.addHandler(file_handler)                             # Añade el handler de fichero.
     
     # Retorna el logger.
     return logger

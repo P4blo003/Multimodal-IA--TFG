@@ -8,78 +8,51 @@
 # Flujo principal del programa.
 # -----------------------------------------------------------------------------
 
-# ---- Modulos ---- #
-import time
-
+# ---- MÓDULOS ---- #
 import logging
-from utils.log.logger import get_logger
-import utils.file.csv as CSV
+
+from common.log.logger import get_logger
 
 from ollama.server import OllamaServer
 from ollama.client import OllamaClient
-from ollama.classes import Response
+from ollama.schema import Response
+from ollama.model import model_installed, install_model
 
-# ---- Parámetros ---- #
-CSV_HEADERS:list[str] = ['total_time', 'tokens_prompt', 'generated_tokens', 'speed(TpS)']  # Cabeceras del CSV.
+from chat.session import ChatSession
 
-# ---- Main ---- #
+from config.context import CONFIG
+
+# ---- FLUJO PRINCIPAL ---- #
 if __name__ == "__main__":
     
-    # ---- Declaración de variables globales ---- #
-    logger:logging.Logger = get_logger(name=__name__, file="app.log")      # Crea el logger de main.
-    server:OllamaServer = None        # Inicializa el servidor como None.
-    client:OllamaClient = None        # Inicializa el cliente como None.
+    # -- Variables -- #
+    logger:logging.Logger = get_logger(name=__name__, file="app.log")       # Inicializa el logger.
+    server:OllamaServer = OllamaServer()                                    # Inicializa el servicio Ollama.
+    session:ChatSession = ChatSession()                                     # Inicializa la sesión.
     
-    # ---- Declaración de funciones ---- #
-    def end_program(exit_value:int = 0):
-        """
-        Finaliza el programa. Muestra un mensaje en el log informando del código de salida
-        del mismo.
+    # -- Lógica principal -- #
+    logger.info("Ejecución del programa iniciado.")
+    server.Start()              # Comienza la ejecución del servicio Ollama.
+    
+    # Comprueba si el modelo esta instalado. En caso de que no 
+    # lo este, lo instala.
+    if not model_installed(CONFIG.model.name):
+        logger.warning(f"No se ha encontrado el modelo {CONFIG.model.name}.")   # Imprime información.
+        # Instala el modelo.
+        install_model(CONFIG.ollama.executablePath, CONFIG.model.name)
+        logger.info(f"Modelo ({CONFIG.model.name}) instalado correctamente.")   # Imprime información.
+    # En caso de que exista el modelo.
+    else:
+        logger.info(f"Modelo ({CONFIG.model.name}) disponible.")   # Imprime información.
         
-        Args:
-            exit_value (int): Valor de salida del programa. Por defecto vale 0.
-        """
-        logger.info(f"Finalizado programa ({exit_value})")  # Imprime el mensaje.
-        exit(exit_value)        # Finaliza el programa con el código de salida.
-    
-    
-    # ---- Lógica principal ---- #
-    logger.info("Iniciado programa.")       # Imprime el inicio del programa.
-    
-    # Inicializa el servidor.
-    server = OllamaServer()                 # Inicia el servidor de ollama.
-    server.Start()                          # Inicia el servidor.    
-    
-    # Inicializa el cliente.
-    client = OllamaClient()                 # Inicia el cliente de ollama.
-    
-    # Inicializa el prompt.
-    prompt = ""                             # Inicializa el prompt como vacío.
-    
-    try:        
-            # Búcle infinito para escribir mensajes (chat).
-            while prompt.upper() != "QUIT":     # Mientras el prompt no sea "QUIT".
-                prompt = input("🧠: ")            # Solicita un mensaje al usuario.
-                
-                if prompt.upper() == "QUIT":    # Si el mensaje es "QUIT":
-                    break                       # Sale del bucle.
-                
-                reply:Response = client.send_message(prompt)    # Envía el mensaje al modelo y obtiene la respuesta.
-            
-                if reply:                                       # Si la respuesta no es None.
-                    print(f"🤖 ({reply.model}): {reply.response}")          # Imprime la respuesta.
-                
-    # En caso de que se detecte Ctrl+C (KeyboardInterrupt).
-    except KeyboardInterrupt:
-        print()                                 # Imprime una línea en blanco.
-        logger.info("Interrupción del programa por teclado.")
-        server.Stop()                           # Detiene el servidor.
-        end_program(exit_value=0)               # Finaliza el programa.
+    try:
+        session.Start()                                             # Inicia el chat.
 
-    # En caso de que haya alguna excepción.
+    except KeyboardInterrupt:
+        logger.info(f"Ctrl+C Detectado. Finalizada ejecución del programa.")
+        server.Stop()           # Finaliza la ejecución del servicio Ollama.
     except Exception as e:
-        logger.error(f"Error: {e}")             # Imprime el error.
+        logger.error(f"Error: {e}")
+        server.Stop()           # Finaliza la ejecución del servicio Ollama.
     
-    # Finaliza el servidor y el programa.
-    server.Stop()                           # Detiene el servidor.
-    end_program(exit_value=0)           # Finaliza el programa.
+    server.Stop()               # Finaliza la ejecución del servicio Ollama.

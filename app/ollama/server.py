@@ -15,9 +15,9 @@ import time
 import subprocess
 
 import logging
-from utils.log.logger import get_logger
+from common.log.logger import get_logger
 
-from config.context import OLLAMA_CFG
+from config.context import CONFIG, ENV
 
 # ---- Clases ---- #
 class OllamaServer:
@@ -29,8 +29,6 @@ class OllamaServer:
         """
         Inicializa el servidor de Ollama.
         """
-        self.__env = os.environ.copy()    # Copia las variables de entorno.
-        self.__env['OLLAMA_HOST'] = f"{OLLAMA_CFG.host}:{OLLAMA_CFG.port}"          # Establece los valores.
         self.__logger:logging.Logger = get_logger(name=__name__, file="app.log")    # Crea el logger de la clase.
         self.__process:subprocess.Popen = None                                      # Inicializa el proceso como None.
     
@@ -56,26 +54,26 @@ class OllamaServer:
         if self.__process:
             return
         # Si debe ser silencioso.
-        if OLLAMA_CFG.silent:
+        if CONFIG.ollama.silent:
             with open(os.devnull, 'w') as devnull:
                 self.__process = subprocess.Popen(
-                    [str(OLLAMA_CFG.bin)] + ["serve"],
-                    env=self.__env,
+                    [str(CONFIG.ollama.executablePath)] + ["serve"],
+                    env=ENV,
                     stdout=devnull,
                     stderr=devnull)
         # Si no debe ser silencioso.
         else:
-            with open(OLLAMA_CFG.file, 'w') as file:
+            with open(CONFIG.ollama.logFile, 'w') as file:
                 self.__process = subprocess.Popen(
-                    [str(OLLAMA_CFG.bin)] + ["serve"],
-                    env=self.__env,
+                    [str(CONFIG.ollama.executablePath)] + ["serve"],
+                    env=ENV,
                     stdout=file,
                     stderr=file)
         
         # Espera un tiempo para asegurar que el servidor se inicia correctamente.
-        time.sleep(OLLAMA_CFG.startupWaitTime)
+        time.sleep(CONFIG.ollama.startupWaitSeconds)
         # Imprime mensaje de información.
-        self.__logger.info(f"Servidor Ollama iniciado PID: {self.__process.pid} | URL: https://{OLLAMA_CFG.host}:{OLLAMA_CFG.port}")  # Imprime el mensaje.
+        self.__logger.info(f"Servidor Ollama iniciado PID: {self.__process.pid} | URL: https://{CONFIG.ollama.host}:{CONFIG.ollama.port}")  # Imprime el mensaje.
         
     def Stop(self):
         """
