@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: src/app.py
+# Archivo: app/app.py
 # Autor: Pablo González García
 # Descripción: 
 # Flujo principal del programa.
@@ -18,8 +18,6 @@ import utils.file.csv as CSV
 from ollama.server import OllamaServer
 from ollama.client import OllamaClient
 from ollama.classes import Response
-
-from config.context import SERVER_WAIT_TIME, OLLAMA_CFG
 
 # ---- Parámetros ---- #
 CSV_HEADERS:list[str] = ['total_time', 'tokens_prompt', 'generated_tokens', 'speed(TpS)']  # Cabeceras del CSV.
@@ -51,14 +49,9 @@ if __name__ == "__main__":
     # Inicializa el servidor.
     server = OllamaServer()                 # Inicia el servidor de ollama.
     server.Start()                          # Inicia el servidor.    
-    time.sleep(SERVER_WAIT_TIME)            # Espera x segundos para que el servidor esté listo.
     
     # Inicializa el cliente.
     client = OllamaClient()                 # Inicia el cliente de ollama.
-    
-    # Crea el fichero CSV para almacenar los parámetros.
-    measure_path:str = f"data/measure/{OLLAMA_CFG.model}.csv"
-    CSV.check_and_create_csv(file=measure_path, headers=CSV_HEADERS)  # Crea el fichero CSV.
     
     # Inicializa el prompt.
     prompt = ""                             # Inicializa el prompt como vacío.
@@ -75,16 +68,6 @@ if __name__ == "__main__":
             
                 if reply:                                       # Si la respuesta no es None.
                     print(f"🤖 ({reply.model}): {reply.response}")          # Imprime la respuesta.
-
-                    # Almacena los datos en el CSV:
-                    data = {
-                        "total_time":reply.total_time,
-                        "tokens_prompt":reply.tokens_prompt,
-                        "generated_tokens":reply.generated_tokens,
-                        "speed(TpS)":reply.generated_tokens / reply.total_time
-                    }
-                    # Almacena los datos en el CSV.
-                    CSV.write_csv(file=measure_path, data=data, headers=CSV_HEADERS)
                 
     # En caso de que se detecte Ctrl+C (KeyboardInterrupt).
     except KeyboardInterrupt:

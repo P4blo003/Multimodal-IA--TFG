@@ -31,13 +31,12 @@ class OllamaClient:
         """
         Inicializa el cliente de Ollama.
         """
-        self.__cfg = OLLAMA_CFG
-        self.__apiBaseUrl:str = f"http://{self.__cfg.host}:{self.__cfg.port}"
-        self.__chatHistory:ChatHistory = ChatHistory(self.__cfg.chatHistorySize)  # Inicializa el historial de mensajes.
+        self.__apiBaseUrl:str = f"http://{OLLAMA_CFG.host}:{OLLAMA_CFG.port}"
+        self.__chatHistory:ChatHistory = ChatHistory(OLLAMA_CFG.chatHistorySize)                    # Inicializa el historial de mensajes.
         
-        self.__logger:logging.Logger = get_logger(name=__name__, file="app.log", file_only=True)    # Crea el logger de la clase.
+        self.__logger:logging.Logger = get_logger(name=__name__, console=False,file="app.log")      # Crea el logger de la clase.
         
-        self.__checkModel()  # Comprueba si el modelo está disponible.
+        self.__checkModel()                                                                         # Comprueba si el modelo está disponible.
         self.__logger.info("Iniciado cliente de Ollama.")
     
     # -- Métodos privados -- #
@@ -56,19 +55,19 @@ class OllamaClient:
             # Obtiene la respuesta en formato JSON.
             models = response.json().get("models", [])
             # Comrpueba si existe algún modelo.
-            exist = any(model.get("name", "").startswith(self.__cfg.model) for model in models)
+            exist = any(model.get("name", "").startswith(OLLAMA_CFG.model) for model in models)
             # Si no existe, lo instala:
             if not exist:
-                self.__logger.warning(f"Modelo ({self.__cfg.model}) no instalado.")
+                self.__logger.warning(f"Modelo ({OLLAMA_CFG.model}) no instalado.")
                 try:
-                    install_model(self.__cfg.bin, model=self.__cfg.model)  # Instala el modelo.
-                    self.__logger.info(f"Modelo ({self.__cfg.model}) instalado.")
+                    install_model(OLLAMA_CFG.bin, model=OLLAMA_CFG.model)  # Instala el modelo.
+                    self.__logger.info(f"Modelo ({OLLAMA_CFG.model}) instalado.")
                 except Exception as e:
                     self.__logger.error(f"Error al instalar el modelo: {e}")
                     pass
         # En caso de que haya alguna excepción.
         except Exception as e:
-            self.__logger.error(f"Error al enviar el mensaje: {e}")
+            self.__logger.error(f"Error en la solicitud de los modelos: {e}")
             return None
 
     # -- Métodos públicos -- #
@@ -78,7 +77,7 @@ class OllamaClient:
         
         Args:
             message (str): Mensaje a enviar al modelo.
-        
+
         Returns:
             Response: Respuesta del modelo.
         """
@@ -88,7 +87,7 @@ class OllamaClient:
         url:str = f"{self.__apiBaseUrl}/api/generate"
         # Genera los datos a enviar al servicio ollama.
         payload = {
-            "model": self.__cfg.model,
+            "model": OLLAMA_CFG.model,
             **self.__chatHistory.get_payload(),
             "stream": False
         }

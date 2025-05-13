@@ -27,6 +27,7 @@ class OllamaConfig:
         file (str): Ruta al fichero de logs.
         model (str): Nombre del modelo de ollama.
         chatHistorySize (int): Tamaño del historial de mensajes.
+        startupWaitTime (int): Tiempo de espera para que el servidor esté listo.
     """
     # -- Parámetros -- #
     host:str = '0.0.0.0'
@@ -36,6 +37,7 @@ class OllamaConfig:
     file:str = 'logs/ollama_serve.log'
     model:str = 'llama3.1'
     chatHistorySize:int = 10
+    startupWaitTime:int = 5
 
 @dataclass
 class Response:

@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: src/ollama/server.py
+# Archivo: app/ollama/server.py
 # Autor: Pablo González García
 # Descripción: 
 # Módulo que contiene la clase OllamaServer, que se encarga de
@@ -11,6 +11,7 @@
 
 # ---- Modulos ---- #
 import os
+import time
 import subprocess
 
 import logging
@@ -29,10 +30,9 @@ class OllamaServer:
         Inicializa el servidor de Ollama.
         """
         self.__env = os.environ.copy()    # Copia las variables de entorno.
-        self.__cfg = OLLAMA_CFG
-        self.__env['OLLAMA_HOST'] = f"{self.__cfg.host}:{self.__cfg.port}"      # Establece los valores.
-        self.__logger:logging.Logger = get_logger(name=__name__, file="app.log", file_only=True)  # Crea el logger de la clase.
-        self.__process:subprocess.Popen = None                                  # Inicializa el proceso como None.
+        self.__env['OLLAMA_HOST'] = f"{OLLAMA_CFG.host}:{OLLAMA_CFG.port}"          # Establece los valores.
+        self.__logger:logging.Logger = get_logger(name=__name__, file="app.log")    # Crea el logger de la clase.
+        self.__process:subprocess.Popen = None                                      # Inicializa el proceso como None.
     
     # -- Propiedades -- #
     @property
@@ -56,23 +56,26 @@ class OllamaServer:
         if self.__process:
             return
         # Si debe ser silencioso.
-        if self.__cfg.silent:
+        if OLLAMA_CFG.silent:
             with open(os.devnull, 'w') as devnull:
                 self.__process = subprocess.Popen(
-                    [str(self.__cfg.bin)] + ["serve"],
+                    [str(OLLAMA_CFG.bin)] + ["serve"],
                     env=self.__env,
                     stdout=devnull,
                     stderr=devnull)
         # Si no debe ser silencioso.
         else:
-            with open(self.__cfg.file, 'w') as file:
+            with open(OLLAMA_CFG.file, 'w') as file:
                 self.__process = subprocess.Popen(
-                    [str(self.__cfg.bin)] + ["serve"],
+                    [str(OLLAMA_CFG.bin)] + ["serve"],
                     env=self.__env,
                     stdout=file,
                     stderr=file)
         
-        self.__logger.info(f"Servidor Ollama iniciado PID: {self.__process.pid} | URL: https://{self.__cfg.host}:{self.__cfg.port}")  # Imprime el mensaje.
+        # Espera un tiempo para asegurar que el servidor se inicia correctamente.
+        time.sleep(OLLAMA_CFG.startupWaitTime)
+        # Imprime mensaje de información.
+        self.__logger.info(f"Servidor Ollama iniciado PID: {self.__process.pid} | URL: https://{OLLAMA_CFG.host}:{OLLAMA_CFG.port}")  # Imprime el mensaje.
         
     def Stop(self):
         """

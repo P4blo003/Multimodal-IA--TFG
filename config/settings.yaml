@@ -20,10 +20,11 @@ logger:
   backup_count: 5         # Número de archivos de log de respaldo.
 
 ollama:
+  bin: 'bin/ollama/ollama'      # Nombre del binario.
   host: '127.0.0.1'             # Host del servicio ollama.
   port: 11434                   # Puerto del servicio ollama.
-  bin: 'bin/ollama/ollama'      # Nombre del binario.
   silent: False                 # Si se debe mostrar los mensajes del propio servicio de ollama.
-  log_file: 'logs/ollama_serve.log'      # Ruta al directorio de logs.
+  log_file: 'logs/ollamaServe.log'      # Ruta al directorio de logs.
   model: 'llama3.2:3b'          # Nombre del modelo a utilizar.
   chat_history_max_size: 10     # Tamaño máximo del historial de chat.
+  startup_wait_time: 5          # Tiempo de espera para el inicio del servicio (5 segundos).

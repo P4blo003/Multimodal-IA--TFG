@@ -24,7 +24,7 @@ def install_model(bin_path:str, model:str):
     """
     with open(os.devnull, 'w') as devnull:
         process = subprocess.run(
-            [bin_path, "run", model],
+            [bin_path, "pull", model],
             check=True,
             stdout=devnull,
             stderr=devnull

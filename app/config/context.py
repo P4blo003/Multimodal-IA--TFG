@@ -54,4 +54,5 @@ if os.path.exists(__settings_file):                     # Si existe el fichero.
                 OLLAMA_CFG.silent = ollama_cfg.get('silent', OLLAMA_CFG.silent)
                 OLLAMA_CFG.file = ollama_cfg.get('log_file', OLLAMA_CFG.file)
                 OLLAMA_CFG.model = ollama_cfg.get('model', OLLAMA_CFG.model)
-                OLLAMA_CFG.chatHistorySize = ollama_cfg.get('chat_history_size', OLLAMA_CFG.chatHistorySize)        
+                OLLAMA_CFG.chatHistorySize = ollama_cfg.get('chat_history_size', OLLAMA_CFG.chatHistorySize)   
+                OLLAMA_CFG.startupWaitTime = ollama_cfg.get('startup_wait_time', OLLAMA_CFG.startupWaitTime)     
