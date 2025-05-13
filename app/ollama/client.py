@@ -17,7 +17,6 @@ import requests
 
 from .response import process_response
 from .schema import Response
-from .chat import ChatHistory
 
 from config.context import CONFIG, ENV
 
@@ -32,28 +31,25 @@ class OllamaClient:
         Inicializa el cliente de Ollama.
         """
         self.__url:str = f"http://{ENV['OLLAMA_HOST']}/api/generate"                                # Genera la URL del servicio Ollama.
-        self.__chatHistory:ChatHistory = ChatHistory(CONFIG.ollama.historyMaxSize)                  # Inicializa el historial de mensajes.
         self.__logger:logging.Logger = get_logger(name=__name__, console=False,file="app.log")      # Crea el logger de la clase.
         self.__logger.info("Iniciado cliente de Ollama.")
 
 
     # -- Métodos públicos -- #
-    def send_message(self, message:str) -> Response:
+    def send_message(self, prompt:str) -> Response:
         """
         Envía un mensaje al modelo de Ollama y devuelve la respuesta.
         
         Args:
-            message (str): Mensaje a enviar al modelo.
+            prompt (str): Prompt a enviar al modelo.
 
         Returns:
             Response: Respuesta del modelo.
         """
-        # Añade el mensaje al historial.
-        self.__chatHistory.add_message(role="user", message=message)
         # Genera los datos a enviar al servicio ollama.
         payload = {
             "model": CONFIG.model.name,
-            **self.__chatHistory.get_payload(),
+            "prompt": prompt,
             "stream": False
         }
         # Imprime información del mensaje.
@@ -67,8 +63,6 @@ class OllamaClient:
             fmt_response = process_response(reply)  # Procesa la respuesta.
             # Si se ha procesado la respuesta correctamente.
             if fmt_response:
-                # Añade el mensaje al historial.
-                self.__chatHistory.add_message(role="assistant", message=fmt_response.response)
                 self.__logger.info(f"FROM: {self.__url} | RESPONSE: {fmt_response.response} | PROMPT_TOKENS: {fmt_response.tokens_prompt} | GEN_TOKENS: {fmt_response.generated_tokens} | TOTAL_TIME: {fmt_response.total_time} s.")  # Imprime la respuesta.
             # Retorna la respuesta formateada.
             return fmt_response

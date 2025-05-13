@@ -1,0 +1,17 @@
+{{ system_prompt }}
+
+{% if context %}
+Información relevante del sistema:
+{% for chunk in context %}
+- {{ chunk }}
+{% endfor %}
+{% endif %}
+
+{% if history %}
+Historial reciente:
+{% for message in history %}
+{{ message.role|capitalize }}: {{ message.content}}
+{% endfor %}
+{% endif %}
+
+Usuario: {{ user_input }}

@@ -24,6 +24,17 @@ class ChatHistory:
         self.__messages:List[Dict[str, str]] = []
         self.__maxSize:int = size
     
+    # -- Propiedades -- #
+    @property
+    def Messages(self) -> List[Dict[str, str]]:
+        """
+        Devuelve el listado de mensajes.
+        
+        Returns:
+            List[Dict[str, str]]: Lista con los mensajes.
+        """
+        return self.__messages
+    
     # -- Métodos públicos -- #
     def add_message(self, role:str, message:str):
         """
@@ -40,15 +51,3 @@ class ChatHistory:
         
         # Añade el nuevo mensaje al historial.
         self.__messages.append({'role': role, 'content': message})
-    
-    def get_payload(self) -> List[Dict[str, str]]:
-        """
-        Devuelve el historial de mensajes en el formato adecuado para la API.
-        
-        Returns:
-            List[Dict[str, str]]: Historial de mensajes.
-        """
-        prompt = "\n".join(
-            f"{m['role']}: {m['content']}" for m in self.__messages
-        )
-        return {"prompt":prompt}
