@@ -79,8 +79,24 @@ class ChatConfig(BaseModel):
         type (str): Tipo de chat. Valores válidos: basic, prompted, rag.
         exitCommands (List[str]): Lista de comandos permitidos para salir del chat.
     """
+    # -- Parámetros -- #
     type:str = Field(pattern="basic|prompted|rag")
     exitCommands:List[str]
+    
+class RagConfig(BaseModel):
+    """
+    Configuración general del sistema RAG.
+    
+    Attributes:
+        backend (str): El backend a emplear. Puede ser 'haystack' o 'langchain'
+        docDirectory (str): Directorio donde se almacenan los documentos a comprobar.
+        validExtensions (List[str]): Lista con las extensiones válidas.
+    """
+    # -- Parámetros -- #
+    backend:str
+    docDirectory:str
+    validExtensions:List[str]
+    
 
 class AppConfig(BaseModel):
     """
@@ -97,3 +113,4 @@ class AppConfig(BaseModel):
     ollama:OllamaConfig
     model:ModelConfig
     chat:ChatConfig
+    rag:RagConfig

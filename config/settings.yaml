@@ -41,3 +41,9 @@ model:
 chat:
   type: basic       # Tipo del chat.
   exitCommands: ['EXIT', 'QUIT', 'SALIR'] # Comandos para salir del chat.
+
+# -- Configuración del rag -- #
+rag:
+  backend: 'haystack'
+  docDirectory: 'data/raw'
+  validExtensions: ['.pdf', '.docx', '.txt', '.csv']
