@@ -5,10 +5,11 @@
 # Archivo: src/config/context.py
 # Autor: Pablo González García
 # Descripción:
-# Este módulo se encarga de cargar la configuración del proyecto desde el 
+# Módulo que se encarga de cargar la configuración del proyecto desde el 
 # archivo `settings.yaml` y variables de entorno `.env`. Valida
 # automáticamente la estructura.
 # -----------------------------------------------------------------------------
+
 
 # ---- Modulos ---- #
 import os
@@ -17,6 +18,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from config.schema import AppConfig
+
 
 # ---- Clases ---- #
 class Config:

@@ -2,11 +2,12 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: app/utils/log/logger.py
+# Archivo: app/common/log/logger.py
 # Autor: Pablo González García
 # Descripción:
 # Módulo con clases y funciones relacionadas con los loggers del programa.
 # -----------------------------------------------------------------------------
+
 
 # ---- MÓDULOS ---- #
 import logging.handlers

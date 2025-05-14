@@ -8,6 +8,7 @@
 # Módulo que contiene las clases relacionadas con ollama.
 # -----------------------------------------------------------------------------
 
+
 # ---- Módulos ---- #
 from dataclasses import dataclass
 

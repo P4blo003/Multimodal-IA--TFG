@@ -9,6 +9,7 @@
 # interactuar con el modelo de Ollama.
 # -----------------------------------------------------------------------------
 
+
 # ---- Modulos ---- #
 import logging
 from common.log.logger import get_logger
@@ -19,6 +20,7 @@ from .response import process_response
 from .schema import Response
 
 from config.context import CONFIG, ENV
+
 
 # ---- Clases ---- #
 class OllamaClient:

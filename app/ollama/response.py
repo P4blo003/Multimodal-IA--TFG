@@ -8,8 +8,10 @@
 # Módulo que contiene métodos para procesar la respuesta del modelo de Ollama.
 # -----------------------------------------------------------------------------
 
+
 # ---- Módulos ---- #
 from .schema import Response
+
 
 # ---- Funciones ----
 def process_response(reply) -> Response:

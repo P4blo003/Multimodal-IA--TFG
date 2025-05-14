@@ -9,6 +9,7 @@
 # iniciar y detener el servidor de Ollama.
 # -----------------------------------------------------------------------------
 
+
 # ---- Modulos ---- #
 import os
 import time
@@ -18,6 +19,7 @@ import logging
 from common.log.logger import get_logger
 
 from config.context import CONFIG, ENV
+
 
 # ---- Clases ---- #
 class OllamaServer:

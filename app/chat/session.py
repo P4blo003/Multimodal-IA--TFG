@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: app/utils/log/logger.py
+# Autor: Pablo González García
+# Descripción:
+# Módulo con clases y funciones encargadas de gestionar la sesión
+# del cliente con el modelo de Ollama.
+# -----------------------------------------------------------------------------
 
 
 # ---- MÓDULOS ---- #

@@ -1,3 +1,12 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: src/config/schema.py
+# Autor: Pablo González García
+# Descripción:
+# Módulo con clases y funciones relacionadas con el chat del modelo.
+# -----------------------------------------------------------------------------
 
 
 # ---- MÓDULOS ---- #

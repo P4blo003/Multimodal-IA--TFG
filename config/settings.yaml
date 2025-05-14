@@ -24,7 +24,7 @@ logger:
 # -- Configuración del servicio Ollama -- #
 ollama:
   executablePath: 'bin/ollama/ollama'      # Nombre del binario.
-  host: '127.0.0.1'             # Host del servicio ollama.
+  host: '0.0.0.0'             # Host del servicio ollama.
   port: 11434                   # Puerto del servicio ollama.
   silent: False                 # Si se debe mostrar los mensajes del propio servicio de ollama.
   startupWaitSeconds: 5         # Tiempo de espera para el inicio del servicio (5 segundos).

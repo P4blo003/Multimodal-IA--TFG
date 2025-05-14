@@ -5,14 +5,16 @@
 # Archivo: src/config/schema.py
 # Autor: Pablo González García
 # Descripción:
-# Este módulo define el esquema de validación de la configuración principal
+# Módulo que define el esquema de validación de la configuración principal
 # del asistente. Permite garantizar que el archivo `settings.yaml` cumple
 # con los requisitos esperados en cuanto a tipos, formato y restricciones.
 # -----------------------------------------------------------------------------
 
+
 # ---- MÓDULOS ---- #
 from pydantic import BaseModel, Field
 from typing import List
+
 
 # ---- CLASES ---- #
 class LoggerConfig(BaseModel):

@@ -1,7 +1,19 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: src/ollama/client.py
+# Autor: Pablo González García
+# Descripción: 
+# Módulo que contiene la clase base relacionada con la estrategia del
+# prompting empleada.
+# -----------------------------------------------------------------------------
+
 
 # ---- MÓDULOS ---- #
 from abc import ABC, abstractmethod
 from typing import List, Dict
+
 
 # ---- CLASES ---- #
 class PromptStrategy(ABC):

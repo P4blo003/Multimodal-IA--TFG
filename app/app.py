@@ -18,8 +18,6 @@ from ollama.client import OllamaClient
 from ollama.schema import Response
 from ollama.model import model_installed, install_model
 
-from rag.monitor import init_continuous_ingestion
-
 from chat.session import ChatSession
 
 from config.context import CONFIG
@@ -35,7 +33,6 @@ if __name__ == "__main__":
     # -- Lógica principal -- #
     logger.info("Ejecución del programa iniciado.")
     server.Start()              # Comienza la ejecución del servicio Ollama.
-    observer = init_continuous_ingestion() # Comienaza la ingesta continua.
     
     # Comprueba si el modelo esta instalado. En caso de que no 
     # lo este, lo instala.
@@ -54,11 +51,8 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         logger.info(f"Ctrl+C Detectado. Finalizada ejecución del programa.")
         server.Stop()           # Finaliza la ejecución del servicio Ollama.
-        observer.stop()
     except Exception as e:
         logger.error(f"Error: {e}")
         server.Stop()           # Finaliza la ejecución del servicio Ollama.
-        observer.stop()
     
     server.Stop()               # Finaliza la ejecución del servicio Ollama.
-    observer.stop()
