@@ -17,7 +17,6 @@ import subprocess
 from pathlib import Path
 
 from yaspin import yaspin
-from yaspin.spinners import Spinners
 
 import logging
 from common.logger import get_logger
