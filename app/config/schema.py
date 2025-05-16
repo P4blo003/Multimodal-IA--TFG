@@ -17,6 +17,17 @@ from typing import List
 
 
 # ---- CLASES ---- #
+class SystemConfig(BaseModel):
+    """
+    Configuración del sistema.
+    
+    Attributes:
+        logsDirectory (str): 
+    """
+    # -- Atributos -- #
+    logsDirectory:str       # La ruta del directorio de logs.
+    
+    
 class LoggerConfig(BaseModel):
     """
     Configuración del servicio de Ollama.
@@ -25,7 +36,6 @@ class LoggerConfig(BaseModel):
         level (str): Indica el nivel mínimo de severidad de los mensajes que serán registrados.
         format (str): Formato de los mensajes del log.
         datefmt (str): Formato de la fecha de los mensajes del log.
-        directory (str): Ruta a la carpeta de logs.
         maxBytes (int): Tamaño máximo en bytes del fichero log.
         backupCount (int): Controla cuántos archivos de respaldo se conservan al hacer rotación de logs.
     """
@@ -33,7 +43,6 @@ class LoggerConfig(BaseModel):
     level:str = Field(default='INFO', pattern="DEBUG|INFO|WARNING|ERROR|CRITICAL")
     format:str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     datefmt:str = '%Y-%m-%d %H:%M:%S'
-    directory:str = 'logs'
     maxBytes:int = 10 * 1024 * 1024 # 10MB.
     backupCount:int = 5
 
@@ -93,12 +102,17 @@ class RagConfig(BaseModel):
         backend (str): El backend a emplear. Puede ser 'haystack' o 'langchain'
         docDirectory (str): Directorio donde se almacenan los documentos a comprobar.
         validExtensions (List[str]): Lista con las extensiones válidas.
+        embeddingModel (str): El modelo empleado para obtener los embeddings.
+        modelDirectory (str): La ruta de almacenamiento del modelo.
+        logFile (str): El log del backend rag.
     """
     # -- Parámetros -- #
     backend:str
     docDirectory:str
     validExtensions:List[str]
-    
+    embeddingModel:str
+    modelDirectory:str
+    logFile:str
 
 class AppConfig(BaseModel):
     """
@@ -111,6 +125,7 @@ class AppConfig(BaseModel):
         chat (ChatConfig): Sección de configuración del chat.
     """
     # -- Parámetros -- #
+    system:SystemConfig
     logger:LoggerConfig
     ollama:OllamaConfig
     model:ModelConfig

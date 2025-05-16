@@ -12,29 +12,32 @@
 
 # ---- Parámetros ---- #
 
+# -- Configuración del sistema -- #
+system:
+  logsDirectory: 'logs'   # Ruta del directorio de logs.
+
 # -- Configuración de logging -- #
 logger:
   level: INFO             # Nivel de log: DEBIG, INFO, WARNING, ERROR, CRITICAL
   format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'    # Formato del mensaje del log.
   datefmt: '%d-%m-%Y %H:%M:%S'    # Formato de la fecha.
-  directory: 'logs'           # Ruta al directorio de logs.
   maxBytes: 10485760         # 10 MB.
   backupCount: 5             # Número de archivos de log de respaldo.
 
 # -- Configuración del servicio Ollama -- #
 ollama:
   executablePath: 'bin/ollama/ollama'      # Nombre del binario.
-  host: '0.0.0.0'             # Host del servicio ollama.
+  host: '127.0.0.1'             # Host del servicio ollama.
   port: 11434                   # Puerto del servicio ollama.
   silent: False                 # Si se debe mostrar los mensajes del propio servicio de ollama.
   startupWaitSeconds: 5         # Tiempo de espera para el inicio del servicio (5 segundos).
-  logFile: 'logs/ollama_serve.log'      # Ruta al directorio de logs.
+  logFile: 'ollama.serve.log'   # Nombre del fichero de logs de ollama.
   historyMaxSize: 10            # Tamaño máximo del historial de chat.
 
 # -- Configuración del modelo -- #
 model:
-  name: 'llama3:8b'           # Nombre del modelo a utilizar.
-  temperature: 0.7            # Parámetro que controla la aleatoriedad de las respuestas.
+  name: 'deepseek-r1:8b'      # Nombre del modelo a utilizar.
+  temperature: 0.2            # Parámetro que controla la aleatoriedad de las respuestas.
   maxTokens: 1024             # Número máximo de tokens a generar.
 
 # -- Configuración del chat -- #
@@ -44,6 +47,9 @@ chat:
 
 # -- Configuración del rag -- #
 rag:
-  backend: 'haystack'
-  docDirectory: 'data/raw'
-  validExtensions: ['.pdf', '.docx', '.txt', '.csv']
+  backend: 'haystack'           # Backend empleado.
+  docDirectory: 'data/raw'      # Directorio de los documentos.
+  validExtensions: ['.pdf', '.docx', '.txt', '.csv']  # Extensiones disponibles.
+  embeddingModel: 'sentence-transformers/all-MiniLM-L6-v2'  # Modelo de embedding.
+  modelDirectory: 'resources/models'                       # Ruta de almacenamiento del modelo.
+  logFile: 'rag.backend.log'    # Log del backend rag.

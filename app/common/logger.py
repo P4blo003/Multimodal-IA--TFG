@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: app/common/log/logger.py
+# Archivo: app/common/logger.py
 # Autor: Pablo González García
 # Descripción:
 # Módulo con clases y funciones relacionadas con los loggers del programa.
@@ -58,7 +58,7 @@ def get_logger(name:str, console:bool=True, file:str=None) -> logging.Logger:
         # Si se quiere un logger de fichero.
         if file:
             # Obtiene la ruta del fichero.
-            log_dir:str = os.path.join(CONFIG.logger.directory, file)        # Crea la ruta del fichero.
+            log_dir:str = os.path.join(CONFIG.system.logsDirectory, file)        # Crea la ruta del fichero.
             os.makedirs(os.path.dirname(log_dir), exist_ok=True)        # Crea el fichero.
             # Crea el handler de fichero.
             file_handler = logging.handlers.RotatingFileHandler(

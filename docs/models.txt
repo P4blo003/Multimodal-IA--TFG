@@ -8,7 +8,7 @@
 # Contiene los modelos empleados.
 # -----------------------------------------------------------------------------
 
--- Modelos empleados --
+-- Modelos LAM empleados --
 Llama:
     - LLama 3.2             3B          2.0 GB          llama3.2:3b
     - Llama 3.1             8B          4.9 GB          llama3.1:8b
@@ -26,6 +26,11 @@ Qwen:
     - Qwen 3                14B         9.3 GB          qwen3:14b
 Mistral:
     - Mistral Small 3.1     24B         15 GB           mistral-small3.1:24b
+
+-- Modelos Embedding empleados --
+    - sentence-transformers/all-MiniLM-L6-v2
+    - sentence-transformers/all-mpnet-base-v2
+    - sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 
 
 Preguntas realizadas:

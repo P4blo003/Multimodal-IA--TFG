@@ -14,5 +14,6 @@ __pycache__/
 bin/
 data/
 logs/
+resources/models
 # Variables del programa.
 .env

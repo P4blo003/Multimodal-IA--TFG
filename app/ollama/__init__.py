@@ -5,6 +5,3 @@
 # Archivo: src/ollama/__init__.py
 # Autor: Pablo González García
 # -----------------------------------------------------------------------------
-
-# ---- Módulos ---- #
-from .model import install_model
