@@ -92,11 +92,11 @@ class OllamaServer:
         Comprueba que el modelo este instalado y en caso de que no lo este, lo instala.
         """
         # Si el modelo no esta instalado.
-        if not model_installed(CONFIG.model.name):
+        if not model_installed(ollama_host=ENV["OLLAMA_HOST"], model_name=CONFIG.model.name):
             self.__logger.warning(f"Modelo {CONFIG.model.name} no encontrado.")  # Imprime información.
             # Instala el modelo.
             with yaspin(text="Instalando modelo ...") as sp:
-                install_model(CONFIG.ollama.executablePath, CONFIG.model.name)
+                install_model(bin_path=CONFIG.ollama.executablePath, model_name=CONFIG.model.name)
             self.__logger.info(f"Modelo {CONFIG.model.name} instalado.")                        # Imprime información.
 
     # -- Métodos públicos -- #

@@ -13,24 +13,22 @@
 # ---- Múdulos ---- #
 import os
 import subprocess
-
 import requests
-
-from config.context import ENV
 
 
 # ---- Funciones ---- #
-def model_installed(model_name:str) -> bool:
+def model_installed(ollama_host:str, model_name:str) -> bool:
     """
     Comprueba si el modelo de ollama existe.
     
     Args:
+        ollama_host (str): Host de ollama en la forma IP:Puerto.
         model_name (str): Nombre del model.
     Returns:
         bool: True si el modelo existe y False en otro caso.
     """
     # Crea la URL completa.
-    url:str = f"http://{ENV['OLLAMA_HOST']}/api/tags"
+    url:str = f"http://{ollama_host}/api/tags"
     # Solicita la lista de modelos al servicio ollama.
     response = requests.get(url)
     response.raise_for_status()  # Lanza un error si la respuesta no es 200
@@ -41,17 +39,17 @@ def model_installed(model_name:str) -> bool:
     # Devuelve si existe o no.
     return exist
     
-def install_model(bin_path:str, model:str):
+def install_model(bin_path:str, model_name:str):
     """
     Instala el modelo de Ollama.
     
     Args:
         bin_path (str): Ruta al binario de Ollama.
-        model (str): Nombre del modelo a instalar.
+        model_name (str): Nombre del modelo a instalar.
     """
     with open(os.devnull, 'w') as devnull:
         process = subprocess.run(
-            [bin_path, "pull", model],
+            [bin_path, "pull", model_name],
             check=True,
             stdout=devnull,
             stderr=devnull

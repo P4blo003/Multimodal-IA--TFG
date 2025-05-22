@@ -11,7 +11,9 @@
 
 # ---- MÓDULOS ---- #
 import os
+import io
 from pathlib import Path
+from contextlib import redirect_stdout
 
 from .base import LAMBackend
 
@@ -72,12 +74,12 @@ class HaystackBackend(LAMBackend):
         converter:MultiFileConverter = MultiFileConverter()
         preprocessor:DocumentPreprocessor = DocumentPreprocessor()
         path:str = os.path.join(CONFIG.rag.modelDirectory, CONFIG.rag.embeddingModel)
-        embedder:SentenceTransformersDocumentEmbedder = SentenceTransformersDocumentEmbedder(model={path})
+        indexingEmbedder:SentenceTransformersDocumentEmbedder = SentenceTransformersDocumentEmbedder(model=self.ModelPath)
         writer = DocumentWriter(document_store=self.__docStore)
         # Añade los componetnes.
         self.__indexingPipeline.add_component("converter", converter)
         self.__indexingPipeline.add_component("preprocessor", preprocessor)
-        self.__indexingPipeline.add_component("embedder", embedder)
+        self.__indexingPipeline.add_component("embedder", indexingEmbedder)
         self.__indexingPipeline.add_component("writer", writer)
         # Conecta los componentes.
         self.__indexingPipeline.connect("converter", "preprocessor")
@@ -91,4 +93,5 @@ class HaystackBackend(LAMBackend):
         """
         dir_path:Path = Path(CONFIG.rag.docDirectory)
         file_paths:list = [str(file) for file in dir_path.iterdir() if file.is_file()]
-        self.__indexingPipeline.run({"converter": {"sources": file_paths}})
+        with redirect_stdout(io.StringIO()):
+            self.__indexingPipeline.run({"converter": {"sources": file_paths}})

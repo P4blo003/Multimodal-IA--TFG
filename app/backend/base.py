@@ -47,6 +47,15 @@ class LAMBackend(ABC):
         Devuelve el logger de la clase.
         """
         return self.__logger
+    @property
+    def ModelPath(self) -> str:
+        """
+        Devuelve el directorio del modelo.
+        
+        Returns:
+            str: El directorio del modelo.
+        """
+        return self.__modelPath
 
     # -- Métodos privados -- #
     def __check_model(self):
@@ -63,7 +72,7 @@ class LAMBackend(ABC):
                 self.__modelPath:str = install_model(model=CONFIG.rag.embeddingModel, dir=path,silent=True)
             # Si se ha devuelto la ruta del modelo.
             if self.__modelPath:
-                self.__logger.info(f"Modelo embeddings {model_real_name} instalado.")                           # Imprime información.
+                self.__logger.info(f"Modelo embeddings {model_real_name} instalado. PATH: {self.__modelPath}")  # Imprime información.
             else:
                 self.__logger.error(f"No se pudo descargar el modelo {model_real_name}.")                       # Imprime información.
 
