@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: src/config/context.py
+# Archivo: app/config/context.py
 # Autor: Pablo González García
 # Descripción:
 # Módulo que se encarga de cargar la configuración del proyecto desde el 

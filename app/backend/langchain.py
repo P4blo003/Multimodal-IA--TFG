@@ -1,3 +1,12 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: app/backend/langchain.py
+# Autor: Pablo González García
+# Descripción: 
+
+# -----------------------------------------------------------------------------
 
 
 # ---- MÓDULOS ---- #

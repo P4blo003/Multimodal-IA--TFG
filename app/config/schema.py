@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: src/config/schema.py
+# Archivo: app/config/schema.py
 # Autor: Pablo González García
 # Descripción:
 # Módulo que define el esquema de validación de la configuración principal

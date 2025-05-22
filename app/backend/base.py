@@ -1,16 +1,28 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: app/backend/base.py
+# Autor: Pablo González García
+# Descripción: 
+# Módulo que define la clase base 'LAMBackend' para la gestión del backend
+# de la aplicación. Esta clase abstracta establece la estructura básica,
+# la comprobación e instalación del modelo de embeddings.
+# -----------------------------------------------------------------------------
 
 
 # ---- MÓDULOS ---- #
 import os
-from abc import ABC
+from abc import ABC, abstractmethod
 from yaspin import yaspin
 
 import logging
 from common.logger import get_logger
 
-from .model import get_real_name, install_model
+from huggingface.model import get_real_name, install_model
 
 from config.context import CONFIG
+
 
 # ---- CLASES ---- #
 class LAMBackend(ABC):
@@ -48,7 +60,17 @@ class LAMBackend(ABC):
             model_real_name:str = get_real_name(CONFIG.rag.embeddingModel)
             self.__logger.warning(f"Modelo embeddings {model_real_name} no encontrado. Instalando ...")     # Imprime información.
             with yaspin(text=f"Instalando modelo {CONFIG.rag.embeddingModel} ...") as sp:
-                install_model(model=CONFIG.rag.embeddingModel, dir=path,silent=True)
-            self.__logger.info(f"Modelo embeddings {model_real_name} instalado.")                           # Imprime información.
+                self.__modelPath:str = install_model(model=CONFIG.rag.embeddingModel, dir=path,silent=True)
+            # Si se ha devuelto la ruta del modelo.
+            if self.__modelPath:
+                self.__logger.info(f"Modelo embeddings {model_real_name} instalado.")                           # Imprime información.
+            else:
+                self.__logger.error(f"No se pudo descargar el modelo {model_real_name}.")                       # Imprime información.
 
     # -- Métodos abstractos -- #
+    @abstractmethod
+    def IndexDocuments(self):
+        """
+        Indexa los documentos.
+        """
+        pass
