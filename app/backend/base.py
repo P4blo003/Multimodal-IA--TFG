@@ -2,8 +2,7 @@
 
 # ---- MÓDULOS ---- #
 import os
-from abc import ABC, abstractmethod
-
+from abc import ABC
 from yaspin import yaspin
 
 import logging
@@ -48,7 +47,8 @@ class LAMBackend(ABC):
         if not os.path.exists(path=path):
             model_real_name:str = get_real_name(CONFIG.rag.embeddingModel)
             self.__logger.warning(f"Modelo embeddings {model_real_name} no encontrado. Instalando ...")     # Imprime información.
-            # #TODO: Instala el modelo.
+            with yaspin(text=f"Instalando modelo {CONFIG.rag.embeddingModel} ...") as sp:
+                install_model(model=CONFIG.rag.embeddingModel, dir=path,silent=True)
             self.__logger.info(f"Modelo embeddings {model_real_name} instalado.")                           # Imprime información.
 
     # -- Métodos abstractos -- #
