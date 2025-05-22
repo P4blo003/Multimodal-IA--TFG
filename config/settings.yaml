@@ -15,6 +15,7 @@
 # -- Configuración del sistema -- #
 system:
   logsDirectory: 'logs'   # Ruta del directorio de logs.
+  cacheDirectory: 'data/cache'  # Ruta del directorio de cache.
 
 # -- Configuración de logging -- #
 logger:
@@ -53,3 +54,4 @@ rag:
   embeddingModel: 'sentence-transformers/all-MiniLM-L6-v2'  # Modelo de embedding.
   modelDirectory: 'resources/models'                       # Ruta de almacenamiento del modelo.
   logFile: 'rag.backend.log'    # Log del backend rag.
+  modelsFile: 'model.cache.json'  # Fichero para almacenar los modelos descargados.

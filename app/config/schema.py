@@ -22,11 +22,12 @@ class SystemConfig(BaseModel):
     Configuración del sistema.
     
     Attributes:
-        logsDirectory (str): 
+        logsDirectory (str): Ruta del directorio de logs.
+        cacheDirectory (str): Ruta del directorio de cache.
     """
     # -- Atributos -- #
     logsDirectory:str       # La ruta del directorio de logs.
-    
+    cacheDirectory:str      # Ruta del directorio de cache.
     
 class LoggerConfig(BaseModel):
     """
@@ -105,6 +106,7 @@ class RagConfig(BaseModel):
         embeddingModel (str): El modelo empleado para obtener los embeddings.
         modelDirectory (str): La ruta de almacenamiento del modelo.
         logFile (str): El log del backend rag.
+        modelsFile (str): Fichero para almacenar los modelos descargados.
     """
     # -- Parámetros -- #
     backend:str
@@ -113,6 +115,7 @@ class RagConfig(BaseModel):
     embeddingModel:str
     modelDirectory:str
     logFile:str
+    modelsFile:str
 
 class AppConfig(BaseModel):
     """
