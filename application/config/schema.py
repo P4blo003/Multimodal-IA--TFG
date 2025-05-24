@@ -103,7 +103,9 @@ class RagConfig(BaseModel):
     
     Attributes:
         backend (str): El backend empleado.
-        topKDocs (int): Cuantos de los mejores documentos se usan para el RAG.
+        splitLength (int): Tamaño del chunk en tokens/palabras.
+        splitOverlap (int): Overlap para mantener contexto entre chunks.
+        topK (int): El número de chunks más relevantes que se recuperan.
         docDirectory (str): Directorio de documentos.
         persistDirectory (str): Donde se almacenan los embeddings calculados.
         embeddingDim (int): Tamaño del embedding.
@@ -113,7 +115,9 @@ class RagConfig(BaseModel):
     """
     # -- Atributes -- #
     backend:str = Field(default='HAYSTACK', pattern="HAYSTACK|LANGCHAIN")
-    topKDocs:int
+    splitLength:int
+    splitOverlap:int
+    topK:int
     docDirectory:str
     persistDirectory:str
     embeddingDim:int

@@ -48,7 +48,9 @@ chat:
 # -- Configuración del RAG -- #
 rag:
   backend: 'HAYSTACK'                   # El backend empleado. Puede ser HAYSTACK | LANGCHAIN
-  topKDocs: 2                           # Cuantos de los mejores documentos se usan para el RAG.
+  splitLength: 300                      # Tamaño del chunk en tokens/palabras.
+  splitOverlap: 50                      # Overlap para mantener contexto entre chunks.
+  topK: 10                              # El número de chunks más relevantes que se recuperan.
   docDirectory: 'data/raw'              # Directorio de documentos.
   persistDirectory: 'data/persistence'  # Directorio de persistencia de embeddings.
   embeddingDim: 384                     # Tamaño del embedding.

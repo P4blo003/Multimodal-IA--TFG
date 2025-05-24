@@ -14,6 +14,7 @@ from haystack.components.converters import MultiFileConverter
 from haystack.components.preprocessors import DocumentPreprocessor
 from haystack.components.embedders import SentenceTransformersDocumentEmbedder
 from haystack.components.embedders import SentenceTransformersTextEmbedder
+from haystack.components.preprocessors import DocumentSplitter
 from haystack.components.writers import DocumentWriter
 from haystack.components.builders import PromptBuilder
 from haystack_integrations.components.retrievers.qdrant import QdrantEmbeddingRetriever
@@ -57,7 +58,7 @@ class HaystackManager(BackendManager):
         """
         # Inicializa los componentes.
         __converter:MultiFileConverter = MultiFileConverter()
-        __preprocessor:DocumentPreprocessor = DocumentPreprocessor()
+        __preprocessor:DocumentPreprocessor = DocumentPreprocessor(split_by="word", split_length=CFG.rag.splitLength, split_overlap=CFG.rag.splitOverlap)
         __embedder:SentenceTransformersDocumentEmbedder = SentenceTransformersDocumentEmbedder(os.path.join(CFG.rag.embeddingModelDirectory, CFG.rag.embeddingModel))
         __writer:DocumentWriter = DocumentWriter(document_store=self.__docStore)
         
@@ -78,7 +79,7 @@ class HaystackManager(BackendManager):
         """
         # Inicializa los componentes.
         __embedder:SentenceTransformersTextEmbedder = SentenceTransformersTextEmbedder(os.path.join(CFG.rag.embeddingModelDirectory, CFG.rag.embeddingModel))
-        __retriever:QdrantEmbeddingRetriever = QdrantEmbeddingRetriever(document_store=self.__docStore)
+        __retriever:QdrantEmbeddingRetriever = QdrantEmbeddingRetriever(document_store=self.__docStore, top_k=CFG.rag.topK)
         
         # Añade los componentes.
         self.__retrievePipeline.add_component("embedder", __embedder)
@@ -103,11 +104,9 @@ class HaystackManager(BackendManager):
         with open(os.devnull, "w") as devnull:
             with redirect_stdout(devnull), redirect_stderr(devnull):
                 results = self.__retrievePipeline.run({"embedder" : {"text" : user_input}})
-                
-        __topDocs = results["retriever"]["documents"][:CFG.rag.topKDocs]    # Obtiene los topKDocs mejores documentos.
         
         # Devuelve el prompt generado.
-        return self.__promptBuilder.run(context=__topDocs, history=history.GetHistory(), user_input=user_input)["prompt"]
+        return self.__promptBuilder.run(context=results["retriever"]["documents"], history=history.GetHistory(), user_input=user_input)["prompt"]
 
     # -- Métodos públicos -- #
     def EmbedDocuments(self) -> any:
