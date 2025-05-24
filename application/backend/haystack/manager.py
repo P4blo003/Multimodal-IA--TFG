@@ -104,9 +104,14 @@ class HaystackManager(BackendManager):
         with open(os.devnull, "w") as devnull:
             with redirect_stdout(devnull), redirect_stderr(devnull):
                 results = self.__retrievePipeline.run({"embedder" : {"text" : user_input}})
+                
+        # Obtiene solo el contenido del 
+        __content:list = []
+        for doc in results["retriever"]["documents"]:
+            __content.append(doc.content)
         
         # Devuelve el prompt generado.
-        return self.__promptBuilder.run(context=results["retriever"]["documents"], history=history.GetHistory(), user_input=user_input)["prompt"]
+        return self.__promptBuilder.run(context=__content, history=history.GetHistory(), user_input=user_input)["prompt"]
 
     # -- Métodos públicos -- #
     def EmbedDocuments(self) -> any:
