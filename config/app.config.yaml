@@ -48,7 +48,7 @@ chat:
 # -- Configuración del RAG -- #
 rag:
   backend: 'HAYSTACK'                   # El backend empleado. Puede ser HAYSTACK | LANGCHAIN
-  splitLength: 300                      # Tamaño del chunk en tokens/palabras.
+  splitLength: 500                      # Tamaño del chunk en tokens/palabras.
   splitOverlap: 50                      # Overlap para mantener contexto entre chunks.
   topK: 10                              # El número de chunks más relevantes que se recuperan.
   docDirectory: 'data/raw'              # Directorio de documentos.
