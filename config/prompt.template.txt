@@ -1,5 +1,3 @@
-{{ system_prompt }}
-
 {% if context %}
 Información relevante del sistema:
 {% for chunk in context %}
