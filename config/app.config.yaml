@@ -35,7 +35,7 @@ ollama:
 
 # -- Configuración del modelo -- #
 model:
-  name: 'deepseek-r1:14b'         # Nombre del modelo a utilizar.
+  name: 'gemma3:12b'         # Nombre del modelo a utilizar.
   temperature: 0.0                # Parámetro que controla la aleatoriedad de las respuestas.
 
 # -- Configuración del chat -- #
@@ -47,17 +47,24 @@ chat:
 
 # -- Configuración del RAG -- #
 rag:
+  # Configuración general del RAG.
   backend: 'HAYSTACK'                   # El backend empleado. Puede ser HAYSTACK | LANGCHAIN
-  splitLength: 500                      # Tamaño del chunk en tokens/palabras.
-  splitOverlap: 50                      # Overlap para mantener contexto entre chunks.
-  topK: 10                              # El número de chunks más relevantes que se recuperan.
   docDirectory: 'data/raw'              # Directorio de documentos.
-  persistDirectory: 'data/persistence'  # Directorio de persistencia de embeddings.
-  embeddingDim: 384                     # Tamaño del embedding.
-  embeddingModel: 'sentence-transformers/all-MiniLM-L6-v2'  # Modelo de embedding.
-  embeddingModelsFile: 'data/cache/embedding.models.json'   # Fichero que registra la ubicación de los modelos de embedding.
-  embeddingModelDirectory: 'resources/models'               # Directorio de almacenamiento de modelos.
+  persistDirectory: 'data/persistence'  # Directorio de persisntencia de los embeddings calculados.
+  splitLength: 500                      # Tamaño del chunk en tokens/palabras. (En LangChain es similar a chunk_size).
+  splitOverlap: 50                      # Overlap para mantener contexto entre chunks. (En LangChain es similar a chunk_overlap).
+  topK: 10                              # El número de chunks más relevantes que se recuperan.
+  # Configuración especifica del embedding.
+  embedding:
+    model: 'sentence-transformers/all-roberta-large-v1'   # Modelo de embedding.
+    file: 'data/cache/embedding.models.json'          # Fichero que registra la ubicación de los modelos de embedding.
+    persistDirectory: 'resources/models'              # Directorio de almacenamiento de modelos.
+  # Configuración especifica de haystack.
+  haystack:
+    embeddingDim: 1024                                # Tamaño del embedding.
+  # Configuración específica de LangChain.
 
+# -- Configuración del prompt -- #
 prompt:
   templateFile: 'config/prompt.template.txt'                # Fichero con el template del prompt.
   variables: ['context', 'history', 'user_input']           # Variables que espera el prompt.

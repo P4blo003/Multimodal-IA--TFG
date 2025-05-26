@@ -31,7 +31,7 @@ Mistral:
     - sentence-transformers/all-MiniLM-L6-v2
     - sentence-transformers/all-mpnet-base-v2
     - sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
-
+    - sentence-transformers/all-roberta-large-v1
 
 Preguntas realizadas:
 

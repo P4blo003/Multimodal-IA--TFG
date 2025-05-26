@@ -3,6 +3,10 @@
 from backend.manager import BackendManager
 from chat.history import ChatHistory
 
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import Distance, VectorParams
+
+from config.context import CFG
 
 # ---- CLASES ---- #
 class LangChainManager(BackendManager):
@@ -16,7 +20,6 @@ class LangChainManager(BackendManager):
         Inicializa la instancia.
         """
         super().__init__()      # Constructor de BackendManager.
-        # Inicializa las propiedades.
         
 
     # -- Métodos BackendManager -- #

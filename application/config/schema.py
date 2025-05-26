@@ -97,33 +97,64 @@ class ChatConfig(BaseModel):
     promptFile:str
 
 
+class EmbeddingRagConfig(BaseModel):
+    """
+    Almacena la configuración relacionada con el embedding del RAG.
+    
+    Attributes:
+        model (str): Modelo de embedding.
+        file (str): Fichero que registra la ubicación de los modelos de embedding.
+        persistDirectory (str): Directorio de almacenamiento de modelos.
+    """
+    # -- Atributos -- #
+    model:str
+    file:str
+    persistDirectory:str
+
+
+class HaystackRagConfig(BaseModel):
+    """
+    Almacena la configuración relacionada con el RAG de Haystack.
+    
+    Attributes:
+        embeddingDim (int): Tamaño del embedding.
+    """
+    # -- Atributos -- #
+    embeddingDim:int
+    
+    
+class LangChainRagConfig(BaseModel):
+    """
+    Almacena la configuración relacionada con el RAG de LangChain.
+    """
+    # -- Atributos -- #
+
+
 class RagConfig(BaseModel):
     """
     Almacena la configuración relacionada con el RAG.
     
     Attributes:
-        backend (str): El backend empleado.
-        splitLength (int): Tamaño del chunk en tokens/palabras.
-        splitOverlap (int): Overlap para mantener contexto entre chunks.
-        topK (int): El número de chunks más relevantes que se recuperan.
+        backend (str): El backend empleado. Puede ser HAYSTACK | LANGCHAIN
         docDirectory (str): Directorio de documentos.
-        persistDirectory (str): Donde se almacenan los embeddings calculados.
-        embeddingDim (int): Tamaño del embedding.
-        embeddingModel (str): Nombre del modelo de embedding.
-        embeddingModelsFile (str): Fichero que registra la ubicación de los modelos de embedding.
-        embeddingModelDirectory (str): Directorio de almacenamiento de modelos.
+        persistDirectory (str): Directorio de persisntencia de los embeddings calculados.
+        splitLength (int): Tamaño del chunk en tokens/palabras. (En LangChain es similar a chunk_size).
+        splitOverlap (int): Overlap para mantener contexto entre chunks. (En LangChain es similar a chunk_overlap).
+        topK (int): El número de chunks más relevantes que se recuperan.
+        embedding (EmbeddingRagConfig): Configuración específica para el embedding.
+        haystack (HaystackRagConfig): Configuración específica para Haystack.
+        langchain (LangChainRagConfig): Configuración específica para LangChain.
     """
     # -- Atributes -- #
     backend:str = Field(default='HAYSTACK', pattern="HAYSTACK|LANGCHAIN")
-    splitLength:int
-    splitOverlap:int
-    topK:int
     docDirectory:str
     persistDirectory:str
-    embeddingDim:int
-    embeddingModel:str
-    embeddingModelsFile:str
-    embeddingModelDirectory:str
+    splitLength:int = Field(default=1000, ge=1, le=10000)
+    splitOverlap:int = Field(default=100, ge=0, le=1000)
+    topK:int = Field(default=5, ge=1, le=100)
+    embedding:EmbeddingRagConfig
+    haystack:HaystackRagConfig
+    #langchain:LangChainRagConfig
 
 
 class PromptConfig(BaseModel):

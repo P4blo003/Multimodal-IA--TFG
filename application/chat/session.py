@@ -52,7 +52,7 @@ class ChatSession:
             case 'HAYSTACK':
                 self.__backendManager = HaystackManager()
             case 'LANGCHAIN':
-                self.__backendManager = LangChainManager()
+                self.__backendManager = LangChainManager()                        
     
     # -- Métodos privados -- #
     def __print_response_info(self, response:OllamaResponse) -> any:
@@ -82,6 +82,8 @@ class ChatSession:
             while True:
                 # Obtiene el input del usuario.
                 __userInput:str = input("🧠 (usuario):")
+                print()         # Imprime salto de línea.
+    
                 # Comprueba si es un comando de salida.
                 if __userInput.upper() in CFG.chat.exitCommands:
                     self.__logger.info(f"Comando de salida detectado. VALUE: {__userInput}")    # Imprime información.
@@ -108,6 +110,7 @@ class ChatSession:
                 self.__chatHistory.Add(role='assistant', message=__response.response)   # Añade la respuesta al historial.
                 self.__print_response_info(response=__response)     # Imprime la información.
                 print(f"🤖 (Robotico): {__response.response}")      # Imprime la respuesta.
+                print()                 # Imprime salto de línea.
                 
         # Si se detecta un Ctrl+C.
         except KeyboardInterrupt:

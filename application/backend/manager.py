@@ -14,14 +14,14 @@
 from abc import ABC
 from abc import abstractmethod
 
+from yaspin import yaspin
+
 from logging import Logger
 from common.logger import create_logger
 
 from chat.history import ChatHistory
 
 from external.huggingFace.model import model_installed, install_model
-
-from yaspin import yaspin
 
 from config.context import CFG
 
@@ -39,7 +39,7 @@ class BackendManager(ABC):
         """
         # Inicializa las propiedades.
         self.__logger:Logger = create_logger(logger_name=__name__, console=False, file="app.log")
-        self.CheckEmbeddingModel()      # Comprueba el modelo de embedding.
+        self.__check_embedding_model()      # Comprueba que el modelo de embedding esté instalado.
     
     # -- Propiedades -- #
     @property
@@ -52,7 +52,31 @@ class BackendManager(ABC):
         """
         return self.__logger
         
-    # -- Métodos abstractos -- #
+    # -- Métodos privados -- #
+    # -- Métodos públicos -- #
+    def __check_embedding_model(self) -> any:
+        """
+        Comprueba si el modelo de embedding esta instalado y en caso de que no lo esté,
+        lo instala.
+        """
+        # Comprueba si el modelo está instalado.
+        if not model_installed(model_name=CFG.rag.embedding.model, json_path=CFG.rag.embedding.file):
+            
+            self.Logger.warning(f"El modelo {CFG.rag.embedding.model} no esta instalado. Instalando ...")    # Imprime información.
+
+            with yaspin(text=f"Instalando modelo {CFG.rag.embedding.model} ...") as sp:
+                path:str = install_model(model_name=CFG.rag.embedding.model, json_path=CFG.rag.embedding.file, dir=CFG.rag.embedding.persistDirectory) # Instala el modelo.
+
+            self.Logger.info(f"Modelo {CFG.rag.embedding.model} instalado. PATH: {path}")                     # Imprime información.
+
+    # -- Métodos abstractos -- # 
+    @abstractmethod
+    def EmbedDocuments(self) -> any:
+        """
+        Realiza el embedding de los documentos.
+        """   
+        pass
+
     @abstractmethod
     def BuildPrompt(self, user_input:str, history:ChatHistory) -> str:
         """
@@ -66,19 +90,3 @@ class BackendManager(ABC):
             str: El prompt construido.
         """
         pass
-
-    # -- Métodos públicos -- #
-    def CheckEmbeddingModel(self) -> any:
-        """
-        Comprueba si el modelo de embedding esta instalado y en caso de que no lo esté,
-        lo instala.
-        """
-        # Comprueba si el modelo está instalado.
-        if not model_installed(model_name=CFG.rag.embeddingModel, json_path=CFG.rag.embeddingModelsFile):
-            
-            self.Logger.warning(f"El modelo {CFG.rag.embeddingModel} no esta instalado. Instalando ...")    # Imprime información.
-
-            with yaspin(text=f"Instalando modelo {CFG.rag.embeddingModel} ...") as sp:
-                path:str = install_model(model_name=CFG.rag.embeddingModel, json_path=CFG.rag.embeddingModelsFile, dir=CFG.rag.embeddingModelDirectory) # Instala el modelo.
-
-            self.Logger.info(f"Modelo {CFG.rag.embeddingModel} instalado. PATH: {path}")                     # Imprime información.
