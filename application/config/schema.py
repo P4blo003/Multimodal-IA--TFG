@@ -112,24 +112,6 @@ class EmbeddingRagConfig(BaseModel):
     persistDirectory:str
 
 
-class HaystackRagConfig(BaseModel):
-    """
-    Almacena la configuración relacionada con el RAG de Haystack.
-    
-    Attributes:
-        embeddingDim (int): Tamaño del embedding.
-    """
-    # -- Atributos -- #
-    embeddingDim:int
-    
-    
-class LangChainRagConfig(BaseModel):
-    """
-    Almacena la configuración relacionada con el RAG de LangChain.
-    """
-    # -- Atributos -- #
-
-
 class RagConfig(BaseModel):
     """
     Almacena la configuración relacionada con el RAG.
@@ -141,9 +123,8 @@ class RagConfig(BaseModel):
         splitLength (int): Tamaño del chunk en tokens/palabras. (En LangChain es similar a chunk_size).
         splitOverlap (int): Overlap para mantener contexto entre chunks. (En LangChain es similar a chunk_overlap).
         topK (int): El número de chunks más relevantes que se recuperan.
+        embeddingDim (int): Dicmensión del embedding.
         embedding (EmbeddingRagConfig): Configuración específica para el embedding.
-        haystack (HaystackRagConfig): Configuración específica para Haystack.
-        langchain (LangChainRagConfig): Configuración específica para LangChain.
     """
     # -- Atributes -- #
     backend:str = Field(default='HAYSTACK', pattern="HAYSTACK|LANGCHAIN")
@@ -152,9 +133,8 @@ class RagConfig(BaseModel):
     splitLength:int = Field(default=1000, ge=1, le=10000)
     splitOverlap:int = Field(default=100, ge=0, le=1000)
     topK:int = Field(default=5, ge=1, le=100)
+    embeddingDim:int
     embedding:EmbeddingRagConfig
-    haystack:HaystackRagConfig
-    #langchain:LangChainRagConfig
 
 
 class PromptConfig(BaseModel):

@@ -1,3 +1,14 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: application/backend/haystack/manager.py
+# Autor: Pablo González García
+# Descripción: 
+# Módulo que contiene las clases encargadas de gestionar el backend del 
+# programa, como el sistema RAG o prompting, implementado con Haystack.
+# -----------------------------------------------------------------------------
+
 
 # ---- MÓDULOS ---- #
 import os
@@ -10,7 +21,7 @@ from backend.manager import BackendManager
 
 from common.system import list_all_files
 
-from .components import create_prompt_builder
+from .prompt import create_prompt_builder
 
 from haystack import Pipeline
 from haystack_integrations.document_stores.qdrant import QdrantDocumentStore
@@ -41,13 +52,13 @@ class HaystackManager(BackendManager):
         self.__docStore:QdrantDocumentStore = QdrantDocumentStore(
             path=os.path.join(CFG.rag.persistDirectory, CFG.rag.backend),
             index="Document",
-            embedding_dim=CFG.rag.haystack.embeddingDim,
+            embedding_dim=CFG.rag.embeddingDim,
             recreate_index=True
         )
         self.__embedPipeline:Pipeline = Pipeline()
         self.__init_embed_pipeline()            # Inicializa el pipeline.
         self.__retrievePipeline:Pipeline = Pipeline()
-        self.__init_retrive_pipelin()           # Inicializa el pipeline.
+        self.__init_retrive_pipeline()           # Inicializa el pipeline.
         self.__promptBuilder:PromptBuilder = create_prompt_builder(file_path=CFG.prompt.templateFile, variables=CFG.prompt.variables)
         
         self.EmbedDocuments()                   # Realiza el embedding de los documentos.
@@ -75,14 +86,13 @@ class HaystackManager(BackendManager):
         self.__embedPipeline.connect("preprocessor", "embedder")
         self.__embedPipeline.connect("embedder", "writer")
         
-    def __init_retrive_pipelin(self) -> any:
+    def __init_retrive_pipeline(self) -> any:
         """
         Crea e inicializa el pipeline de recuperación.
         """
         # Inicializa los componentes.
         __embedder:SentenceTransformersTextEmbedder = SentenceTransformersTextEmbedder(os.path.join(CFG.rag.embedding.persistDirectory, CFG.rag.embedding.model))
         __retriever:QdrantEmbeddingRetriever = QdrantEmbeddingRetriever(document_store=self.__docStore, top_k=CFG.rag.topK)
-        __promptBuilder:PromptBuilder = create_prompt_builder(file_path=CFG.prompt.templateFile, variables=CFG.prompt.variables)
         
         # Añade los componentes al pipeline.
         self.__retrievePipeline.add_component(instance=__embedder, name="embedder")
@@ -121,7 +131,7 @@ class HaystackManager(BackendManager):
             with redirect_stdout(devnull), redirect_stderr(devnull):
                 __results = self.__retrievePipeline.run({"embedder" : {"text" : user_input}})
         
-        # Obtiene solo el contenido del 
+        # Obtiene solo el contenido de los documentos.
         __content:list = []
         for __doc in __results["retriever"]["documents"]:
             __content.append(__doc.content)

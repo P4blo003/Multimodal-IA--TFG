@@ -52,7 +52,6 @@ class BackendManager(ABC):
         """
         return self.__logger
         
-    # -- Métodos privados -- #
     # -- Métodos públicos -- #
     def __check_embedding_model(self) -> any:
         """

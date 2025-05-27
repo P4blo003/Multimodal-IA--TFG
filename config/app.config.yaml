@@ -48,21 +48,18 @@ chat:
 # -- Configuración del RAG -- #
 rag:
   # Configuración general del RAG.
-  backend: 'HAYSTACK'                   # El backend empleado. Puede ser HAYSTACK | LANGCHAIN
+  backend: 'LANGCHAIN'                   # El backend empleado. Puede ser HAYSTACK | LANGCHAIN
   docDirectory: 'data/raw'              # Directorio de documentos.
   persistDirectory: 'data/persistence'  # Directorio de persisntencia de los embeddings calculados.
   splitLength: 500                      # Tamaño del chunk en tokens/palabras. (En LangChain es similar a chunk_size).
   splitOverlap: 50                      # Overlap para mantener contexto entre chunks. (En LangChain es similar a chunk_overlap).
   topK: 10                              # El número de chunks más relevantes que se recuperan.
+  embeddingDim: 1024                                # Tamaño del embedding.
   # Configuración especifica del embedding.
   embedding:
     model: 'sentence-transformers/all-roberta-large-v1'   # Modelo de embedding.
     file: 'data/cache/embedding.models.json'          # Fichero que registra la ubicación de los modelos de embedding.
     persistDirectory: 'resources/models'              # Directorio de almacenamiento de modelos.
-  # Configuración especifica de haystack.
-  haystack:
-    embeddingDim: 1024                                # Tamaño del embedding.
-  # Configuración específica de LangChain.
 
 # -- Configuración del prompt -- #
 prompt:

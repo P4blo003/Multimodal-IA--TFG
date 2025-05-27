@@ -26,7 +26,3 @@ Indicaiones para la respuesta:
 - Limita la respuesta a 3-5 párrafos breves.
 
 Usuario: {{ user_input }}
-
-
-
-
