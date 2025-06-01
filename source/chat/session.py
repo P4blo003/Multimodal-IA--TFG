@@ -48,11 +48,13 @@ class ChatSession:
         self.__chatHistory:ChatHistory = ChatHistory(max_history_size=CFG.chat.maxHistorySize)
         self.__backendManager:BackendManager = None
         # Inicializa el backend en función del parámetro de configuración.
+        """
         match (CFG.rag.backend):
             case 'HAYSTACK':
                 self.__backendManager = HaystackManager()
             case 'LANGCHAIN':
-                self.__backendManager = LangChainManager()                        
+                self.__backendManager = LangChainManager()    
+        """                    
     
     # -- Métodos privados -- #
     def __print_response_info(self, response:OllamaResponse) -> any:
@@ -92,11 +94,11 @@ class ChatSession:
                 # Si no es un comando de salida.
                 self.__logger.info(F"Mensaje del usuario. QUERY: {__userInput}")    # Imprime información.
                 
-                __prompt:str = self.__backendManager.BuildPrompt(user_input=__userInput, history=self.__chatHistory)
+                # __prompt:str = self.__backendManager.BuildPrompt(user_input=__userInput, history=self.__chatHistory)
                 
                 # Obtiene la respuesta del servicio Ollama.
                 with yaspin(text="Generando respuesta ...") as sp:
-                    __response:OllamaResponse = generate_chat_response(ollama_url=self.__ollamaUrl, model_name=CFG.model.name, prompt=__prompt)
+                    __response:OllamaResponse = generate_chat_response(ollama_url=self.__ollamaUrl, model_name=CFG.model.name, prompt=__userInput)
 
                 # Imprime la información de la respuesta.
                 self.__logger.info(f"RESPONSE\t\tSTATUS_CODE: {__response.statusCode}")

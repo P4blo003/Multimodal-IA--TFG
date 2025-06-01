@@ -35,7 +35,7 @@ ollama:
 
 # -- Configuración del modelo -- #
 model:
-  name: 'gemma3:12b'         # Nombre del modelo a utilizar.
+  name: 'mistral-small3.1:24b'             # Nombre del modelo a utilizar.
   temperature: 0.0                # Parámetro que controla la aleatoriedad de las respuestas.
 
 # -- Configuración del chat -- #

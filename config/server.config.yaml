@@ -1,0 +1,35 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: config/server.config.yaml
+# Autor: Pablo González García
+# Descripción:
+# Archivo de configuración principal del asistente inteligente.
+# Contiene parámetros relacionados con el sistema de logging,
+# la conexión a bases de datos, y otros ajustes generales del sistema.
+# -----------------------------------------------------------------------------
+
+
+# ---- CONFIGURACIÓN ---- #
+# -- Configuración del logger de la aplicación -- #
+logger:
+  level: INFO                 # Nivel de log: DEBIG, INFO, WARNING, ERROR, CRITICAL
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'    # Formato del mensaje del log.
+  datefmt: '%d-%m-%Y %H:%M:%S'    # Formato de la fecha.
+  maxBytes: 10485760          # 10 MB.
+  backupCount: 5              # Número de archivos de log de respaldo.
+
+# -- Configuración de ollama -- #
+ollama:
+  exe: 'bin/ollama/bin/ollama'  # Ruta del binario.
+  host: 'localhost'             # Host del servicio ollama.
+  port: 9999                    # Puerto del servicio ollama.
+  silent: False                 # Si se debe mostrar los mensajes del propio servicio de ollama.
+  startupWaitSeconds: 5         # Tiempo de espera para el inicio del servicio (5 segundos).
+  logFile: 'ollama.serve.log'   # Nombre del fichero de logs de ollama.
+
+# -- Configuración del modelo -- #
+model:
+  name: 'deepseek-r1:8b'             # Nombre del modelo a utilizar.
+  temperature: 0.0                # Parámetro que controla la aleatoriedad de las respuestas.
