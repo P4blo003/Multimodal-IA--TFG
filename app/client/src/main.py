@@ -11,49 +11,57 @@
 
 
 # ---- MÓDULOS ---- #
-import json
-from model.query import Query
-from model.response import Response
+import requests
 
 from yaspin import yaspin
 
-import requests
+from model.query import Query
+from model.response import Response
+
+
+# ---- FUNCIONES GLOBALES ---- #
+SESSION_ID:int = None
 
 
 # ---- FLUJO PRINCIPAL ---- #
 if __name__ == "__main__":
-    
-    index = 1
-    try:
-        with open("docs/chat.deepseekr1_8b.txt", "a", encoding="utf-8") as file:
-            with open("docs/questions.txt", "r", encoding="utf-8") as qfile:
-                preguntas = [line.strip() for line in qfile if line.strip()]
-                
-            # Bucle infinito para el chat.
-            for pregunta in preguntas:
-                # Crea la query para enviar al servidor.
-                query:Query = Query(content=pregunta)
-                
-                # Obtiene la respuesta del servidor.
-                with yaspin(text="Generando respuesta ...") as sp:
-                    response:requests.Response = requests.post(url="http://localhost:9000/chat/ask", json=query.__dict__)  # Envía la petición.
-                
-                # Comrpueba que larespuesta haya sido correcta.
-                if response.status_code != 200:
-                    print(f"🔶: Problema en POST | STATUS: {response.status_code}")       # Imprime el error.
-                    continue        # Pasa a la siguiente iteración del búcle.
-                
-                resp:Response = Response.model_validate_json(response.content)    # Obtiene los datos.
-                print(f"🤖: {resp.content}")        # Imprime la respuesta.       
-                
-                file.write(f"Query: {pregunta}\n")
-                file.write(f"Speed: {resp.speed} tok/s\n")
-                file.write(f"Response:\n{resp.content}\n")
 
+    # Try-except para manejo de excepciones.
+    try:      
+        #Hacer una request y solicitar un ID.
+        response:requests.Response = requests.get(url="http://localhost:9000/chat/init")
         
+        # Comprueba el estado de la sesión.
+        if response.status_code != 200:
+            raise Exception("No se pudo obtener un ID de sesión por parte del servidor.")   # Lanza una excepción.
+    
+        SESSION_ID = Response.model_validate_json(response.content).session_id      # Obtiene el ID recibido.
+        print(f"Sesión iniciada | ID: {SESSION_ID}")            # Imprime información.
+        
+        # Bucle infinito para el chat.
+        while True:
+            # Obtiene el input del usuario.
+            user_input:str = input("🧠: ")
+            # Genera la query.
+            query:Query = Query(session_id=SESSION_ID, content=user_input)
+            
+            # Realiza la petición al servidor.
+            with yaspin(text="Generando respuesta ...") as sp:
+                response:requests.Response = requests.post(url="http://localhost:9000/chat/ask", json=query.__dict__)
+            
+            # Comrpueba que larespuesta haya sido correcta.
+            if response.status_code != 200:
+                print(f"🔶: Problema en POST | STATUS: {response.status_code}")       # Imprime el error.
+                continue        # Pasa a la siguiente iteración del búcle.
+            
+            # Imprime la respuesta obtenida.
+            resp:Response = Response.model_validate_json(response.content)    # Obtiene los datos.
+            print(f"🤖: {resp.content}")        # Imprime la respuesta. 
+
+    # Si se detecta un Ctrl+C.
     except KeyboardInterrupt:
         print()
         print("🔶: Ctrl+C detectado. Finalizando cliente.")
-    
+    # Si se detecta alguna excepción.
     except Exception as e:
         print(f"🔶: {e}")

@@ -84,6 +84,70 @@ class ModelConfig(BaseModel):
     temperature:float
 
 
+class ChatConfig(BaseModel):
+    """
+    Almacena la configuración del chat.
+    
+    Attributes:
+        maxHistorySize (int): Tamaño máximo del historial.
+    """
+    # -- Atributos -- #
+    maxHistorySize:int
+
+
+class EmbeddingRagConfig(BaseModel):
+    """
+    Almacena la configuración relacionada con el embedding del RAG.
+    
+    Attributes:
+        model (str): Modelo de embedding.
+        file (str): Fichero que registra la ubicación de los modelos de embedding.
+        persistDirectory (str): Directorio de almacenamiento de modelos.
+    """
+    # -- Atributos -- #
+    model:str
+    file:str
+    persistDirectory:str
+
+
+class RagConfig(BaseModel):
+    """
+    Almacena la configuración relacionada con el RAG.
+    
+    Attributes:
+        backend (str): El backend empleado. Puede ser HAYSTACK | LANGCHAIN
+        docDirectory (str): Directorio de documentos.
+        persistDirectory (str): Directorio de persisntencia de los embeddings calculados.
+        splitLength (int): Tamaño del chunk en tokens/palabras. (En LangChain es similar a chunk_size).
+        splitOverlap (int): Overlap para mantener contexto entre chunks. (En LangChain es similar a chunk_overlap).
+        topK (int): El número de chunks más relevantes que se recuperan.
+        embeddingDim (int): Dicmensión del embedding.
+        embedding (EmbeddingRagConfig): Configuración específica para el embedding.
+    """
+    # -- Atributes -- #
+    backend:str = Field(default='HAYSTACK', pattern="HAYSTACK|LANGCHAIN")
+    docDirectory:str
+    persistDirectory:str
+    splitLength:int = Field(default=1000, ge=1, le=10000)
+    splitOverlap:int = Field(default=100, ge=0, le=1000)
+    topK:int = Field(default=5, ge=1, le=100)
+    embeddingDim:int
+    embedding:EmbeddingRagConfig
+
+
+class PromptConfig(BaseModel):
+    """
+    Almacena la configuración relacionada con el prompt.
+    
+    Attributes:
+        templateFile (str): Fichero con el template del prompt.
+        variables (list[str]): Variables que espera el prompt.
+    """
+    # -- Atributes -- #
+    templateFile:str
+    variables:list[str]
+    
+
 class ServerConfig(BaseModel):
     """
     Esquema completo del archivo de configuración.
@@ -93,9 +157,15 @@ class ServerConfig(BaseModel):
         logger (LoggerConfig): Configuración del logger.
         ollama (OllamaConfig): Conffiguración de Ollama.
         model (ModelConfig): Configuración del modelo.
+        chat (ChatConfig): Configuración del chat.
+        rag (RagConfig): Configuración del rag.
+        prompt (PromptConfig): Configuración del prompt.
     """
     # -- Atributes -- #
     uvicorn:UvicornConfig
     logger:LoggerConfig
     ollama:OllamaConfig
     model:ModelConfig
+    chat:ChatConfig
+    rag:RagConfig
+    prompt:PromptConfig

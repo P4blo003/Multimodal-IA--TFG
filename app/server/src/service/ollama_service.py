@@ -27,9 +27,6 @@ class OllamaService:
         Returns:
             Response: La respuesta generada por el modelo.
         """
-        # Respuesta a devolver.
-        resp:Response = Response(content="")
-        
         # Crea la URL completa.
         url:str = f"http://{CFG.ollama.host}:{CFG.ollama.port}/api/generate"
         
@@ -46,19 +43,10 @@ class OllamaService:
         
         # Comprueba el estado de la respuesta.
         if response.status_code != 200:
-            return
+            return Response(session_id="", statusCode=500, content="")
         
         # Obtiene los datos.
-        text:str = response.text
-        data:dict = json.loads(text)
-        # Procesa los datos obtenidos y los alamcena en la respuesta.
-        resp.content = str(data['response']).strip()
-        resp.loadDuration = ns_to_sec(ns=data['load_duration'])
-        resp.promptEvalDuration = ns_to_sec(ns=data['prompt_eval_duration'])
-        resp.responseGenDuration = ns_to_sec(ns=data['eval_duration'])
-        resp.promptTokens = data['prompt_eval_count']
-        resp.responseTokens = data['eval_count']
-        resp.speed = resp.responseTokens / resp.responseGenDuration
+        data:dict = json.loads(response.text)
         
         # Devuelve la respueta generada.
-        return resp
+        return Response(session_id="", statusCode=200, content=str(data['response']).strip())
