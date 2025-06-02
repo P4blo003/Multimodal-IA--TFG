@@ -16,6 +16,19 @@ from pydantic import BaseModel, Field
 
 
 # ---- CLASES ---- #
+class UvicornConfig(BaseModel):
+    """
+    Almacena la configuración de uvicorn.
+    
+    Attributes:
+        host (str): Host de uvicorn.
+        port (int): Puerto de uvicorn.
+    """
+    # -- Atributos -- #
+    host:str
+    port:int
+    
+
 class LoggerConfig(BaseModel):
     """
     Almacena la configuración del logger de la aplicación.
@@ -76,11 +89,13 @@ class ServerConfig(BaseModel):
     Esquema completo del archivo de configuración.
     
     Attributes:
+        uvicorn (UvicornConfig): Configuración de uvicorn.
         logger (LoggerConfig): Configuración del logger.
         ollama (OllamaConfig): Conffiguración de Ollama.
         model (ModelConfig): Configuración del modelo.
     """
     # -- Atributes -- #
+    uvicorn:UvicornConfig
     logger:LoggerConfig
     ollama:OllamaConfig
     model:ModelConfig

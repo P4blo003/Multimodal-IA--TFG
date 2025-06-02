@@ -73,7 +73,7 @@ if __name__ == "__main__":
         # Inicializa los servicios del servidor.
         start_services()
         # Inicia uvicorn para poder acceder desde otros equipos.
-        uvicorn.run("app:api", host='localhost', port=9000, reload=False, log_config=None, log_level="info")
+        uvicorn.run("app:api", host=CFG.uvicorn.host, port=CFG.uvicorn.port, reload=False, log_config=None, log_level="info")
         
     # En caso de que ocurra alguna excepción.
     except Exception as e:

@@ -12,6 +12,11 @@
 
 
 # ---- CONFIGURACIÓN ---- #
+# -- Configuración de uvicorn -- #
+uvicorn:
+  host: 'localhost'           # Host de uvicorn.
+  port: 9000                  # Puerto de uvicorn.
+
 # -- Configuración del logger de la aplicación -- #
 logger:
   level: INFO                 # Nivel de log: DEBIG, INFO, WARNING, ERROR, CRITICAL
