@@ -1,3 +1,14 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: app/server/controller/ollama_controller.py
+# Autor: Pablo González García
+# Descripción:
+# Módulo que contiene la clase para gestionar todo lo relacionado con
+# Ollama.
+# -----------------------------------------------------------------------------
+
 
 # ---- MÓDULOS ---- #
 import os

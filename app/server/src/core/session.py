@@ -1,3 +1,14 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: app/server/core/rag/session.py
+# Autor: Pablo González García
+# Descripción:
+# Módulo que contiene las clases relacionadas con el historial del chat
+# y la sesión.
+# -----------------------------------------------------------------------------
+
 
 # ---- MÓDULOS ---- #
 from uuid import uuid4

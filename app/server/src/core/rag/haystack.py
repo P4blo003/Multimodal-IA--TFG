@@ -1,11 +1,11 @@
-# ---- FUNCIONES ---- ## -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: application/backend/haystack/prompt.py
+# Archivo: app/server/core/rag/haystack.py
 # Autor: Pablo González García
-# Descripción: 
-# Módulo que contiene funciones relacionadas con el prompting de haystack.
+# Descripción:
+# Módulo que contiene las funciones relacionadas con Haystack.
 # -----------------------------------------------------------------------------
 
 

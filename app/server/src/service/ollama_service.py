@@ -1,3 +1,13 @@
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: app/server/core/service/ollama_service.py
+# Autor: Pablo González García
+# Descripción:
+# Módulo que contiene la clase que proporciona acceso a los servicios
+# de Ollama.
+# -----------------------------------------------------------------------------
 
 
 # ---- MÓDULOS ---- #

@@ -1,8 +1,18 @@
-
+# -----------------------------------------------------------------------------
+# MULTIMODAL-IA--TFG - Proyecto TFG
+# (c) 2025 Pablo González García
+# Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
+# Archivo: app/server/api/endpoint/chat.py
+# Autor: Pablo González García
+# Descripción:
+# Módulo que contiene los endpoints del chat del servidor.
+# -----------------------------------------------------------------------------
 
 
 # ---- MÓDULOS ---- #
 from fastapi import APIRouter
+
+from yaspin import yaspin
 
 from logging import Logger
 from utils.logger import create_logger
