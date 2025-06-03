@@ -11,6 +11,7 @@
 
 # ---- MÓDULOS ----- #
 import os
+import time
 from abc import ABC
 from utils.system import list_all_files
 from contextlib import redirect_stdout, redirect_stderr
@@ -32,6 +33,15 @@ from haystack.components.writers import DocumentWriter
 from haystack.components.builders import PromptBuilder
 from haystack_integrations.components.retrievers.qdrant import QdrantEmbeddingRetriever
 from .haystack import create_prompt_builder
+
+from langchain_community.document_loaders import DirectoryLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import Distance, VectorParams
+from jinja2 import Template
+from .langchain import create_prompt_template
 
 from config.context import CFG
 
@@ -172,6 +182,8 @@ class HaystackBackend(BaseBackend):
         """
         Realiza el embedding de los documentos.
         """
+        init_time:float = time.perf_counter()           # Obtiene el tiempo.
+        
         # Obtiene los ficheros del directorio.
         filePaths:list[str] = list_all_files(base_dir=CFG.rag.docDirectory)
         
@@ -179,7 +191,9 @@ class HaystackBackend(BaseBackend):
         with open(os.devnull, "w") as devnull:
             with redirect_stdout(devnull), redirect_stderr(devnull):
                 self.__embedPipeline.run({"converter": {"sources": filePaths}})
-        self.Logger.info("Realizado embedding de documentos.")      # Imprime información.
+        
+        end_time:float = time.perf_counter()            # Obtiene el tiempo.
+        self.Logger.info(f"Embed Time: {end_time-init_time:.4f} s")     # Imprime la información.
     
     def BuildPrompt(self, user_input:str, session:ChatSession) -> str:
         """
@@ -192,6 +206,8 @@ class HaystackBackend(BaseBackend):
         Returns:
             str: El prompt construido.
         """
+        init_time:float = time.perf_counter()           # Obtiene el tiempo.
+        
         # Obtiene los documentos más relevantes.
         with open(os.devnull, "w") as devnull:
             with redirect_stdout(devnull), redirect_stderr(devnull):
@@ -201,6 +217,9 @@ class HaystackBackend(BaseBackend):
         __content:list = []
         for __doc in __results["retriever"]["documents"]:
             __content.append(__doc.content)
+            
+        end_time:float = time.perf_counter()            # Obtiene el tiempo.
+        self.Logger.info(f"Embed Time: {end_time-init_time:.4f} s")     # Imprime la información.
         
         # Devuelve el prompt generado.
         return self.__promptBuilder.run(context=__content, history=session.get_history(), user_input=user_input)["prompt"]
@@ -217,6 +236,33 @@ class LangChainBackend(BaseBackend):
         Inicializa la instancia.
         """
         super().__init__()      # Constructor de BackendManager.
+        # Inicializa las propiedades.
+        self.__embeddingModel:HuggingFaceEmbeddings = HuggingFaceEmbeddings(model_name=os.path.join(CFG.rag.embedding.persistDirectory, CFG.rag.embedding.model))
+        self.__qdrantClient:QdrantClient = QdrantClient(path=os.path.join(CFG.rag.embedding.persistDirectory, CFG.rag.embedding.model))
+        self.__qdrantClient.recreate_collection(
+            collection_name="Document",
+            vectors_config=VectorParams(
+                size=CFG.rag.embeddingDim,
+                distance=Distance.COSINE
+            )
+        )       # Crea la colección en Qdrant.
+        self.__vectoreSotore:QdrantVectorStore = QdrantVectorStore(
+            client=self.__qdrantClient,
+            collection_name="Document",
+            embedding=self.__embeddingModel
+        )
+        self.__promptTemplate:Template = create_prompt_template(file_path=CFG.prompt.templateFile)  # Crea el prompt template.
+        self.__loader:DirectoryLoader = DirectoryLoader(CFG.rag.docDirectory)
+        self.__splitter:RecursiveCharacterTextSplitter = RecursiveCharacterTextSplitter(
+            chunk_size=CFG.rag.splitLength,
+            chunk_overlap=CFG.rag.splitOverlap,
+            length_function=len,
+            add_start_index=True
+        )
+        
+        self.EmbedDocuments()                   # Realiza el embedding de los documentos.
+        
+        self.Logger.info("Backend iniciado. TYPE: LangChain")    # Imprime información.
     
     
     # -- Métodos BaseBackend -- #
@@ -224,7 +270,18 @@ class LangChainBackend(BaseBackend):
         """
         Realiza el embedding de los documentos.
         """
-        pass
+        init_time:float = time.perf_counter()           # Obtiene el tiempo.
+        # Obtiene los documentos del directorio.
+        documents = self.__loader.load()
+        
+        # Procesa los documentos.
+        chunks = self.__splitter.split_documents(documents)
+        
+        # Añade los documentos al almacén de vectores.
+        self.__vectoreSotore.add_documents(chunks)
+        
+        end_time:float = time.perf_counter()            # Obtiene el tiempo.
+        self.Logger.info(f"Embed Time: {end_time-init_time:.4f} s")     # Imprime la información.
     
     def BuildPrompt(self, user_input:str, session:ChatSession) -> str:
         """
@@ -237,4 +294,17 @@ class LangChainBackend(BaseBackend):
         Returns:
             str: El prompt construido.
         """
-        pass
+        init_time:float = time.perf_counter()           # Obtiene el tiempo.
+        
+        # Obtiene los documentos más relevantes.
+        results = self.__vectoreSotore.similarity_search_with_relevance_scores(user_input, k=CFG.rag.topK)
+        
+        # Obtiene solo el contenido de los documentos.
+        content:list = []
+        for doc, __ in results:
+            content.append(doc.page_content)
+        
+        end_time:float = time.perf_counter()            # Obtiene el tiempo.
+        self.Logger.info(f"Build prompt Time: {end_time-init_time:.4f} s")  # Imprime la información.
+            
+        return self.__promptTemplate.render(context=content, history=session.get_history(), user_input=user_input)

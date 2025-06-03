@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: app/server/src/utils/system.py
+# Archivo: server/src/utils/system.py
 # Autor: Pablo González García
 # Descripción: 
 # Módulo que contiene funciones relacionadas con el sistema, como listado de
@@ -29,14 +29,14 @@ def list_all_files(base_dir:str, extensions:list[str] = None) -> list[str]:
         list[str]: Lista de rutas de los ficheros encontrados.
     """
     # Crea el Path.
-    __base_path:Path = Path(base_dir)
+    base_path:Path = Path(base_dir)
     
     # Comprueba si se deben filtrar por extensiones.
     if extensions:
-        __exts = { __ext if __ext.startswith('.') else f'.{__ext}' for __ext in extensions}
-        __files = [str(__p.resolve()) for __p in base_dir.rglob('*') if __p.is_file() and __p.suffix.lower() in __exts]
+        exts = { ext if ext.startswith('.') else f'.{ext}' for ext in extensions}
+        files = [str(p.resolve()) for p in base_dir.rglob('*') if p.is_file() and p.suffix.lower() in exts]
     else:
-        __files = [str(__p.resolve()) for __p in __base_path.rglob('*') if __p.is_file()]
+        files = [str(p.resolve()) for p in base_path.rglob('*') if p.is_file()]
     
     # Devuelve la lista de ficheros.
-    return __files
+    return files

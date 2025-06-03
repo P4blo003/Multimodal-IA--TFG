@@ -46,7 +46,7 @@ chat:
 # -- Configuración del RAG -- #
 rag:
   # Configuración general del RAG.
-  backend: 'HAYSTACK'                   # El backend empleado. Puede ser HAYSTACK | LANGCHAIN
+  backend: 'LANGCHAIN'                   # El backend empleado. Puede ser HAYSTACK | LANGCHAIN
   docDirectory: 'data/raw'              # Directorio de documentos.
   persistDirectory: 'data/persistence'  # Directorio de persisntencia de los embeddings calculados.
   splitLength: 500                      # Tamaño del chunk en tokens/palabras. (En LangChain es similar a chunk_size).

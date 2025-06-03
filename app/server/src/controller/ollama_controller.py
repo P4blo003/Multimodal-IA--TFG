@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: app/server/controller/ollama_controller.py
+# Archivo: server/controller/ollama_controller.py
 # Autor: Pablo González García
 # Descripción:
 # Módulo que contiene la clase para gestionar todo lo relacionado con
@@ -45,17 +45,17 @@ class OllamaController:
         """
         # Comrpueba si el proceso de Ollama esta asignado.
         if self.__ollamaServeProc:
-            self.__logger.warning("El subproceso de Ollama Serve ya esta asignado")     # Imprime el aviso.
+            self.__logger.warning("El subproceso de Ollama Serve ya esta asignado")       # Imprime el aviso.
             return                  # Finaliza el método.
         
         # Inicia el subproceso de Ollama serve.
         args = [str(CFG.ollama.exe)]+["serve"]
         file:Path = Path(os.path.join(CFG.logger.logDir, CFG.ollama.logFile))
-        self.__ollamaServeProc = start_subprocess(args=args, env=ENV, file=file)
+        self.__ollamaServeProc = start_subprocess(args=args, env=ENV, file=file)          # Comienza el subproceso.
         
         # Espera un tiempo para asegurar que el servidor se inicia correctamente.
         with yaspin(text="Iniciando servicio Ollama ...") as sp:
-            time.sleep(CFG.ollama.startupWaitSeconds)
+            time.sleep(CFG.ollama.startupWaitSeconds)                                   # Espera x segundos para que se inicie el servicio de Ollama.
         
         self.__logger.info(f"Servicio de Ollama iniciado | PID: {self.__ollamaServeProc.pid}")       # Imprime la información.
     

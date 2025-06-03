@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: app/server/src/utils/math.py
+# Archivo: server/src/utils/math.py
 # Autor: Pablo González García
 # Descripción:
 # Módulo que contiene funciones relacionadas con cálculos matemáticos.

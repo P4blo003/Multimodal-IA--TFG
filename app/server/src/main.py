@@ -2,7 +2,7 @@
 # MULTIMODAL-IA--TFG - Proyecto TFG
 # (c) 2025 Pablo González García
 # Universidad de Oviedo, Escuela Politécncia de Ingeniería de Gijón
-# Archivo: app/server/src/main.py
+# Archivo: server/src/main.py
 # Autor: Pablo González García
 # Descripción: 
 # Punto de entrada del servidor FastAPI. Configura el servidor, inicia los
@@ -60,8 +60,7 @@ def shutdown_handler(signum:int, frame:FrameType) -> None:
     
     
 # ---- REGISTRO DE SEÑALES ---- #
-signal.signal(signalnum=signal.SIGINT, handler=shutdown_handler)
-signal.signal(signalnum=signal.SIGTERM, handler=shutdown_handler)
+signal.signal(signalnum=signal.SIGTERM, handler=shutdown_handler)       # Para kill.
 
 
 # ---- FLUJO PRINCIPAL ---- #
@@ -74,13 +73,16 @@ if __name__ == "__main__":
         start_services()
         # Inicia uvicorn para poder acceder desde otros equipos.
         uvicorn.run("app:api", host=CFG.uvicorn.host, port=CFG.uvicorn.port, reload=False, log_config=None, log_level="info")
-        
+    
+    # En caso de que se detecte un Ctrl+C.
+    except KeyboardInterrupt:
+        logger.warning("Ctrl+C detectado")          # Imprime el aviso.
+        stop_services()                             # Detiene los servicios.
+    
     # En caso de que ocurra alguna excepción.
     except Exception as e:
-        logger.error(f"Exception | {e}")            # Imprime el error.
-        stop_services()                             # Detiene los servicios.
-        sys.exit(1)                                 # Finaliza el programa.
+        logger.error(f"Exception | E: {e}")         # Imprime el error.
     
-    # Si el cierre no es debido a una señal.
+    # Funciones a ejecutar al final.
     finally:
         stop_services()                             # Detiene los servicios.
