@@ -42,7 +42,7 @@ se pueden preparar solo el entorno del servidor o del cliente.
 Para preparar el entorno del servidor:
 ```bash
 # Ejecutar el shell:
-./setup/create_server_env.sh <nombre_carpeta>
+./setup/create_server.sh <nombre_carpeta>
 ```
 Este script creará la carpeta <nombre_carpeta> en el directorio raiz del usuario. En esta carpeta
 se añadiran todos los ficheros necesarios y se instalarn las dependencias.
@@ -50,7 +50,7 @@ se añadiran todos los ficheros necesarios y se instalarn las dependencias.
 Para preparar el entorno del cliente:
 ```bash
 # Ejecutar el shell:
-./setup/create_client_env.sh <nombre_carpeta>
+./setup/create_client.sh <nombre_carpeta>
 ```
 Este script creará la carpeta <nombre_carpeta> en el directorio raiz del usuario. En esta carpeta
 se añadiran todos los ficheros necesarios y se instalarn las dependencias.
@@ -62,13 +62,13 @@ Para ejecutar el servidor:
 ```bash
 # Ejecutar el script.
 cd ~/<nombre_carpeta>
-python3 source/main.py
+python3 server/ource/main.py
 ```
 Para ejecutar el cliente:
 ```bash
 # Ejecutar el script.
 cd ~/<nombre_carpeta>
-python3 source/main.py
+python3 client/source/main.py
 ```
 
 ## **Uso**
