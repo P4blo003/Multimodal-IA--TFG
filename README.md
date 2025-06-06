@@ -32,22 +32,6 @@ Para ejecutarlo, lanzalo de la siguiente manera:
 ```
 También puedes copiar el siguiente código:
 ```bash
-
-```
-Esto generar el servidor en el directorio base del usuario: `~/server`
-
-### **Cliente**
-El cliente es el encargado de recibir la query del usuario, enviarla al servidor y mostrar la respuesta
-obtenida.
-Para instalar el cliente en tu equipo, debes ejecutar el código del shell disponible en
-`generator/install_client.sh`.
-Para ejecutarlo, lanzalo de la siguiente manera:
-```bash
-# Lanza el shell.
-./install_client.sh
-```
-También puedes copiar el siguiente código:
-```bash
 # Variables globales.
 GIT_URL="https://github.com/P4blo003/Multimodal-IA--TFG.git"
 FOLDERS=("application/server" "dependencies" "config")
@@ -103,6 +87,22 @@ echo -e "OK\tBinario descargado."
 
 # Imprime información.
 echo -e "OK\tServidor preparado para la ejecución."
+```
+Esto generar el servidor en el directorio base del usuario: `~/server`
+
+### **Cliente**
+El cliente es el encargado de recibir la query del usuario, enviarla al servidor y mostrar la respuesta
+obtenida.
+Para instalar el cliente en tu equipo, debes ejecutar el código del shell disponible en
+`generator/install_client.sh`.
+Para ejecutarlo, lanzalo de la siguiente manera:
+```bash
+# Lanza el shell.
+./install_client.sh
+```
+También puedes copiar el siguiente código:
+```bash
+
 ```
 Esto generar el servidor en el directorio base del usuario: `~/client`
 
