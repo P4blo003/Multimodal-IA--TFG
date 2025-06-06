@@ -20,6 +20,17 @@ Se trata de diseñar e implementar un prototipo de asistente inteligente basado 
 ## **Instalación y dependencias**
 ![Python Version](https://img.shields.io/badge/python-3.12.3-blue)
 
+En la siguiente tabla se muestran las herramientas necesarias para instalar los componentes y las versiones
+con las que han sido ejecutadas.
+
+| Herramienta | Uso principal                          | Versión mínima recomendada        |
+|-------------|-------------------------------------|----------------------------------|
+| `git`       | Clonar repositorios y manejar checkout | 2.43.0                           |
+| `curl`      | Descargar archivos y hacer peticiones HTTP | 8.5.0                          |
+| `tar`       | Descomprimir archivos `.tgz`         | 1.35                                |
+| `python3`   | Ejecutar entorno virtual y scripts Python | 3.12.3 (recomendado)             |
+| `pip`       | Instalar paquetes Python en el entorno virtual | 24.0                             |
+
 ### **Servidor**
 El servidor es el encargado de ejecutar los modelos. Recibe las querys de los clientes y devuelve
 las respuestas.
