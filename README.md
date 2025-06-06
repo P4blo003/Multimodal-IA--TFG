@@ -122,6 +122,24 @@ Esto generar el servidor en el directorio base del usuario: `~/client`
 
 ## **Uso**
 
+### **Configuración**
+En el archivo `config/server_config.yaml` estan declaradas las propiedades de ejecución del servidor.
+A la hora de hacer cambios en este fichero es necesario tener en cuenta ciertas restricciones:
+```text
+rag:
+  backend: 'HAYSTACK'               # El backend empleado.
+  dataDir: 'data/raw'               # Directorio de donde obtener los datos.
+  persistDir: 'data/persistence'    # Directorio de persistencia de los embeddings.
+  storeName: 'storage'      # Nombre para los almacenes.
+  splitLength: 500          # Tamaño del chunk en tokens.
+  splitOverlap: 50          # Overlap para mantener contexto entre chunks.
+  topK: 10                  # El número de chunks más relvantes.
+  embeddingDim: 384         # Tamaño del embedding.
+  embedder:
+    name: 'sentence-transformers/all-roberta-large-v1'     # Nombre del modelo de embedding.
+    persistDir: 'resources/models'                      # Directorio de almacenamiento de modelos.
+```
+Al cambiar el modelo de embedding (`embedder.name`), es importante cambiar también el tamaño del embedding (`embeddingDim`).
 
 ## **Estructura del repositorio**
 

@@ -57,9 +57,9 @@ rag:
   splitLength: 500          # Tamaño del chunk en tokens.
   splitOverlap: 50          # Overlap para mantener contexto entre chunks.
   topK: 10                  # El número de chunks más relvantes.
-  embeddingDim: 768         # Tamaño del embedding.
+  embeddingDim: 384         # Tamaño del embedding.
   embedder:
-    name: 'sentence-transformers/all-mpnet-base-v2'     # Nombre del modelo de embedding.
+    name: 'sentence-transformers/all-roberta-large-v1'     # Nombre del modelo de embedding.
     persistDir: 'resources/models'                      # Directorio de almacenamiento de modelos.
 
 # -- Configuración del prompt -- #
