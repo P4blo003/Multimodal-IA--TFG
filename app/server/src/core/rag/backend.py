@@ -238,14 +238,7 @@ class LangChainBackend(BaseBackend):
         super().__init__()      # Constructor de BackendManager.
         # Inicializa las propiedades.
         self.__embeddingModel:HuggingFaceEmbeddings = HuggingFaceEmbeddings(model_name=os.path.join(CFG.rag.embedding.persistDirectory, CFG.rag.embedding.model))
-        self.__qdrantClient:QdrantClient = QdrantClient(path=os.path.join(CFG.rag.embedding.persistDirectory, CFG.rag.embedding.model))
-        self.__qdrantClient.recreate_collection(
-            collection_name="Document",
-            vectors_config=VectorParams(
-                size=CFG.rag.embeddingDim,
-                distance=Distance.COSINE
-            )
-        )       # Crea la colección en Qdrant.
+        self.__qdrantClient:QdrantClient = QdrantClient(path=os.path.join(CFG.rag.persistDirectory, CFG.rag.backend), prefer_grpc=True)
         self.__vectoreSotore:QdrantVectorStore = QdrantVectorStore(
             client=self.__qdrantClient,
             collection_name="Document",

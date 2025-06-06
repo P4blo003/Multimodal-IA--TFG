@@ -55,7 +55,7 @@ rag:
   embeddingDim: 1024                                # Tamaño del embedding.
   # Configuración especifica del embedding.
   embedding:
-    model: 'sentence-transformers/all-roberta-large-v1'   # Modelo de embedding.
+    model: 'sentence-transformers/all-mpnet-base-v2'   # Modelo de embedding.
     file: 'data/cache/embedding.models.json'          # Fichero que registra la ubicación de los modelos de embedding.
     persistDirectory: 'resources/models'              # Directorio de almacenamiento de modelos.
 
