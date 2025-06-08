@@ -24,7 +24,7 @@ from utilities.network import get_response, post_response
 from logging import Logger
 from utilities.logger import create_logger
 
-from config.schema import OllamaConfig, SystemConfig, LoggerConfig
+from config.schema import OllamaConfig, OllamaAPIConfig, SystemConfig, LoggerConfig
 
 
 # ---- VARIABLES GLOBALES ---- #
@@ -156,24 +156,24 @@ class OllamaService:
             create_process(args=args, env=env)                        # Crea el proceso.
     
     @staticmethod
-    def get_response(prompt:str, ollama_cfg:OllamaConfig) -> str:
+    def get_response(prompt:str, ollama_api_cfg:OllamaAPIConfig) -> str:
         """
         Envía el prompt al modelo y recibe la respuesta.
         
         Args:
             prompt (str): El prompt del modelo.
-            ollama_cfg (OllamaConfig): Configuración de Ollama.
+            ollama_api_cfg (OllamaAPIConfig): Configuración de la API de Ollama.
 
         Returns:
             str: Respuesta generada por el modelo.
         """
         # Crea la URL completa.
-        url:str = f"http://{ollama_cfg.api.host}:{ollama_cfg.api.port}/api/generate"
+        url:str = f"http://{ollama_api_cfg.host}:{ollama_api_cfg.port}/api/generate"
         
         # Genera los campos de la consulta.
         headers:Dict = {'Content-Type':'application/json'}      # Cabeceras de la consulta.
         data:Dict = {
-            'model':ollama_cfg.api.model.name,
+            'model':ollama_api_cfg.model.name,
             'prompt':prompt,
             'stream': False
         }

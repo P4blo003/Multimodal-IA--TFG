@@ -71,4 +71,4 @@ class ConversationController:
         prompt:str = self.__promptBuilder.create_prompt(context=context, chat_history=chat_session.ChatHistory, query=query)
         
         # Retorna la respuesta generada por el modelo.
-        return OllamaService.get_response(prompt=prompt, host=ollama_api_cfg.host, port=ollama_api_cfg.port, model_name=ollama_api_cfg.model.name)
+        return OllamaService.get_response(prompt=prompt, ollama_api_cfg=ollama_api_cfg)

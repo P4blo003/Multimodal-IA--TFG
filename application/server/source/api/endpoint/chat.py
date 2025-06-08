@@ -104,7 +104,7 @@ async def make_question(session_id:str, query:QueryDTO,
         raise e
 
     # Si ocurre cualquier excepción.
-    except Exception :
+    except Exception as e:
         logger.error(e)         # Imprime el error.
         # Lanza una excepción.
         raise HTTPException(status_code=500, detail='Error interno en el servidor')
