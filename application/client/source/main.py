@@ -40,19 +40,22 @@ if __name__ == "__main__":
         
         # Búcle infinito para el chat.
         while True:
+            # Imprime un salto de línea.
+            print()
+            
             # Solicita una query al usuario.
-            query:str = input(": ")
+            query:str = input("🧠: ")
             
             #Hacer una request al modelo..
             response:requests.Response = requests.post(url=f"http://localhost:9999/chat/question/{SESSION_ID}", json={"content":query})
             
             # Comprueba si la respuesta ha sido correcta.
             if response.status_code != 200:            
-                continue
+                raise Exception("No se pudo obtener una respuesta por parte del servidor.")
             
             # Imprime la respuesta.
             content = ResponseDTO.model_validate_json(response.content).content
-            print(f": {content}")        # Imprime la respuesta del servidor.
+            print(f"🤖: {content}")        # Imprime la respuesta del servidor.
 
     # Si se detecta un Ctrl+C.
     except KeyboardInterrupt:
