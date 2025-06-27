@@ -35,6 +35,7 @@ cp -r "$TEMP_DIR/server/." "$WORK_DIR/"
 
 # Crea las carpetas necesarias.
 echo "INFO - Generando directorios ..."
+mkdir "$WORK_DIR/.server/etc/measure"
 mkdir "$WORK_DIR/.server/data"
 mkdir "$WORK_DIR/.server/data/chat"
 mkdir "$WORK_DIR/.server/data/raw"
