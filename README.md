@@ -106,7 +106,7 @@ source venv/bin/activate
 python3 app/src/main.py
 ```
 
-Importante: El prototipo obtiene los datos de los documentos que se encuentren dentro de la carpeta [.server/data_raw](server/.server/data/raw/).
+Importante: El prototipo obtiene los datos de los documentos que se encuentren dentro de la carpeta [server/.server/data_raw](server/.server/data/raw/).
 
 Ya puedes comenzar a probar el prototipo. Para ello, puedes hacerlo de varias maneras. Si bien el prototipo esta en
 una fase temprana, existen varias maneras de comunicarse con el:
