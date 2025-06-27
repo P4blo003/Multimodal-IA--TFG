@@ -12,7 +12,7 @@ venv/
 __pycache__/
 
 **/bin/
-**/data/
+**/data/chat
 **/logs/
 **/resources/models
 **/measure/

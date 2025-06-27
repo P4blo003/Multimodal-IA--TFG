@@ -1,0 +1,21 @@
+CUADRO ELÉCTRICO CE300 - MANUAL DE INSTALACIÓN
+
+1. COMPONENTES
+- 2x Interruptores automáticos de 16 A
+- Relé térmico de 10 A
+- Contactor trifásico 24V
+- Borneras de conexión
+
+2. INSTALACIÓN SEGURA
+- Desconectar alimentación general antes de cualquier intervención.
+- Confirmar ausencia de tensión con multímetro.
+- Usar guantes y herramientas dieléctricas.
+
+3. PROTOCOLO DE PARADA POR FALLO
+- Activación de relé térmico desconecta motor.
+- Luz piloto roja indica fallo.
+- Verificar consumo de motor y rearme manual del relé.
+
+4. ESQUEMA UNIFILAR
+L1/L2/L3 --> [Automático] --> [Contactor] --> [Motor]
+                         |--> [Relé térmico]

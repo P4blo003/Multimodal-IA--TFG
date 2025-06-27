@@ -1,0 +1,20 @@
+NORMATIVA ISO 12100 - PRINCIPIOS DE DISEÑO SEGURO
+
+1. OBJETIVO
+Proporcionar una metodología para identificar y reducir riesgos en máquinas industriales.
+
+2. EVALUACIÓN DE RIESGOS
+- Identificación de peligros mecánicos, eléctricos y térmicos.
+- Estimación de la severidad y frecuencia.
+
+3. REDUCCIÓN DE RIESGOS
+- Medidas de protección integradas en el diseño.
+- Protección mediante resguardos y dispositivos de seguridad.
+
+4. INFORMACIÓN PARA USUARIOS
+- Manual de instrucciones detallado.
+- Señalización y advertencias claras.
+
+5. DOCUMENTACIÓN REQUERIDA
+- Evaluación de riesgos firmada.
+- Plan de medidas de mitigación.

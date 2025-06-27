@@ -1,0 +1,22 @@
+PROGRAMA DE MANTENIMIENTO PREVENTIVO GENERAL
+
+1. CHECKLIST MENSUAL
+- Revisar estado de correas de transmisión.
+- Comprobar niveles de lubricante.
+- Limpiar filtros de aire y aceite.
+- Verificar anclajes y fijaciones.
+
+2. INTERVALOS RECOMENDADOS
+- Cambio de aceite: cada 1000 h.
+- Engrase de rodamientos: cada 200 h.
+- Verificación eléctrica: cada 6 meses.
+
+3. REGISTRO DE MANTENIMIENTO
+Fecha | Máquina | Tarea realizada | Técnico | Observaciones
+------|---------|-----------------|---------|--------------
+01/05 | Compresor | Cambio aceite | J.López | OK
+
+4. ALERTAS FRECUENTES
+- Vibración excesiva
+- Sobrecalentamiento
+- Consumo anómalo

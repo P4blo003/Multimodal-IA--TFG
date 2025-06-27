@@ -1,0 +1,18 @@
+INVERSOR DE FRECUENCIA IF750 - GUÍA DE CONFIGURACIÓN
+
+1. PARÁMETROS CLAVE
+- P001: Frecuencia base (50 Hz)
+- P002: Modo de control (V/F o vectorial)
+- P010: Tiempo de rampa aceleración (5s)
+- P011: Tiempo de rampa desaceleración (5s)
+
+2. CÓDIGOS DE ERROR
+E01 - Sobretemperatura
+E02 - Sobrecarga de salida
+E03 - Fallo de comunicación
+E04 - Baja tensión de entrada
+E05 - Cortocircuito en motor
+
+3. REINICIO DEL SISTEMA
+- Pulsar botón RESET por 3 segundos.
+- Si persiste, cortar alimentación y revisar parámetros.

@@ -1,0 +1,26 @@
+SISTEMA HIDRÁULICO H20 - MANUAL DE OPERACIÓN Y MANTENIMIENTO
+
+1. COMPONENTES PRINCIPALES
+- Bomba hidráulica de 12 L/min
+- Cilindros de doble efecto
+- Válvula de presión ajustable (hasta 200 bar)
+- Depósito de 20 L con filtro
+
+2. PROCEDIMIENTO DE PUESTA EN MARCHA
+1. Verificar nivel de aceite en el depósito.
+2. Encender la bomba sin carga.
+3. Verificar presión inicial (debe ser < 50 bar).
+4. Activar válvula principal y observar movimientos.
+
+3. MANTENIMIENTO
+- Cambio de aceite cada 1000 h de uso.
+- Revisión de mangueras y conexiones cada 2 semanas.
+- Comprobación de válvulas de alivio.
+
+4. DETECCIÓN DE FUGAS
+- Inspección visual de juntas y racores.
+- Presencia de aceite en el suelo indica fuga grave.
+- Usar detector ultrasónico para microfugas.
+
+5. DIAGRAMA DEL CIRCUITO
+[P] --> [Filtro] --> [Bomba] --> [Válvula direccional] --> [Cilindros] --> [Retorno]

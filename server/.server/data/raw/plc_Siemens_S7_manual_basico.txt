@@ -1,0 +1,21 @@
+PLC SIEMENS S7 - MANUAL BÁSICO
+
+1. CONFIGURACIÓN
+- Comunicación por cable MPI/Profibus.
+- Software: TIA Portal v15 o superior.
+- Fuente de alimentación: 24V DC
+
+2. ENTRADAS Y SALIDAS
+- Entradas digitales: 16 canales
+- Salidas digitales: 8 canales (relay)
+- Entradas analógicas (opcional): 4-20 mA
+
+3. CICLO DE ESCANEO
+- Ciclo de lectura de entradas → ejecución lógica → actualización de salidas
+
+4. DIAGNÓSTICO DE FALLOS
+- Luz LED roja (SF) indica fallo general.
+- Consultar en HMI el código de error (ej. 0x43).
+
+5. RETENTIVIDAD
+- Marcar variables como Mxx.0 para conservar valor tras reinicio.

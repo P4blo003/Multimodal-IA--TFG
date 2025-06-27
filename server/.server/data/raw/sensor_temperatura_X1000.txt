@@ -1,0 +1,24 @@
+MANUAL TÉCNICO: SENSOR DE TEMPERATURA X1000
+
+1. ESPECIFICACIONES TÉCNICAS
+- Rango de medición: -50°C a 250°C
+- Precisión: ±0.5°C
+- Resolución: 0.1°C
+- Alimentación: 24V DC
+- Salida: 4-20 mA
+
+2. PROCEDIMIENTO DE CALIBRACIÓN
+1. Conectar el sensor a una fuente de calor controlada.
+2. Comparar lectura con termómetro patrón.
+3. Ajustar potenciómetro de calibración si desviación > ±0.5°C.
+4. Repetir para tres puntos de temperatura distintos.
+
+3. DIAGRAMA DE CONEXIÓN
+Sensor Rojo: +24V
+Sensor Negro: GND
+Sensor Verde: Señal (4-20mA)
+
+4. CÓDIGOS DE ERROR
+E01 - Sin señal
+E02 - Cortocircuito en línea de señal
+E03 - Temperatura fuera de rango
