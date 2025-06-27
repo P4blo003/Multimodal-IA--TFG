@@ -76,15 +76,6 @@ def start() -> None:
         ollama_service.load_model(model_tag=ollama_service.Model.tag)
         # Imprime la información.
         console.print_message(message='Modelo cargado.', type=console.MessageType.INFO)
-        
-        # Comprueba si el modelo de embeddings esta instalado.
-        if not rag_service.is_model_installed(model_tag=rag_service.Model.tag):
-            # Imprime la información.
-            console.print_message(message='El modelo de embeddings no está instalado. Instalando ...', type=console.MessageType.WARNING)
-            # Instala el modelo.
-            rag_service.install_model(model_tag=rag_service.Model.tag)
-        # Imprime la información.
-        console.print_message(message='Modelo de embeddings instalado.', type=console.MessageType.INFO)
 
         # Imprime la información.
         console.print_message(message='Calculando embeddings.', type=console.MessageType.INFO)

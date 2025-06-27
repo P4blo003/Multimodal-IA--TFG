@@ -32,6 +32,7 @@ from core.rag.document.base import BaseDocumentModule
 from core.rag.document.haystack_module import HaystackDocumentModule
 from core.rag.document.langchain_module import LangChainDocumentModule
 from utils import hugging_face
+from utils import console
 from utils.file.csv import save_in_csv
 from config.schema.common import EmbeddingModelConfig
 from config.schema.rag import RagConfig
@@ -91,6 +92,17 @@ class RagService:
         # Inicializa las propiedades.
         self.__installModelDir:Path = Path(os.path.join('.server', rag_cfg.installModelDir))
         self.__model:EmbeddingModelConfig = rag_cfg.model
+        
+        
+        if not self.is_model_installed(model_tag=self.__model):
+            # Imprime el aviso.
+            console.print_message(f"Modelo {self.__model} no instalado. Instalando ...", type=console.MessageType.WARNING)
+            # Instala el modelo.
+            self.install_model(model_tag=self.__model)
+        
+        # Imprime la información.
+        console.print_message(f"Modelo {self.__model} no instalado. Instalando ...", type=console.MessageType.INFO)
+        
         self.__documentRagModule:BaseDocumentModule = create_document_module(ctx=CtxSingleton.get_ctx())
         self.__measureFilePath:Path = Path(os.path.join('.server', 'etc', 'measure', f"{self.__model.tag.replace('/', '_')}.csv"))
     
