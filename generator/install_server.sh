@@ -65,7 +65,8 @@ cd "$WORK_DIR"
 python3 -m venv venv || exit 1
 source venv/bin/activate || exit 1
 echo -e "INFO - Instalando librerías Python desde [dependencies/python_3.12.3/requirements.txt] ..."
-pip install -r "dependencies/requirements.txt" > /dev/null 2>&1 || exit 1
+pip install -r "dependencies/requirements.txt" || exit 1
+pip3 install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 echo -e "OK - Librerías instaladas."
 deactivate
 
