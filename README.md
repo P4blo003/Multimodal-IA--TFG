@@ -7,7 +7,7 @@ Se trata de diseñar e implementar un prototipo de asistente inteligente basado 
 ## **Índice**
 * Información del proyecto
 * [Instalación](#instalación)
-* Forma de uso
+* [Forma de uso](#forma-de-uso)
 * Futuras implementaciones
 * Licencia
 
