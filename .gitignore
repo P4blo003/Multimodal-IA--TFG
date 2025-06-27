@@ -17,8 +17,7 @@ __pycache__/
 **/resources/models
 **/measure/
 **/template/*.tmp
-**/rag
+**/.server/rag
 # Variables del programa.
 .env
-
 *.log
