@@ -1,0 +1,23 @@
+# *****************************************************************************************
+#   Nombre del Fichero: rag.yaml
+#   Proyecto: Multimodal-IA-TFG
+#   Autor: Pablo González García
+#   Fecha: 2025-06-16
+#   Descripción: Contiene la configuración relacionada con el RAG
+#   Copyright (c) 2025 Pablo González García
+#   Licencia: MIT License. Ver el archivo LICENCE en la raíz del proyecto.
+# *****************************************************************************************
+
+
+# ---- PARÁMETROS ---- #
+installModelDir: 'rag/models' # Directorio raiz de instalación de modelos.
+model:
+  tag: 'sentence-transformers/all-mpnet-base-v2'                      # Modelo que ejecuta.
+  embeddingDim: 768                                                  # Tamaño del embedding
+document:
+  framework: 'LANGCHAIN'       # Framework empleado.
+  docDir: 'data/raw'          # Directorio raiz con los documentos.
+  storeDir: 'rag/storage'     # Directorio raiz con los almacenes de documentos.
+  splitLength: 500            # Tamaño del chunk en tokens.
+  splitOverlap: 50            # Overlap para mantener contexto entre chunks.
+  topK: 10                    # El número de chunks más relvantes.

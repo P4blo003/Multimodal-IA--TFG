@@ -24,8 +24,6 @@ Qwen:
     - Qwen 3                4B          2.6 GB          qwen3:4b
     - Qwen 3                8B          5.2 GB          qwen3:8b
     - Qwen 3                14B         9.3 GB          qwen3:14b
-Mistral:
-    - Mistral Small 3.1     24B         15 GB           mistral-small3.1:24b
 
 -- Modelos Embedding empleados --
     - sentence-transformers/all-MiniLM-L6-v2

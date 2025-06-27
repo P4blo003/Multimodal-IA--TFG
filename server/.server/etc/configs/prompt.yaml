@@ -1,0 +1,14 @@
+# *****************************************************************************************
+#   Nombre del Fichero: prompt.yaml
+#   Proyecto: Multimodal-IA-TFG
+#   Autor: Pablo González García
+#   Fecha: 2025-06-16
+#   Descripción: Contiene la configuración relacionada con el prompt.
+#   Copyright (c) 2025 Pablo González García
+#   Licencia: MIT License. Ver el archivo LICENCE en la raíz del proyecto.
+# *****************************************************************************************
+
+
+# ---- PARÁMETROS ---- #
+root: '.server/etc/template'      # Directorio raiz de los templates.
+chatPrompt: 'chatPrompt.j2'       # Nombre del fichero con el prompt del chat.

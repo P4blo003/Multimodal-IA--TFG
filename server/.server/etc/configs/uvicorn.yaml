@@ -1,0 +1,16 @@
+# *****************************************************************************************
+#   Nombre del Fichero: uvicorn.yaml
+#   Proyecto: Multimodal-IA-TFG
+#   Autor: Pablo González García
+#   Fecha: 2025-06-16
+#   Descripción: Contiene la configuración relacionada con Uvicorn
+#   Copyright (c) 2025 Pablo González García
+#   Licencia: MIT License. Ver el archivo LICENCE en la raíz del proyecto.
+# *****************************************************************************************
+
+
+# ---- PARÁMETROS ---- #
+# Lista de servicios activos de Ollama.
+host:
+  ip: '127.0.0.1'     # IP del servicio Uvicorn.
+  port: 49153         # Puerto del servicio Uvicorn.

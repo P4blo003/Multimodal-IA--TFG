@@ -1,0 +1,20 @@
+# *****************************************************************************************
+#   Nombre del Fichero: ollama.yaml
+#   Proyecto: Multimodal-IA-TFG
+#   Autor: Pablo González García
+#   Fecha: 2025-06-16
+#   Descripción: Contiene la configuración relacionada con Ollama.   
+#   Copyright (c) 2025 Pablo González García
+#   Licencia: MIT License. Ver el archivo LICENCE en la raíz del proyecto.
+# *****************************************************************************************
+
+
+# ---- PARÁMETROS ---- #
+# Lista de servicios activos de Ollama.
+service:
+  name: 'host-service'              # Nombre del servicio de Ollama.
+  host:
+    port: 'localhost'               # Host del servicio de Ollama.
+    port: 49152                     # Puerto del servicio de Ollama.
+  model:
+    tag: 'qwen3:14b'              # Modelo que ejecuta.
