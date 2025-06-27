@@ -10,3 +10,10 @@ Se trata de diseñar e implementar un prototipo de asistente inteligente basado 
 * Forma de uso
 * Futuras implementaciones
 * Licencia
+
+## **Instalación**
+Para instalar el prototipo en tu repositorio, simplemente ejecuta el siguiente script. Este instalará todo lo necesario para ejecutar
+el servidor en la carpeta raíz de tu usuario.
+```bash
+
+```
