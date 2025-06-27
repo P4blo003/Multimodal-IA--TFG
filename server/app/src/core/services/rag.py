@@ -94,11 +94,11 @@ class RagService:
         self.__model:EmbeddingModelConfig = rag_cfg.model
         
         
-        if not self.is_model_installed(model_tag=self.__model):
+        if not self.is_model_installed(model_tag=self.__model.tag):
             # Imprime el aviso.
-            console.print_message(f"Modelo {self.__model} no instalado. Instalando ...", type=console.MessageType.WARNING)
+            console.print_message(f"Modelo {self.__model.tag} no instalado. Instalando ...", type=console.MessageType.WARNING)
             # Instala el modelo.
-            self.install_model(model_tag=self.__model)
+            self.install_model(model_tag=self.__model.tag)
         
         # Imprime la información.
         console.print_message(f"Modelo {self.__model} no instalado. Instalando ...", type=console.MessageType.INFO)
