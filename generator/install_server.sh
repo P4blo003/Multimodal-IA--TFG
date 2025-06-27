@@ -21,7 +21,8 @@ BASE_DIR="server"
 
 # Genera un directorio temporal.
 TEMP_DIR=$(mktemp -d "$HOME/server.temp.XXX")
-WORK_DIR=$(mkdir "$HOME/$BASE_DIR")
+WORK_DIR="$HOME/$BASE_DIR"
+mkdir "$WORK_DIR"
 
 # Clona el repositorio en el directorio temporal.
 echo -e "INFO\tClonando directorio de GitHub [$GIT_URL] ..."
@@ -29,7 +30,10 @@ git clone "$GIT_URL" "$TEMP_DIR" > /dev/null 2>&1 || exit 1
 echo -e "OK\tDirectorio clonado."
 
 # Copia el contenido de la carpeta servidor.
-cp -a "$TEMP_DIR/server/." "$WORK_DIR/"
+echo "Copiando ficheros en $WORK_DIR ..."
+cp -r "$TEMP_DIR/server/." "$WORK_DIR/"
+
+# Instala el binario de Ollama.
 
 
 # Limpia el directorio temporal.
