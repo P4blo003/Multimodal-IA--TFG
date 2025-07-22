@@ -30,7 +30,8 @@ import requests
 
 
 # ---- PARÁMETROS ---- #
-__MODEL:str = 'qwen3:14b'
+__MODEL:str = 'qwen3:8b'
+__EMBEDDING_MODEL:str = 'sentence-transformers/all-roberta-large-v1'
 __QUERYS:Dict[str, List[str]] = {
     'Comprensión y razonamiento general': [
         '¿Que diferencia hay entre el aprendizaje supervisado y el no supervisado?',
@@ -107,10 +108,24 @@ __QUERYS:Dict[str, List[str]] = {
     ]
 }
 
+__TEC_QUERYS:List[str] = [
+    """¿Qué presión mínima se requiere para operar el cilindro de doble efecto?""",
+    """¿Describe el procedimiento de desconexión eléctrica?""",
+    """¿Cuáles son los pasos completos para instalar el sensor de temperatura?""",
+    """Combina las advertencias de seguridad del PLC y del cuadro eléctrico para resumir los riesgos eléctricos del sistema.""",
+    """¿Qué procedimientos de mantenimiento coinciden entre el motor y el sistema hidráulico?""",
+    """¿Qué diferencias existen entre los protocolos de calibración del sensor de presión y del sensor de caudal?""",
+    """¿Qué elementos de protección son obligatorios para la seguridad industrial y cuáles recomienda el fabricante?""",
+    """¿Qué se debe hacer si se produce una "fuga" en el sistema?""",
+    """¿Qué significa que salga el código de error E05?""",
+    """¿Qué componente podría causar una parada del sistema si falla el relé térmico?"""
+]
 
-# ---- FLUJO PRINCIPAL ---- #
-if __name__ == '__main__':
-    
+# ---- FUNCIONES ---- #
+def default_querys() -> None:
+    """
+    Realiza las preguntas generales.
+    """
     # Para cada pregunta a realizar.
     for key, querys in __QUERYS.items():
         
@@ -145,3 +160,48 @@ if __name__ == '__main__':
                 file.write(f"{resp.strip()}")
                 # Imprime separador.
                 file.write(f"\n{'·'*30}\n")
+
+def tec_querys() -> None:
+    """
+    Realiza las preguntas técnicas.
+    """
+    # Para cada pregunta.
+    for query in __TEC_QUERYS:
+        
+        # Genera el nombre del fichero.
+        file_path:Path = Path('.server', 'data', 'chat', f'tec.{__MODEL}.{__EMBEDDING_MODEL.replace('/','-')}.txt')    
+        # Abre un fichero para almacenar las respuestas.
+        with file_path.open(mode='a', encoding='utf-8') as file:
+            
+            # Genera las cabeceras.
+            headers:Dict[str,any] = {
+                'Content-Type':'application/json'
+            }
+
+            # Genera el contenido de la petición.
+            queryDict:Dict[str,any] = {
+                "content": query
+            }
+            
+            # Solicita la respuesta al servidor.
+            response:requests.Response = requests.post(url=f"http://localhost:49153/chat", headers=headers, json=queryDict)
+            
+            # lanza excepción si hay error.
+            response.raise_for_status()
+            
+            # Obtiene la respuesta.
+            resp:str = json.loads(response.text)['content']
+            
+            # Almacena pregunta en el fichero:
+            file.write(f"Pregunta: {query}\n")
+            # Almacena la resupesta en el fichero.
+            file.write(f"{resp.strip()}")
+            # Imprime separador.
+            file.write(f"\n{'·'*30}\n")
+        
+
+# ---- FLUJO PRINCIPAL ---- #
+if __name__ == '__main__':
+    
+    # Realiza las querys.
+    tec_querys()

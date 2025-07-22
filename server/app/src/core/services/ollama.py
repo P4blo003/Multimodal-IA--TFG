@@ -251,7 +251,7 @@ class OllamaService:
             # Carga el json.
             jsonData:Dict[str,any] = json.loads(response.text)
             
-            # Almacena los parámetros obtenidos.
+            """# Almacena los parámetros obtenidos.
             ollamaModelData:OllamaModelDataDTO = OllamaModelDataDTO(
                 totalDuration=(jsonData['total_duration'] / 1_000_000_000),
                 loadDuration=(jsonData['load_duration'] / 1_000_000_000),
@@ -262,7 +262,7 @@ class OllamaService:
                 speed=((jsonData['eval_count'] * 1_000_000_000) / jsonData['eval_duration'])
             )
             # Almacena el dato en un csv.
-            save_in_csv(file_path=self.__measureFilePath, data=ollamaModelData)
+            save_in_csv(file_path=self.__measureFilePath, data=ollamaModelData)"""
             
             # Retorna la respuesta generada.
             return jsonData['response']

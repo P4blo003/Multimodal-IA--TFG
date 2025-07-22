@@ -17,4 +17,4 @@ service:
     port: 'localhost'               # Host del servicio de Ollama.
     port: 49152                     # Puerto del servicio de Ollama.
   model:
-    tag: 'qwen3:14b'              # Modelo que ejecuta.
+    tag: 'qwen3:8b'                 # Modelo que ejecuta.

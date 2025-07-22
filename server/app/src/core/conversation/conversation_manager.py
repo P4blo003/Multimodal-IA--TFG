@@ -88,6 +88,9 @@ class ConversationManager:
         try:
             # TODO: Preprocesar la query.
 
+            # Genera los embeddings.
+            self.__ctx.get_service(key='rag', t=RagService).make_embeddings()
+            
             # Obtener el contexto.
             context:List[ContextDTO] = self.__ctx.get_service(key='rag', t=RagService).get_relevant_context(query=query)
             

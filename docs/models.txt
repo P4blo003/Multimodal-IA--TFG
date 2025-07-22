@@ -26,10 +26,10 @@ Qwen:
     - Qwen 3                14B         9.3 GB          qwen3:14b
 
 -- Modelos Embedding empleados --
-    - sentence-transformers/all-MiniLM-L6-v2
-    - sentence-transformers/all-mpnet-base-v2
-    - sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
-    - sentence-transformers/all-roberta-large-v1
+    - sentence-transformers/all-MiniLM-L6-v2    - DIM: 384
+    - sentence-transformers/all-mpnet-base-v2   - DIM: 768
+    - sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2   - DIM: 384
+    - sentence-transformers/all-roberta-large-v1    - DIM: 1024
 
 Preguntas realizadas:
 
